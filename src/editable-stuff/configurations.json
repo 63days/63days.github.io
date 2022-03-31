@@ -1,0 +1,42 @@
+{
+  "backgroundType": "gradient",
+  "plainBackgroundMode": "daylight",
+  "gradientColors": "#EE7752, #E73C7E, #23A6D5, #23D5AB",
+  "FirstName": "Guhyun",
+  "MiddleName": "",
+  "LastName": "Chung",
+  "devDesc": "| Full Stack C++ Programmer | Designer ",
+  "icons": [
+    {
+      "id": 0,
+      "image": "fa-github",
+      "url": "https://github.com/justiceserv",
+      "style": "socialicons"
+    },
+    {
+      "id": 1,
+      "image": "fa-linkedin",
+      "url": "https://www.linkedin.com/in/guhyunchung/",
+      "style": "socialicons"
+    },
+    {
+      "id": 2,
+      "image": "fa-twitter",
+      "url": "https://www.twitter.com/R6S_StSinsa/",
+      "style": "socialicons"
+    }
+  ],
+  "aboutHeading": "About Me",
+  "showInstaProfilePic": true,
+  "instaLink": "https://www.instagram.com/",
+  "instaUsername": "dave.chungy",
+  "instaQuerry": "/?__a=1",
+  "aboutDescription": "I'm fresh sophomore(?) from Saint Paul Preparatory Seoul, just a student who likes to code.",
+  "projectHeading": "Recent Projects",
+  "gitHubLink": "https://api.github.com/users/",
+  "gitHubUsername": "justiceserv",
+  "gitHubQuerry": "/repos?sort=updated&direction=desc",
+  "projectsLength": 4,
+  "showNavigationbar": true,
+  "showBlog": false
+}
