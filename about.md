@@ -32,5 +32,7 @@ I am a master student at KAIST SoC.
    -{% include_relative preprints.md %}
    -
    -->
-{% include_relative publications.md %}
+<!--
+   -{% include_relative publications.md %}
+   -->
 
