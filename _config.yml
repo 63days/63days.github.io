@@ -20,7 +20,7 @@ title                    : "Juil Koo"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Juil Koo"
-description              : "M.S. student @ KAIST CS. Making machines understand the world better by bridging vision and language."
+description              : "M.S. student @ KAIST CS. Working on vision & language."
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -274,6 +274,20 @@ compress_html:
   ignore:
     envs: development
 
+# Collections
+collections:
+  teaching:
+    output: true
+    permalink: /:collection/:path/
+  publications:
+    output: true
+    permalink: /:collection/:path/
+  portfolio:
+    output: true
+    permalink: /:collection/:path/
+  talks:
+    output: true
+    permalink: /:collection/:path/
 
 # Defaults
 defaults:
