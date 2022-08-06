@@ -13,4 +13,4 @@ main:
   - title: "Home"
     url: /
   - title: "Publication"
-    url: "/publications/""
+    url: /publications/
