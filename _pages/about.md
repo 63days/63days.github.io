@@ -3,9 +3,11 @@ permalink: /
 title: "Juil Koo"
 excerpt: "Juil Koo"
 author_profile: true
-redirect_from: 
-  - /about/
-  - /about.html
+<!--
+   -redirect_from: 
+   -  - /about/
+   -  - /about.html
+   -->
 ---
 
 I am a master student at KAIST SoC.
