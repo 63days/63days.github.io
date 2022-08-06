@@ -102,9 +102,9 @@ analytics:
 
 # Site Author
 author:
-  name             : "Juil "
+  name             : "Juil Koo"
   avatar           : "/assets/images/hoodie_selfie.jpeg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "M.S. student @ KAIST CS. Bridging vision and language to make a machine understand the world as a human"
+  bio              : "M.S. student @ KAIST CS. Working on Vision & Language"
   location         : "Daejeon, Korea"
   email            : "63days@kaist.ac.kr"
   links:
