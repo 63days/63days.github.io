@@ -17,6 +17,53 @@ layout: archive
 .img-container {
     text-align: center;
 }
+article[role="publication"] {
+  display: flex;
+}
+article[role="publication"] div[role="left"] {
+    flex: 30;
+    align-self: center;
+}
+article[role="publication"] > div[role="left"] > img {
+    width: 100%;
+    padding: 0 .5em;
+    margin: auto;
+}
+article[role="publication"] > div[role="right"] {
+    flex: 70;
+    padding: 0 0 0 1em;
+    align-self: center;
+}
+article[role="publication"] header {
+    padding-bottom: 0;
+}
+p[role="links"] {
+    padding-top: 0;
+}
+p[role="links"] > a {
+    padding-right: 0.5em;
+}
+p[role="links"] > b {
+    padding-right: 0.5em;
+}
+p[role="others"] {
+    margin-top: 0.5em;
+    font-size: .8em;
+    text-align: left;
+}
+
+@media only screen and (max-width: 700px) {
+    article[role="publication"] {
+        display: block;
+    }
+
+    article[role="publication"] > div[role="left"] > img {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
 </style>
 
 {{ content }}
@@ -32,6 +79,34 @@ layout: archive
 </div>
 
 <h3 class="archive__subtitle">Publications</h3>
+
+<article style="font-size: 14px;" role="publication">
+  <div role="left">
+      <img src="assets/images/cmaac-v0.png">
+  </div>
+  <div role="right">
+      <header><i>PartGlot: Learning Shape Part Segmentation from Language Reference Games</i></header>
+      <p>
+          <i class="fa fa-book"></i>
+          <span class="conference">CVPR 2022</span>
+      </p>
+      <p role="links">
+          <a href="https://mhsung.github.io/publications/partglot" target="_blank">
+              [Project]
+          </a>
+          <a href="https://arxiv.org/abs/2112.06390" target="_blank">
+              [Paper]
+          </a>
+          <a href="https://github.com/63days/PartGlot" target="_blank">
+              [Code]
+          </a>
+          <a href="https://www.youtube.com/watch?v=0qziHtjl5l4&t=1s" target="_blank">
+              [Video]
+          </a>
+      </p>
+  </div>
+</article>
+
 
 
 {% if paginator %}
