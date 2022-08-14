@@ -106,11 +106,11 @@ author:
   avatar           : "/assets/images/hoodie_selfie.jpeg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "M.S. student @ KAIST CS"
   location         : "Daejeon, Korea"
-  email            : "63days@kaist.ac.kr"
+  email            : #"63days@kaist.ac.kr"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-       #url: "63days@kaist.ac.kr"
+      url: mailto:63days@kaist.ac.kr
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
