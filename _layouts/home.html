@@ -17,6 +17,11 @@ layout: archive
 .img-container {
     text-align: center;
 }
+.publication-thumbnail-cell {
+    border: 1px solid #B0B0B0
+    border-radius: 10%;
+    width: 240px;
+}
 .publication-description-cell {
     padding-bottom: 15px;
     vertical-align: top;
@@ -87,8 +92,9 @@ p[role="others"] {
 <h3 class="archive__subtitle">Publications</h3>
 
 <article style="font-size: 14px;" role="publication">
-  <div role="left">
-      <img src="assets/images/partglot_teaser.png">
+  <!--<div role="left">-->
+  <div>
+      <img class="publication-thumbnail-cell" src="assets/images/partglot_teaser.png">
   </div>
   <div role="right">
       <header><b>PartGlot: Learning Shape Part Segmentation from Language Reference Games</b></header>
