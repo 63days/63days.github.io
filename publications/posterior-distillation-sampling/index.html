@@ -341,7 +341,7 @@
           <h1 class="title is-1 publication-title">Posterior Distillation Sampling</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              Juil Koo, Chanho Park, Minhyuk Sung</span>
+              <a href="https://63days.github.io">Juil Koo</a>, <a href="https://github.com/charlieppark">Chanho Park</a>, <a href="https://mhsung.github.io/">Minhyuk Sung</a> </span>
             <br>
           </div>
         </div>
@@ -358,22 +358,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We propose Posterior Distillation Sampling (PDS), a novel optimization method for text-driven parametric image editing.
-          </p>
-          <p>
-            Score Distillation Sampling (SDS) pioneered the optimization method to handle parametric images usingthe rich prior
-            of text-to-image diffusion models. However,it was inherently designed for generation rather than editing.
-            To adapt SDS for editing tasks, Delta Denoising Score(DDS) refines the SDS optimization loss, aiming to better maintain
-            the details of the source content. Nonetheless,DDS does not explicitly ensure the identity preservation ofthe source.
-          </p>
-          <p>
-            To address this challenge, <b>PDS</b> reformulates the SDS optimization loss, moving away from the noise matching used in SDS and DDS 
-            to a new method that matches the latents encoded in the posterior of a diffusion model’s forward process.
-            Recently, diffusion inversion methods enable image editing using the posterior latents that retain both the content’s identity 
-            and the diffusion model’s guidance direction by text prompts. By designing the form of optimization loss reflecting these methods, 
-            we enable a general text-driven parametric image editing method. Our extensive experiments with editing Neural Radiance Fields (NeRFs) 
-            and Scalable Vector Graphics (SVG) demonstrate that PDS is versatile for editing in various parameter spaces. 
-            Quantitative and qualitative comparisons show PDS outperforms the previous parametric image editing methods.
+            We introduce Posterior Distillation Sampling (PDS), a novel optimization method for parametric image editing based on diffusion models. Existing optimization-based methods, which leverage the powerful 2D prior of diffusion models to handle various parametric images, have mainly focused on generation. Unlike generation, editing requires a balance between conforming to the target attribute and preserving the identity of the source content. Recent 2D image editing methods have achieved this balance by leveraging the stochastic latent encoded in the generative process of diffusion models. To extend the editing capabilities of diffusion models shown in pixel space to parameter space, we reformulate the 2D image editing method into an optimization form named PDS. PDS matches the stochastic latents of the source and the target, enabling the sampling of targets in diverse parameter spaces that align with a desired attribute while maintaining the source's identity. We demonstrate that this optimization resembles running a generative process with the target attribute, but aligning this process with the trajectory of the source's generative process. Extensive editing results in Neural Radiance Fields and Scalable Vector Graphics representations demonstrate that PDS is capable of sampling targets to fulfill the aforementioned balance across various parameter spaces.
           </p>
         </div>
       </div>
