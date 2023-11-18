@@ -351,12 +351,16 @@
 </section>
 
 <section class="section">
-  <div class="container" style="width: max-content;">
+  <!--<div class="container" style="width: max-content;">-->
+	<div class="container is-max-desktop">
     <!-- Abstract. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
+					<p style="text-align: center;">
+						<img src="./static/figures/teaser.png"/>
+					</p>
           <p>
             We introduce Posterior Distillation Sampling (PDS), a novel optimization method for parametric image editing based on diffusion models. Existing optimization-based methods, which leverage the powerful 2D prior of diffusion models to handle various parametric images, have mainly focused on generation. Unlike generation, editing requires a balance between conforming to the target attribute and preserving the identity of the source content. Recent 2D image editing methods have achieved this balance by leveraging the stochastic latent encoded in the generative process of diffusion models. To extend the editing capabilities of diffusion models shown in pixel space to parameter space, we reformulate the 2D image editing method into an optimization form named PDS. PDS matches the stochastic latents of the source and the target, enabling the sampling of targets in diverse parameter spaces that align with a desired attribute while maintaining the source's identity. We demonstrate that this optimization resembles running a generative process with the target attribute, but aligning this process with the trajectory of the source's generative process. Extensive editing results in Neural Radiance Fields and Scalable Vector Graphics representations demonstrate that PDS is capable of sampling targets to fulfill the aforementioned balance across various parameter spaces.
           </p>
@@ -371,7 +375,8 @@
 <section class="section">
   <hr class="divider"/>
   <!-- <div class="container" style="max-width: 768px;"> -->
-  <div class="container" style="width: max-content;">
+  <!--<div class="container" style="width: max-content;">-->
+	<div class="container is-max-desktop">
     <div class="columns is-centered">
       <div class="columns content is-centered">
         <button class="toggle-btn-active" id="view_1">Per Method<br>Comparisons</button>
@@ -388,10 +393,12 @@
     <div class="button_comparison", id="btn_con"></div>
     <div class="full_results", id="full_res"></div>
       <script>
-        const inputs = [1, 1, 1, 1, 1, 1, 7, 7, 7, 7, 7, 12, 12, 12, 15, 15, 15, 18, 18, 20, 21, 22, 22, 22, 22, 26, 27];
+        const inputs = [1, 1, 1, 1, 1, 1, 7, 7, 7, 7, 7, 12, 12, 12, 15, 15, 15, 18, 18, 20, 21, 22, 22, 22, 22, 22, 22, 22, 29, 30];
         var h_full = '';
         var h_btn = '';
-          for (var i = 1; i < 28; i++){
+				var selected_indices = [22, 23, 24, 25, 26, 27, 28, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 29, 30];
+          <!--for (var i = 1; i < 31; i++){-->
+					for (var i of selected_indices) {
             var prompt = $.ajax({
                   url: './static/data/' + i + '/prompt.txt',
                   async: false
@@ -475,7 +482,7 @@
     </div>
 
     <script>
-      for (var i = 1; i < 28; i++){
+      for (var i = 1; i < 31; i++){
         (function(i){
       
           var button_in2n = document.createElement("button");
