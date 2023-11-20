@@ -1,1 +1,1 @@
-"... with a mustache"
+"...with a mustache"
