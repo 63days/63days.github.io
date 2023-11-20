@@ -586,15 +586,10 @@
     </div>
 
     <div class="full_results" id="full_res"></div>
-    <div class="col-sm-4 my-auto center" style="margin-left: auto; margin-right: auto;">
-      <a href="./svg.html" class="btn-primary">
-          <p>More Results</p> 
-      </a>
-    </div>
       <script>
         var h_full = '';
         var h_btn = '';
-        var selected_indices = [8, 20, 23, 36];
+        var selected_indices = [8, 14, 19, 20, 23, 32, 36];
         <!--for (var i = 1; i < 31; i++){-->
         for (var i of selected_indices) {
             var prompt = $.ajax({
@@ -602,8 +597,8 @@
                   async: false
               }).responseText;
                 h_full += '<br>\
-              <h2 class="subtitle has-text-centered">' + prompt + '</h2>\
                 <div class="column" style="align-items: center;">\
+                  <p style="font-size: 20px; text-align: center; margin-bottom: 0px;">' + prompt + '</p>\
                   <div class="columns" style="align-items: center; padding: 0; margin:0;">\
                     <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
                       <img id="input" src="./static/data/svgs/input/' + i + '.svg" style="height:100%" alt="Input."/>\
@@ -611,11 +606,11 @@
                     </figure>\
                     <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
                       <img id="baseline_sds" src="./static/data/svgs/sds/' + i + '.svg" style="height:100%" alt="Baseline SDS image."/>\
-                      <figcaption>SDS<br>(Haque <i>et al.</i>)</figcaption>\
+                      <figcaption>SDS<br>(Poole <i>et al.</i>)</figcaption>\
                     </figure>\
                     <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
                       <img id="baseline_dds" src="./static/data/svgs/dds/' + i + '.svg" style="height:100%" alt="Baseline DDS image."/>\
-                      <figcaption>DDS<br>&nbsp;</figcaption>\
+                      <figcaption>DDS<br>(Hertz <i>et al.</i>)</figcaption>\
                     </figure>\
                     <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
                       <img id="pds" src="./static/data/svgs/pds/' + i + '.svg" style="height:100%" alt="PDS image."/>\
