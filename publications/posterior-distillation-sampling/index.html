@@ -352,14 +352,16 @@
 <section class="section">
   <!--<div class="container" style="width: max-content;">-->
 	<div class="container is-max-desktop">
+    <p style="text-align: center;">
+      <img src="./static/figures/teaser.png"/>
+    </p>
+    <br>
+    <br>
     <!-- Abstract. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
-					<p style="text-align: center;">
-						<img src="./static/figures/teaser.png"/>
-					</p>
           <p>
             We introduce Posterior Distillation Sampling (PDS), a novel optimization method for parametric image editing based on diffusion models. Existing optimization-based methods, which leverage the powerful 2D prior of diffusion models to handle various parametric images, have mainly focused on generation. Unlike generation, editing requires a balance between conforming to the target attribute and preserving the identity of the source content. Recent 2D image editing methods have achieved this balance by leveraging the stochastic latent encoded in the generative process of diffusion models. To extend the editing capabilities of diffusion models shown in pixel space to parameter space, we reformulate the 2D image editing method into an optimization form named PDS. PDS matches the stochastic latents of the source and the target, enabling the sampling of targets in diverse parameter spaces that align with a desired attribute while maintaining the source's identity. We demonstrate that this optimization resembles running a generative process with the target attribute, but aligning this process with the trajectory of the source's generative process. Extensive editing results in Neural Radiance Fields and Scalable Vector Graphics representations demonstrate that PDS is capable of sampling targets to fulfill the aforementioned balance across various parameter spaces.
           </p>
@@ -391,8 +393,13 @@
       </div>
     </div>
 
-    <div class="button_comparison is-max-desktop", id="btn_con"></div>
-    <!-- <div class="full_results", id="full_res"></div> -->
+    <div class="button_comparison is-max-desktop" id="btn_con"></div>
+    <!-- <div class="full_results" id="full_res"></div> -->
+    <div class="col-sm-4 my-auto center" style="margin-left: auto; margin-right: auto;">
+      <a href="./nerf_0.html" class="btn-primary">
+          <p>More Results</p> 
+      </a>
+    </div>
       <script>
         const inputs = [1, 1, 1, 1, 1, 1, 7, 7, 7, 7, 7, 12, 12, 12, 15, 15, 15, 18, 18, 20, 21, 22, 22, 22, 22, 22, 22, 22, 29, 30];
         var h_full = '';
@@ -564,14 +571,67 @@
       // }, false);
 
   </script>
-
   </div>
-  <br>
+</section>
 
-  <div class="col-sm-4 my-auto center" style="margin-left: auto; margin-right: auto;">
-    <a href="./nerf_0.html" class="btn-primary">
-        <p>Full Results</p> 
-    </a>
+<section class="section">
+  <hr class="divider"/>
+  <br>
+  <br>
+	<div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="columns is-centered">
+        <h3 class="title is-3 publication-title">SVG Editing</h3>
+      </div>
+    </div>
+
+    <div class="full_results" id="full_res"></div>
+    <div class="col-sm-4 my-auto center" style="margin-left: auto; margin-right: auto;">
+      <a href="./svg.html" class="btn-primary">
+          <p>More Results</p> 
+      </a>
+    </div>
+      <script>
+        var h_full = '';
+        var h_btn = '';
+        var selected_indices = [8, 20, 23, 36];
+        <!--for (var i = 1; i < 31; i++){-->
+        for (var i of selected_indices) {
+            var prompt = $.ajax({
+                  url: './static/data/svgs/prompts/' + i + '.txt',
+                  async: false
+              }).responseText;
+                h_full += '<br>\
+              <h2 class="subtitle has-text-centered">' + prompt + '</h2>\
+                <div class="column" style="align-items: center;">\
+                  <div class="columns" style="align-items: center; padding: 0; margin:0;">\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                      <img id="input" src="./static/data/svgs/input/' + i + '.svg" style="height:100%" alt="Input."/>\
+                      <figcaption>Input<br>&nbsp;</figcaption>\
+                    </figure>\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                      <img id="baseline_sds" src="./static/data/svgs/sds/' + i + '.svg" style="height:100%" alt="Baseline SDS image."/>\
+                      <figcaption>SDS<br>(Haque <i>et al.</i>)</figcaption>\
+                    </figure>\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                      <img id="baseline_dds" src="./static/data/svgs/dds/' + i + '.svg" style="height:100%" alt="Baseline DDS image."/>\
+                      <figcaption>DDS<br>&nbsp;</figcaption>\
+                    </figure>\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                      <img id="pds" src="./static/data/svgs/pds/' + i + '.svg" style="height:100%" alt="PDS image."/>\
+                      <figcaption><b>PDS<br>(Ours)</b></figcaption>\
+                    </figure>\
+                  </div>\
+                </div>\
+                <br>\
+                <br>\
+                <br>';
+                };
+                $('div.full_results').html(h_full);
+      </script>
+      <br>
+      <br>
+    </div>
   </div>
 </section>
 <footer class="footer">
