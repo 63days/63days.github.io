@@ -328,65 +328,100 @@
       border: none;
       cursor: pointer;
     }
+    .a_page:link {
+      color: #851676;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    .a_page:visited {
+      color: #851676;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    .a_page:hover {
+      color: rgb(91, 128, 200);
+      background-color: transparent;
+      text-decoration: none;
+    }
 
     </style>
 </head>
 
 <body>
-    <hr class="divider"/>
-    <div class="container is-max-desktop">
-    <div class="columns is-centered">
-        <div class="columns content is-centered">
-        <br>
-        <h3 class="title is-3 publication-title">NeRF Editing</h3>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+            <div class="columns is-centered">
+            <div class="column has-text-centered">
+                <h1 class="title is-1 publication-title"><div class="a_page" onclick="location.href='./index.html'">Posterior Distillation Sampling</a></h1>
+                <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                    <a href="https://63days.github.io">Juil Koo</a>, <a href="https://github.com/charlieppark">Chanho Park</a>, <a href="https://mhsung.github.io/">Minhyuk Sung</a> </span>
+                <br>
+                </div>
+            </div>
+            </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div class="full_results", id="full_res"></div>
-        <script>
-        const inputs = [1, 1, 1, 1, 1, 1, 7, 7, 7, 7, 7, 12, 12, 12, 15, 15, 15, 18, 18, 20, 21, 22, 22, 22, 22, 22, 22, 22, 29, 30];
-        var h_full = '';
-            for (var i = 1; i < 31; i++){
-            var prompt = $.ajax({
-                    url: './static/data/' + i + '/prompt.txt',
-                    async: false
-                }).responseText;
-                h_full += '<br>\
-                <h2 class="subtitle has-text-centered">' + prompt + '</h2>\
-                <div class="column" style="align-items: center;">\
-                    <div class="columns" style="align-items: center; padding: 0; margin:0;">\
-                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
-                        <img id="input" src="./static/data/' + inputs[i-1] + '/input.gif" style="height:100%" alt="Input."/>\
-                        <figcaption>Input<br>&nbsp;</figcaption>\
-                    </figure>\
-                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
-                        <img id="baseline_in2n" src="./static/data/' + i + '/in2n.gif" style="height:100%" alt="Baseline IN2N image."/>\
-                        <figcaption>IN2N<br>(Haque <i>et al.</i>)</figcaption>\
-                    </figure>\
-                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
-                        <img id="baseline_inv2n" src="./static/data/' + i + '/inv2n.gif" style="height:100%" alt="Baseline Inv2N image."/>\
-                        <figcaption>Inv2N<br>&nbsp;</figcaption>\
-                    </figure>\
-                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
-                        <img id="baseline_dds" src="./static/data/' + i + '/dds.gif" style="height:100%" alt="Baseline DDS image."/>\
-                        <figcaption>DDS<br>(Hertz <i>et al.</i>)</figcaption>\
-                    </figure>\
-                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
-                        <img id="pds" src="./static/data/' + i + '/pds.gif" style="height:100%" alt="PDS image."/>\
-                        <figcaption><b>PDS<br>(Ours)</b></figcaption>\
-                    </figure>\
+    <hr class="divider"/>
+    <br>
+    <br>
+    <div class="container is-max-desktop">
+        <div class="columns is-centered">
+            <div class="column content is-centered">
+                <h3 class="title is-3 publication-title">NeRF Editing</h3>
+            </div>
+        </div>
+
+        <div class="full_results", id="full_res"></div>
+            <script>
+            const inputs = [1, 1, 1, 1, 1, 1, 7, 7, 7, 7, 7, 12, 12, 12, 15, 15, 15, 18, 18, 20, 21, 22, 22, 22, 22, 22, 22, 22, 29, 30];
+            var h_full = '';
+                for (var i = 1; i < 6; i++){
+                var prompt = $.ajax({
+                        url: './static/data/' + i + '/prompt.txt',
+                        async: false
+                    }).responseText;
+                    h_full += '<br>\
+                    <h2 class="subtitle has-text-centered">' + prompt + '</h2>\
+                    <div class="column" style="align-items: center;">\
+                        <div class="columns" style="align-items: center; padding: 0; margin:0;">\
+                        <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                            <img id="input" src="./static/data/' + inputs[i-1] + '/input.gif" style="height:100%" alt="Input."/>\
+                            <figcaption>Input<br>&nbsp;</figcaption>\
+                        </figure>\
+                        <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                            <img id="baseline_in2n" src="./static/data/' + i + '/in2n.gif" style="height:100%" alt="Baseline IN2N image."/>\
+                            <figcaption>IN2N<br>(Haque <i>et al.</i>)</figcaption>\
+                        </figure>\
+                        <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                            <img id="baseline_inv2n" src="./static/data/' + i + '/inv2n.gif" style="height:100%" alt="Baseline Inv2N image."/>\
+                            <figcaption>Inv2N<br>&nbsp;</figcaption>\
+                        </figure>\
+                        <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                            <img id="baseline_dds" src="./static/data/' + i + '/dds.gif" style="height:100%" alt="Baseline DDS image."/>\
+                            <figcaption>DDS<br>(Hertz <i>et al.</i>)</figcaption>\
+                        </figure>\
+                        <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                            <img id="pds" src="./static/data/' + i + '/pds.gif" style="height:100%" alt="PDS image."/>\
+                            <figcaption><b>PDS<br>(Ours)</b></figcaption>\
+                        </figure>\
+                        </div>\
                     </div>\
-                </div>\
-                <br>\
-                <br>\
-                <br>';
-                };
-                $('div.full_results').html(h_full);
+                    <br>\
+                    <br>\
+                    <br>';
+                    };
+                    $('div.full_results').html(h_full);
 
-        </script>
-        <br>
-        <br>
-    </div>
+            </script>
+            <br>
+            <br>
+        </div>
     </div>
     <div class="container" style="max-width: 768px;">
         <div class="row" style="margin-bottom: 0px;">
@@ -397,6 +432,20 @@
             </div>
         </div>
     </div>
+    <br>
+    <footer class="footer">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-8">
+              <div class="content">
+                <p>
+                  The website is based on <a
+                    href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. We thank Keunhong Park for kindly open-sourcing the source code.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
 </body>
-
 </html>

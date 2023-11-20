@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="text-driven parametric image editing that matches the latents encoded in the posterior of a diffusion model’s forward process.">
+  <meta name="keywords" content="Diffusion models, Score Distillation Sampling, Parametric image editing">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Posterior Distillation Sampling</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <style>
+    figure {
+      border: none;
+      padding: 4px;
+      margin: auto;
+    }
+    
+    figcaption {
+      background-color: none;
+      color: black;
+      font-size: 20px;
+      padding: 2px;
+      text-align: center;
+    }
+
+    .column_input_image {
+      float: left;
+      width: auto;
+      padding: 5px;
+    }
+
+    .column_image {
+      float: left;
+      width: 20%;
+      padding: 5px;
+    }
+
+    .btn-primary {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: rgb(91, 128, 200);
+      width: fit-content;
+      border-radius: 5%;
+      color: #ffffff;
+      font-size: large;
+      font-weight: bold;
+    }
+
+    .pds-btn {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: #ffffff;
+      width: fit-content;
+      border-radius: 7.5%;
+      color: #851676;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .pds-btn:hover {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: #851676;
+      width: fit-content;
+      border-radius: 7.5%;
+      color: #ffffff;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .in2n-btn {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: #ffffff;
+      width: fit-content;
+      border-radius: 7.5%;
+      color: rgb(112, 148, 221);
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .in2n-btn:hover {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: rgb(112, 148, 221);
+      width: fit-content;
+      border-radius: 7.5%;
+      color: #ffffff;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .inv2n-btn {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: #ffffff;
+      width: fit-content;
+      border-radius: 7.5%;
+      color: rgb(112, 148, 221);
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .inv2n-btn:hover {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: rgb(112, 148, 221);
+      width: fit-content;
+      border-radius: 7.5%;
+      color: #ffffff;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .dds-btn {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: #ffffff;
+      width: fit-content;
+      border-radius: 7.5%;
+      color: rgb(112, 148, 221);
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .dds-btn:hover {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: auto;
+      margin-left: auto;
+      background-color: rgb(112, 148, 221);
+      width: fit-content;
+      border-radius: 7.5%;
+      color: #ffffff;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* The slider */
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+    .toggle-btn {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: 4px;
+      margin-left: 4px;
+      background-color: #ffffff;
+      width: fit-content;
+      border-radius: 7.5%;
+      color: rgb(112, 148, 221);
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .toggle-btn:hover {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: 4px;
+      margin-left: 4px;
+      background-color: rgb(112, 148, 221);
+      width: fit-content;
+      border-radius: 7.5%;
+      color: #ffffff;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .toggle-btn-active {
+      display: block;
+      text-align: center;
+      padding: 12px 20px 12px 20px;
+      margin-right: 4px;
+      margin-left: 4px;
+      background-color: rgb(112, 148, 221);
+      width: fit-content;
+      border-radius: 7.5%;
+      color: #ffffff;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    .a_page:link {
+      color: #851676;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    .a_page:visited {
+      color: #851676;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    .a_page:hover {
+      color: rgb(91, 128, 200);
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    </style>
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-body">
+          <div class="container is-max-desktop">
+            <div class="columns is-centered">
+              <div class="column has-text-centered">
+                <h1 class="title is-1 publication-title"><div class="a_page" onclick="location.href='./index.html'">Posterior Distillation Sampling</a></h1>
+                <div class="is-size-5 publication-authors">
+                  <span class="author-block">
+                    <a href="https://63days.github.io">Juil Koo</a>, <a href="https://github.com/charlieppark">Chanho Park</a>, <a href="https://mhsung.github.io/">Minhyuk Sung</a> </span>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <hr class="divider"/>
+    <br>
+    <br>
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column content is-centered">
+            <h3 class="title is-3 publication-title">NeRF Editing</h3>
+        </div>
+    </div>
+
+    <div class="full_results", id="full_res"></div>
+        <script>
+        const inputs = [1, 1, 1, 1, 1, 1, 7, 7, 7, 7, 7, 12, 12, 12, 15, 15, 15, 18, 18, 20, 21, 22, 22, 22, 22, 22, 22, 22, 29, 30];
+        var h_full = '';
+            for (var i = 11; i < 16; i++){
+            var prompt = $.ajax({
+                    url: './static/data/' + i + '/prompt.txt',
+                    async: false
+                }).responseText;
+                h_full += '<br>\
+                <h2 class="subtitle has-text-centered">' + prompt + '</h2>\
+                <div class="column" style="align-items: center;">\
+                    <div class="columns" style="align-items: center; padding: 0; margin:0;">\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                        <img id="input" src="./static/data/' + inputs[i-1] + '/input.gif" style="height:100%" alt="Input."/>\
+                        <figcaption>Input<br>&nbsp;</figcaption>\
+                    </figure>\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                        <img id="baseline_in2n" src="./static/data/' + i + '/in2n.gif" style="height:100%" alt="Baseline IN2N image."/>\
+                        <figcaption>IN2N<br>(Haque <i>et al.</i>)</figcaption>\
+                    </figure>\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                        <img id="baseline_inv2n" src="./static/data/' + i + '/inv2n.gif" style="height:100%" alt="Baseline Inv2N image."/>\
+                        <figcaption>Inv2N<br>&nbsp;</figcaption>\
+                    </figure>\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                        <img id="baseline_dds" src="./static/data/' + i + '/dds.gif" style="height:100%" alt="Baseline DDS image."/>\
+                        <figcaption>DDS<br>(Hertz <i>et al.</i>)</figcaption>\
+                    </figure>\
+                    <figure style="display: inline-block; justify-content: center; align-items: center; width: fit-content; padding: 1; margin:auto;">\
+                        <img id="pds" src="./static/data/' + i + '/pds.gif" style="height:100%" alt="PDS image."/>\
+                        <figcaption><b>PDS<br>(Ours)</b></figcaption>\
+                    </figure>\
+                    </div>\
+                </div>\
+                <br>\
+                <br>\
+                <br>';
+                };
+                $('div.full_results').html(h_full);
+
+        </script>
+        <br>
+        <br>
+    </div>
+    </div>
+    <div class="container" style="max-width: 768px;">
+      <div class="columns is-centered" style="margin-bottom: 0px;">
+        <div class="column is-centered">
+            <a href="nerf_1.html" class="btn btn-primary btn-lg">
+                Previous Page
+            </a>
+        </div>
+        <div class="column is-centered">
+            <a href="nerf_3.html" class="btn btn-primary btn-lg">
+                Next Page
+            </a>
+        </div>
+      </div>
+    </div>
+    <br>
+    <footer class="footer">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-8">
+              <div class="content">
+                <p>
+                  The website is based on <a
+                    href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. We thank Keunhong Park for kindly open-sourcing the source code.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+</body>
+</html>
