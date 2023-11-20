@@ -379,6 +379,7 @@
 	<div class="container is-max-desktop">
     <div class="columns is-centered">
       <div class="columns content is-centered">
+        <br>
         <h3 class="title is-3 publication-title">NeRF Editing</h3>
         <!-- <button class="toggle-btn-active" id="view_1">Per Method<br>Comparisons</button>
         <button class="toggle-btn" id="view_2">Full<br>Comparisons</button> -->
@@ -389,10 +390,9 @@
 
       </div>
     </div>
-    <br>
-    <br>
-    <div class="button_comparison", id="btn_con"></div>
-    <div class="full_results", id="full_res"></div>
+
+    <div class="button_comparison is-max-desktop", id="btn_con"></div>
+    <!-- <div class="full_results", id="full_res"></div> -->
       <script>
         const inputs = [1, 1, 1, 1, 1, 1, 7, 7, 7, 7, 7, 12, 12, 12, 15, 15, 15, 18, 18, 20, 21, 22, 22, 22, 22, 22, 22, 22, 29, 30];
         var h_full = '';
@@ -435,8 +435,8 @@
                 <br>\
                 <br>';
 
-                h_btn += '<hr class="divider"/>\
-                <br>\
+                h_btn += '<br>\
+                  <br>\
                   <div class="columns is-centered">\
                     <h2 class="subtitle has-text-centered">' + prompt + '</h2>\
                   </div>\
@@ -467,16 +467,15 @@
                     </div>\
                   </div>\
                   <br>\
-                  <br>\
-                  <br>';
+                  <hr class="divider"/>';
                 };
                 // $('div.full_results').html(h_full);
                 $('div.button_comparison').html(h_btn);
 
-        let main = document.querySelector('#full_res');
-        let secondary = document.querySelector('#btn_con');
-        main.style.display = 'none';
-        secondary.style.display = 'block';
+        // let main = document.querySelector('#full_res');
+        // let secondary = document.querySelector('#btn_con');
+        // main.style.display = 'none';
+        // secondary.style.display = 'block';
       </script>
       <br>
       <br>
@@ -490,19 +489,19 @@
       
           var button_in2n = document.createElement("button");
           button_in2n.className='in2n-btn';
-          button_in2n.innerHTML = 'IN2N<br>(Haque <i>et al.</i>)';
+          button_in2n.innerHTML = '<p>IN2N<br>(Haque <i>et al.</i>)</p>';
       
           var button_inv2n = document.createElement("button");
           button_inv2n.className='inv2n-btn';
-          button_inv2n.innerHTML = 'Inv2N<br>&nbsp;';
+          button_inv2n.innerHTML = '<p>Inv2N<br>&nbsp;</p>';
       
           var button_dds = document.createElement("button");
           button_dds.className='dds-btn';
-          button_dds.innerHTML = 'DDS<br>(Hertz <i>et al.</i>)';
+          button_dds.innerHTML = '<p>DDS<br>(Hertz <i>et al.</i>)</p>';
 
           var button_pds = document.createElement("button");
           button_pds.className='pds-btn';
-          button_pds.innerHTML = '<b>PDS<br>(Ours)</b>';
+          button_pds.innerHTML = '<p><b>PDS<br>(Ours)</b></p>';
       
           button_pds.addEventListener('click', function(event) {
             document.getElementById('edited_' + i).innerHTML = '<img id="pds" src="./static/data/' + i + '/pds.gif" style="height:100%" alt="PDS image."/>';
@@ -535,34 +534,34 @@
         var d = new Date();
         var c = d.getTime();
         };
-      let mainContent = document.querySelector('#full_res');
-      let secondaryContent = document.querySelector('#btn_con');
-      let state = document.getElementById('view_btn_state')
+      // let mainContent = document.querySelector('#full_res');
+      // let secondaryContent = document.querySelector('#btn_con');
+      // let state = document.getElementById('view_btn_state')
       
       // document.querySelector('.switch input').addEventListener('change', e => { 
       //   mainContent.style.display = e.target.checked ? 'block' : 'none';
       //   secondaryContent.style.display = e.target.checked ? 'none' : 'block';
       // });
-      let view_1 = document.getElementById('view_1');
-      let view_2 = document.getElementById('view_2');
+      // let view_1 = document.getElementById('view_1');
+      // let view_2 = document.getElementById('view_2');
 
-      view_1.addEventListener('click', function(event) {
-        mainContent.style.display = 'none';
-        secondaryContent.style.display = 'block';
-        view_1.classList.remove('toggle-btn')
-        view_2.classList.remove('toggle-btn-active')
-        view_1.classList.add('toggle-btn-active')
-        view_2.classList.add('toggle-btn')
-      }, false);
+      // view_1.addEventListener('click', function(event) {
+      //   mainContent.style.display = 'none';
+      //   secondaryContent.style.display = 'block';
+      //   view_1.classList.remove('toggle-btn')
+      //   view_2.classList.remove('toggle-btn-active')
+      //   view_1.classList.add('toggle-btn-active')
+      //   view_2.classList.add('toggle-btn')
+      // }, false);
 
-      view_2.addEventListener('click', function(event) {
-        mainContent.style.display = 'block';
-        secondaryContent.style.display = 'none';
-        view_1.classList.remove('toggle-btn-active')
-        view_2.classList.remove('toggle-btn')
-        view_1.classList.add('toggle-btn')
-        view_2.classList.add('toggle-btn-active')
-      }, false);
+      // view_2.addEventListener('click', function(event) {
+      //   mainContent.style.display = 'block';
+      //   secondaryContent.style.display = 'none';
+      //   view_1.classList.remove('toggle-btn-active')
+      //   view_2.classList.remove('toggle-btn')
+      //   view_1.classList.add('toggle-btn')
+      //   view_2.classList.add('toggle-btn-active')
+      // }, false);
 
   </script>
 
