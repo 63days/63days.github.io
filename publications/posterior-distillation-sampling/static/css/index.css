@@ -13,6 +13,11 @@ body {
     margin-bottom: 5px;
 }
 
+.link-block btn {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .dnerf {
   font-variant: small-caps;
 }
@@ -155,3 +160,14 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
+/*pre {*/
+/*  margin: 0;*/
+/*  font-size: min(0.92rem, 1vw);*/
+/*  border-radius: 0.5rem;*/
+/*  border-style: solid;*/
+/*  border-width: 1px;*/
+/*  padding: 1rem;*/
+/*  width: fit-content;*/
+/*  margin: auto;*/
+/*}*/
