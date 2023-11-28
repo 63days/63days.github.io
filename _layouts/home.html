@@ -107,7 +107,7 @@ layout: archive
 
 <!--<h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>-->
 <h3 class="archive__subtitle">Bio</h3>
-<p style="font-size: 16px;">I am Juil Koo (구주일 in Korean), a PhD student at <a href="https://cs.kaist.ac.kr">KAIST
+<p style="font-size: 16px;">I am Juil Koo, a PhD student at <a href="https://cs.kaist.ac.kr">KAIST
 		School of Computing</a>
 	advised by Prof. <a href="https://mhsung.github.io/">Minhyuk Sung</a>.</p>
 
@@ -127,6 +127,10 @@ layout: archive
 <h3 class="archive__subtitle">News</h3>
 <article style="font-size: 16px;" role="news">
 	<ul>
+		<li> (Sep. 2023) I presented a brief overview of <a href="https://salad3d.github.io/" target="_blank">SALAD</a> at
+			two workshops during ICCV 2023: <a href="https://languagefor3dscenes.github.io/ICCV2023/" target="_blank">Language
+				for 3D Scenes (L3DS)</a> and <a href="https://ai3dcc.github.io/" target="_blank">AI for 3D Content Creation
+				(AI3DCC)</a>.</li>
 		<li> (Jul. 2023) Our <a href="https://salad3d.github.io/" target="_blank">SALAD</a> paper got accepted to ICCV 2023!
 		</li>
 		<li> (Feb. 2023) I received an outstanding TA award. </li>
@@ -145,6 +149,36 @@ layout: archive
 
 <h3 class="archive__subtitle">Publications</h3>
 <article style="font-size: 14px;" role="publication">
+	<!--PDS-->
+	<div class="publication-cell">
+		<div class="publication-thumbnail-cell" role="left">
+			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
+				src="assets/images/PDS_banner.png">
+		</div>
+		<div class="publication-description-cell" role="right">
+			<header><b>Posterior Distillation Sampling</b></header>
+			<p style="margin-top:5px; margin-bottom:5px;">
+				<b>Juil Koo</b>, <a href="https://github.com/charlieppark" target="_blank">Chanho Park</a>, <a
+					href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
+			</p>
+			<p style="margin-top: 3px; margin-bottom:3px;">
+				<span class="conference">arXiv 2023</span>
+			</p>
+			<div role="links" class="publication-conatiner">
+				<a href="https://posterior-distillation-sampling.github.io" target="_blank">
+					[Project]
+				</a>
+				<a href="https://arxiv.org/abs/2311.13831" target="_blank">
+					[Paper]
+				</a>
+				<!--<a href="https://github.com/KAIST-Geometric-AI-Group/SALAD" target="_blank">-->
+				<!--  [Code]-->
+				<!--</a>-->
+			</div>
+		</div>
+	</div>
+
+	<!--SALAD-->
 	<div class="publication-cell">
 		<div class="publication-thumbnail-cell" role="left">
 			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
@@ -211,6 +245,15 @@ layout: archive
 	</div>
 </article>
 
+<h3 class="archive__subtitle">Reviewer</h3>
+<article style="font-size: 16px;" role="reviewer">
+	<ul>
+		<li> Euroghraphics 2024</li>
+		<li> AAAI 2024</li>
+		<li> ICCV 2023</li>
+		<li> CVPR 2023</li>
+	</ul>
+</article>
 
 
 {% if paginator %}
