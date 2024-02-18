@@ -731,13 +731,16 @@ void main () {
 
 `.trim();
 
-let defaultViewMatrix = [
-    0.47, 0.04, 0.88, 0, -0.11, 0.99, 0.02, 0, -0.88, -0.11, 0.47, 0, 0.07,
-    0.03, 6.55, 1,
-];
+//let defaultViewMatrix = [
+//    0.47, 0.04, 0.88, 0, -0.11, 0.99, 0.02, 0, -0.88, -0.11, 0.47, 0, 0.07,
+//    0.03, 6.55, 1,
+//];
+//let defaultViewMatrix = [-0.8140896245511355, -0.15900220469622342, 0.558548459938728, 0, -0.015926358332569446, 0.9675396152883214, 0.25221705723046595, 0, -0.5805208302106332, 0.19643164650705183, -0.7901962882360876, 0, 0.02846599519373973, 0.466292956541114, 8.162976707201983, 0.9999999999999811];
+// juil
+let defaultViewMatrix = [-0.8982711367157042, -0.14997355377396618, 0.413057983958504, 0, -0.061347915778821024, 0.9735538610493205, 0.22006661006525613, 0, -0.43513836669849393, 0.17233923756485398, -0.8837158983646818, 0, -0.21123593213037886, 0.6540585505703647, 4.918459870471769, 0.9999999999996841];
 let viewMatrix = defaultViewMatrix;
 async function main() {
-    let carousel = true;
+    let carousel = false; //juil
     const params = new URLSearchParams(location.search);
     try {
         viewMatrix = JSON.parse(decodeURIComponent(location.hash.slice(1)));
@@ -746,9 +749,7 @@ async function main() {
     const url = new URL(
         // "nike.splat",
         // location.href,
-        //params.get("url") || "train.splat",
         params.get("url") || "gs_duck_nupzupki.splat",
-        //"https://huggingface.co/cakewalk/splat-data/resolve/main/",
 			  "https://huggingface.co/datasets/63days/splat/resolve/main/",
     );
     const req = await fetch(url, {

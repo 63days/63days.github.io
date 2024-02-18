@@ -155,7 +155,7 @@ let cameras = [
     },
 ];
 
-let camera = cameras[0];
+let camera = cameras[5];
 
 function getProjectionMatrix(fx, fy, width, height) {
     const znear = 0.2;
@@ -731,13 +731,16 @@ void main () {
 
 `.trim();
 
-let defaultViewMatrix = [
-    0.47, 0.04, 0.88, 0, -0.11, 0.99, 0.02, 0, -0.88, -0.11, 0.47, 0, 0.07,
-    0.03, 6.55, 1,
-];
+//let defaultViewMatrix = [
+//    0.47, 0.04, 0.88, 0, -0.11, 0.99, 0.02, 0, -0.88, -0.11, 0.47, 0, 0.07,
+//    0.03, 6.55, 1,
+//];
+// juil
+let defaultViewMatrix = [0.7149813783807665, 0.001274576727314298, -0.6991423345949099, 0, -0.008715746487168118, 0.99993688000384, -0.007090258901065894, 0, 0.6990891676544845, 0.011162950428943904, 0.7149473576465687, -0, 0.009698117452394524, 0.23767216996073245, 4.200771851259573, 0.999999999999857];
+
 let viewMatrix = defaultViewMatrix;
 async function main() {
-    let carousel = true;
+    let carousel = false; //juil
     const params = new URLSearchParams(location.search);
     try {
         viewMatrix = JSON.parse(decodeURIComponent(location.hash.slice(1)));
