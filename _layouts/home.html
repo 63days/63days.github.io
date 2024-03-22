@@ -22,38 +22,35 @@ layout: archive
 
 	.publication-cell {
 		width: 100%;
-		< !--disply: flex;
-		-->
+		display: flex;
+		padding-bottom: 15px;
+		marign-bottom: 15px;
 	}
 
 	.publication-thumbnail-cell {
-		width: 140px;
-		height: 140px;
-		border: 2px;
-		border-style: solid;
-		border-color: #CDCDCD;
+		width: 160px;
+		height: 160px;
+		border: 2px solid #CDCDCD;
 		padding: 2px;
 		border-radius: 5%;
+		display: flex;
+		flex: 0 0 160px;
+		margin-right: 15px;
+		overflow: hidden;
 	}
 
 	.publication-description-cell {
-		padding-bottom: 15px;
-		vertical-align: top;
+		flex: 1;
 	}
 
-	article[role="publication"] {
-		< !--display: flex;
-		-->
+	.publication-description-cell header {
+		fontsize: 18px;
+		margin-bottom: 5px;
 	}
 
-	article[role="publication"] div[role="left"] {
-		flex: 20;
-		align-self: center;
-	}
-
-	article[role="publication"]>div[role="left"]>img {
-		width: 100%;
-		padding: 0 .5em;
+	.publication-description-cell p {
+		margin-top: 0;
+		margin-bottom: 3px;
 	}
 
 	article[role="publication"]>div[role="right"] {
@@ -66,7 +63,6 @@ layout: archive
 
 	article[role="publication"] header {
 		font-size: 18px;
-		padding-bottom: 0;
 	}
 
 	p[role="links"] {
@@ -93,12 +89,22 @@ layout: archive
 			display: block;
 		}
 
-		article[role="publication"]>div[role="left"]>img {
-			display: block;
-			width: 100%;
-			max-width: 300px;
-			margin: 0 auto;
-		}
+		.publication-cell {
+        flex-direction: column; /* Stacks elements vertically */
+    }
+
+		.publication-thumbnail-cell {
+			width: 160px; /* Full width for mobile layout */
+			height: 160px;
+			margin-bottom: 15px; /* Space between the image and text */
+			order: 1;
+		} 
+
+		.publication-description-cell {
+        width: 100%; /* Full width for mobile layout */
+				height: 100%;
+				order: 2;
+    }
 	}
 
 </style>
@@ -168,20 +174,21 @@ layout: archive
 <article style="font-size: 14px;" role="publication">
 	<!--SyncTweedies-->
 	<div class="publication-cell">
-		<div class="publication-thumbnail-cell" role="left">
-			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
+		<div class="publication-thumbnail-cell">
+			<!--<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"-->
+			<img stye="width:100%; height:auto;"
 				src="assets/images/synctweedies_thumbnail.png">
 		</div>
-		<div class="publication-description-cell" role="right">
+		<div class="publication-description-cell">
 			<header><b>SyncTweedies: A General Generative Framework Based on Synchronized Diffusions</b></header>
-			<p style="margin-top:5px; margin-bottom:5px;">
+			<p>
 				<a href="https://jh27kim.github.io/" target="_blank">Jaihoon Kim*</a>, 
 				<b>Juil Koo*</b>, 
 				Kyeongmin Yeo*,
 				<a href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
-				(* denotes equal contribution.)
+				(* co-first author.)
 			</p>
-			<p style="margin-top: 3px; margin-bottom:3px;">
+			<p>
 				<span class="conference">arXiv preprint</span>
 			</p>
 			<div role="links" class="publication-conatiner">
@@ -201,17 +208,17 @@ layout: archive
 
 	<!--PDS-->
 	<div class="publication-cell">
-		<div class="publication-thumbnail-cell" role="left">
+		<div class="publication-thumbnail-cell">
 			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
 				src="assets/images/PDS_banner.png">
 		</div>
-		<div class="publication-description-cell" role="right">
+		<div class="publication-description-cell">
 			<header><b>Posterior Distillation Sampling</b></header>
-			<p style="margin-top:5px; margin-bottom:5px;">
+			<p>
 				<b>Juil Koo</b>, <a href="https://github.com/charlieppark" target="_blank">Chanho Park</a>, <a
 					href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
 			</p>
-			<p style="margin-top: 3px; margin-bottom:3px;">
+			<p>
 				<span class="conference">CVPR 2024</span>
 			</p>
 			<div role="links" class="publication-conatiner">
@@ -228,21 +235,22 @@ layout: archive
 		</div>
 	</div>
 
+
 	<!--SALAD-->
 	<div class="publication-cell">
-		<div class="publication-thumbnail-cell" role="left">
+		<div class="publication-thumbnail-cell">
 			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
 				src="assets/images/salad_thumnail_white_bg.png">
 		</div>
-		<div class="publication-description-cell" role="right">
+		<div class="publication-description-cell">
 			<header><b>SALAD: Part-Level Latent Diffusion for 3D Shape Generation and Manipulation</b></header>
-			<p style="margin-top:5px; margin-bottom:5px;">
+			<p>
 				<b>Juil Koo*</b>, <a href="https://dvelopery0115.github.io/" target="_blank">Seungwoo Yoo*</a>, <a
 					href="http://min-hieu.github.io/" target="_blank">Minh Hieu Nguyen*</a>, <a href="https://mhsung.github.io/"
 					target="_blank">Minhyuk Sung</a>
-				(* denotes equal contribution.)
+				(* co-first author.)
 			</p>
-			<p style="margin-top: 3px; margin-bottom:3px;">
+			<p>
 				<span class="conference">ICCV 2023</span>
 			</p>
 			<div role="links" class="publication-conatiner">
@@ -255,26 +263,25 @@ layout: archive
 				<a href="https://github.com/KAIST-Visual-AI-Group/SALAD" target="_blank">
 					[Code]
 				</a>
-
 			</div>
 		</div>
 	</div>
 
-	<div>
-		<div class="publication-thumbnail-cell" role="left">
+	<!--PartGlot-->
+	<div class="publication-cell">
+		<div class="publication-thumbnail-cell">
 			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
 				src="assets/images/partglot_thumbnail_white_bg.png">
 		</div>
-
-		<div role="right">
+		<div class="publication-description-cell">
 			<header><b>PartGlot: Learning Shape Part Segmentation from Language Reference Games</b></header>
-			<p style="margin-top:5px; margin-bottom:5px;">
+			<p>
 				<b>Juil Koo</b>, <a href="https://ianhuang0630.github.io/" target="_blank">Ian Huang</a>, <a
 					href="https://optas.github.io/" target="_blank">Panos Achlioptas</a>, <a
 					href="https://geometry.stanford.edu/member/guibas/" target="_blank">Leonidas Guibas</a>, <a
 					href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
 			</p>
-			<p style="margin-top: 3px; margin-bottom:3px;">
+			<p>
 				<span class="conference">CVPR 2022 (<b>Oral</b>)</span>
 			</p>
 			<p role="links">
@@ -298,6 +305,7 @@ layout: archive
 <h3 class="archive__subtitle">Reviewer</h3>
 <article style="font-size: 16px;" role="reviewer">
 	<ul>
+		<li> ECCV 2024</li>
 		<li> CVPR 2024</li>
 		<li> Euroghraphics 2024</li>
 		<li> AAAI 2024</li>
