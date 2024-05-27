@@ -90,21 +90,25 @@ layout: archive
 		}
 
 		.publication-cell {
-        flex-direction: column; /* Stacks elements vertically */
-    }
+			flex-direction: column;
+			/* Stacks elements vertically */
+		}
 
 		.publication-thumbnail-cell {
-			width: 160px; /* Full width for mobile layout */
+			width: 160px;
+			/* Full width for mobile layout */
 			height: 160px;
-			margin-bottom: 15px; /* Space between the image and text */
+			margin-bottom: 15px;
+			/* Space between the image and text */
 			order: 1;
-		} 
+		}
 
 		.publication-description-cell {
-        width: 100%; /* Full width for mobile layout */
-				height: 100%;
-				order: 2;
-    }
+			width: 100%;
+			/* Full width for mobile layout */
+			height: 100%;
+			order: 2;
+		}
 	}
 
 </style>
@@ -172,18 +176,43 @@ layout: archive
 
 <h3 class="archive__subtitle">Publications</h3>
 <article style="font-size: 14px;" role="publication">
+	<!--Neural Pose Transfer-->
+	<div class="publication-cell">
+		<div class="publication-thumbnail-cell">
+			<!--<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"-->
+			<img stye="width:100%; height:auto;" src="assets/images/neural_pose_transfer_thumbnail.png">
+		</div>
+		<div class="publication-description-cell">
+			<header><b>Neural Pose Representation Learning for Generating and Transferring Non-Rigid Object Poses</b></header>
+			<p>
+				<a href="https://dvelopery0115.github.io/" target="_blank">Seungwoo Yoo</a>,
+				<b>Juil Koo</b>,
+				Kyeongmin Yeo,
+				<a href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
+			</p>
+			<p>
+				<span class="conference">Preprint</span>
+			</p>
+			<a href="../assets/pdf/yoo_2024_neural_pose_transfer.pdf" target="_blank">
+				[PDF]
+			</a>
+			<!--<a href="https://github.com/KAIST-Visual-AI-Group/PDS" target="_blank">-->
+			<!--  [Code]-->
+			<!--</a>-->
+		</div>
+	</div>
+
 	<!--SyncTweedies-->
 	<div class="publication-cell">
 		<div class="publication-thumbnail-cell">
 			<!--<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"-->
-			<img stye="width:100%; height:auto;"
-				src="assets/images/synctweedies_thumbnail.png">
+			<img stye="width:100%; height:auto;" src="assets/images/synctweedies_thumbnail.png">
 		</div>
 		<div class="publication-description-cell">
 			<header><b>SyncTweedies: A General Generative Framework Based on Synchronized Diffusions</b></header>
 			<p>
-				<a href="https://jh27kim.github.io/" target="_blank">Jaihoon Kim*</a>, 
-				<b>Juil Koo*</b>, 
+				<a href="https://jh27kim.github.io/" target="_blank">Jaihoon Kim*</a>,
+				<b>Juil Koo*</b>,
 				Kyeongmin Yeo*,
 				<a href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
 				(* co-first author.)
@@ -305,6 +334,7 @@ layout: archive
 <h3 class="archive__subtitle">Reviewer</h3>
 <article style="font-size: 16px;" role="reviewer">
 	<ul>
+		<li> <a href="https://generative-vision.github.io/workshop-CVPR-24/" target="_blank">GCV</a> Workshop at CVPR 2024</li>
 		<li> ECCV 2024</li>
 		<li> CVPR 2024</li>
 		<li> Euroghraphics 2024</li>
