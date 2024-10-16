@@ -1,0 +1,11 @@
+key: npr
+title: "Neural Pose Representation Learning for Generating and Transferring Non-Rigid Object Poses"
+authors:
+    - name: Seungwoo Yoo
+      link: https://dvelopery0115.github.io/
+    - name: Juil Koo
+    - name: Kyeongmin Yeo
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+venue: NeurIPS 2024
+arXiv: https://arxiv.org/abs/2406.09728

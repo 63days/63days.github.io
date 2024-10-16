@@ -1,9 +1,0 @@
----
-title: "PartGlot: Learning Shape Part Segmentation from Language Reference Games"
-collection: publications
-permalink: /publication/
-date: 2022-06-19
-venue: 'CVPR'
-paperurl: 'https://openaccess.thecvf.com/content/CVPR2022/html/Koo_PartGlot_Learning_Shape_Part_Segmentation_From_Language_Reference_Games_CVPR_2022_paper.html'
-citation: '<b>Juil Koo</b>, Ian Huang, Panos Achlioptas, Leonidas Guibas, Minhyuk Sung, "PartGlot: Learning Shape Part Segmentation from Language Reference Games", CVPR 2022 (<b>Oral</b>)'
----

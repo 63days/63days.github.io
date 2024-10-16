@@ -1,0 +1,92 @@
+/* =========================
+ JUIL's publication style
+ ==========================*/
+
+article.publication header {
+	font-size: $type-size-6;
+	margin-bottom: 5px;
+}
+article.publication authors,
+article.publication conference,
+article.publication p,
+article.publication links {
+	font-size: $type-size-6;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: block;
+}
+article.publication conference {
+	display: block;
+}
+
+article.publication publication-cell {
+	width: 100%;
+	padding-bottom: 15px;
+	marign-bottom: 15px;
+	display: flex;
+}
+
+article.publication thumbnail {
+	width: 160px;
+	height: 160px;
+	border: 2px solid #CDCDCD;
+	padding: 2px;
+	border-radius: 5%;
+	display: block;
+	flex: 0 0 160px;
+	margin-right: 15px;
+	overflow: hidden;
+}
+
+article.publication desc-cell {
+	flex: 1;
+}
+
+@media only screen and (max-width: 700px) {
+	article.publication publication-cell {
+		flex-direction: column;
+		/* Stacks elrements vertically */
+	}
+
+	article.publication thumbnail {
+		width: 160px;
+		/* Full width for mobile layout */
+		height: 160px;
+		margin-bottom: 15px;
+		/* Space between the image and text */
+		order: 1;
+	}
+
+	article.publication desc-cell {
+		width: 100%;
+		/* Full width for mobile layout */
+		height: 100%;
+		order: 2;
+		display: block;
+	}
+}
+
+.hidden {
+	display: none;
+}
+
+.listBtn {
+	border: none;
+	background-color: transparent;
+	border: none;
+	color: inherit;
+	font-weight: bold;
+}
+.listBtn:hover {
+	outline: 2px solid;
+}
+
+.bio {
+	font-size: $type-size-6;
+}
+
+.news {
+	font-size: $type-size-6;
+}
