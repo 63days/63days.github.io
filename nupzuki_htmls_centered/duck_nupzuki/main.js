@@ -433,7 +433,7 @@ function createWorker(self) {
             lastVertexCount = vertexCount;
         }
 
-        console.time("sort");
+        //console.time("sort");
         let maxDepth = -Infinity;
         let minDepth = Infinity;
         let sizeList = new Int32Array(vertexCount);
@@ -463,7 +463,7 @@ function createWorker(self) {
         for (let i = 0; i < vertexCount; i++)
             depthIndex[starts0[sizeList[i]]++] = i;
 
-        console.timeEnd("sort");
+        //console.timeEnd("sort");
 
         lastProj = viewProj;
         self.postMessage({ depthIndex, viewProj, vertexCount }, [
@@ -731,16 +731,11 @@ void main () {
 
 `.trim();
 
-//let defaultViewMatrix = [
-//    0.47, 0.04, 0.88, 0, -0.11, 0.99, 0.02, 0, -0.88, -0.11, 0.47, 0, 0.07,
-//    0.03, 6.55, 1,
-//];
-//let defaultViewMatrix = [-0.8140896245511355, -0.15900220469622342, 0.558548459938728, 0, -0.015926358332569446, 0.9675396152883214, 0.25221705723046595, 0, -0.5805208302106332, 0.19643164650705183, -0.7901962882360876, 0, 0.02846599519373973, 0.466292956541114, 8.162976707201983, 0.9999999999999811];
-// juil
-let defaultViewMatrix = [-0.8982711367157042, -0.14997355377396618, 0.413057983958504, 0, -0.061347915778821024, 0.9735538610493205, 0.22006661006525613, 0, -0.43513836669849393, 0.17233923756485398, -0.8837158983646818, 0, -0.21123593213037886, 0.6540585505703647, 4.918459870471769, 0.9999999999996841];
+let defaultViewMatrix = [-0.8899561608609746, -0.17517121236650618, 0.4210618459366187, 0, -0.060400682658013904, 0.9604289002399675, 0.2718971958631998, 0, -0.4520285270643733, 0.21654416164348342, -0.8653200776465375, 0, -0.07849438220251653, 0.5163347939300488, 13.602223905852199, 0.9999999999996931];
 let viewMatrix = defaultViewMatrix;
 async function main() {
-    let carousel = false; //juil
+    // let carousel = false; //juil
+    let carousel = true; //juil
     const params = new URLSearchParams(location.search);
     try {
         viewMatrix = JSON.parse(decodeURIComponent(location.hash.slice(1)));
@@ -923,86 +918,86 @@ async function main() {
     let activeKeys = [];
 	let currentCameraIndex = 0;
 
-    window.addEventListener("keydown", (e) => {
-        // if (document.activeElement != document.body) return;
-        carousel = false;
-        if (!activeKeys.includes(e.code)) activeKeys.push(e.code);
-        if (/\d/.test(e.key)) {
-            currentCameraIndex = parseInt(e.key)
-            camera = cameras[currentCameraIndex];
-            viewMatrix = getViewMatrix(camera);
-        }
-		if (['-', '_'].includes(e.key)){
-			currentCameraIndex = (currentCameraIndex + cameras.length - 1) % cameras.length;
-			viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
-		}
-		if (['+', '='].includes(e.key)){
-			currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
-			viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
-		}
-        camid.innerText = "cam  " + currentCameraIndex;
-        if (e.code == "KeyV") {
-            location.hash =
-                "#" +
-                JSON.stringify(
-                    viewMatrix.map((k) => Math.round(k * 100) / 100),
-                );
-                camid.innerText =""
-        } else if (e.code === "KeyP") {
-            carousel = true;
-            camid.innerText =""
-        }
-    });
-    window.addEventListener("keyup", (e) => {
-        activeKeys = activeKeys.filter((k) => k !== e.code);
-    });
-    window.addEventListener("blur", () => {
-        activeKeys = [];
-    });
+		//window.addEventListener("keydown", (e) => {
+		//    // if (document.activeElement != document.body) return;
+		//    carousel = false;
+		//    if (!activeKeys.includes(e.code)) activeKeys.push(e.code);
+		//    if (/\d/.test(e.key)) {
+		//        currentCameraIndex = parseInt(e.key)
+		//        camera = cameras[currentCameraIndex];
+		//        viewMatrix = getViewMatrix(camera);
+		//    }
+		//if (['-', '_'].includes(e.key)){
+		//  currentCameraIndex = (currentCameraIndex + cameras.length - 1) % cameras.length;
+		//  viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
+		//}
+		//if (['+', '='].includes(e.key)){
+		//  currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
+		//  viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
+		//}
+		//    //camid.innerText = "cam  " + currentCameraIndex;
+		//    if (e.code == "KeyV") {
+		//        location.hash =
+		//            "#" +
+		//            JSON.stringify(
+		//                viewMatrix.map((k) => Math.round(k * 100) / 100),
+		//            );
+		//            //camid.innerText =""
+		//    } else if (e.code === "KeyP") {
+		//        carousel = true;
+		//        //camid.innerText =""
+		//    }
+		//});
+		//window.addEventListener("keyup", (e) => {
+		//    activeKeys = activeKeys.filter((k) => k !== e.code);
+		//});
+    //window.addEventListener("blur", () => {
+    //    activeKeys = [];
+    //});
 
-    window.addEventListener(
-        "wheel",
-        (e) => {
-            carousel = false;
-            e.preventDefault();
-            const lineHeight = 10;
-            const scale =
-                e.deltaMode == 1
-                    ? lineHeight
-                    : e.deltaMode == 2
-                    ? innerHeight
-                    : 1;
-            let inv = invert4(viewMatrix);
-            if (e.shiftKey) {
-                inv = translate4(
-                    inv,
-                    (e.deltaX * scale) / innerWidth,
-                    (e.deltaY * scale) / innerHeight,
-                    0,
-                );
-            } else if (e.ctrlKey || e.metaKey) {
-                // inv = rotate4(inv,  (e.deltaX * scale) / innerWidth,  0, 0, 1);
-                // inv = translate4(inv,  0, (e.deltaY * scale) / innerHeight, 0);
-                // let preY = inv[13];
-                inv = translate4(
-                    inv,
-                    0,
-                    0,
-                    (-10 * (e.deltaY * scale)) / innerHeight,
-                );
-                // inv[13] = preY;
-            } else {
-                let d = 4;
-                inv = translate4(inv, 0, 0, d);
-                inv = rotate4(inv, -(e.deltaX * scale) / innerWidth, 0, 1, 0);
-                inv = rotate4(inv, (e.deltaY * scale) / innerHeight, 1, 0, 0);
-                inv = translate4(inv, 0, 0, -d);
-            }
+    //window.addEventListener(
+    //    "wheel",
+    //    (e) => {
+    //        carousel = false;
+    //        e.preventDefault();
+    //        const lineHeight = 10;
+    //        const scale =
+    //            e.deltaMode == 1
+    //                ? lineHeight
+    //                : e.deltaMode == 2
+    //                ? innerHeight
+    //                : 1;
+    //        let inv = invert4(viewMatrix);
+    //        if (e.shiftKey) {
+    //            inv = translate4(
+    //                inv,
+    //                (e.deltaX * scale) / innerWidth,
+    //                (e.deltaY * scale) / innerHeight,
+    //                0,
+    //            );
+    //        } else if (e.ctrlKey || e.metaKey) {
+    //            // inv = rotate4(inv,  (e.deltaX * scale) / innerWidth,  0, 0, 1);
+    //            // inv = translate4(inv,  0, (e.deltaY * scale) / innerHeight, 0);
+    //            // let preY = inv[13];
+    //            inv = translate4(
+    //                inv,
+    //                0,
+    //                0,
+    //                (-10 * (e.deltaY * scale)) / innerHeight,
+    //            );
+    //            // inv[13] = preY;
+    //        } else {
+    //            let d = 4;
+    //            inv = translate4(inv, 0, 0, d);
+    //            inv = rotate4(inv, -(e.deltaX * scale) / innerWidth, 0, 1, 0);
+    //            inv = rotate4(inv, (e.deltaY * scale) / innerHeight, 1, 0, 0);
+    //            inv = translate4(inv, 0, 0, -d);
+    //        }
 
-            viewMatrix = invert4(inv);
-        },
-        { passive: false },
-    );
+    //        viewMatrix = invert4(inv);
+    //    },
+    //    { passive: false },
+    //);
 
     let startX, startY, down;
     canvas.addEventListener("mousedown", (e) => {
@@ -1023,18 +1018,51 @@ async function main() {
     canvas.addEventListener("mousemove", (e) => {
         e.preventDefault();
         if (down == 1) {
+
             let inv = invert4(viewMatrix);
             let dx = (5 * (e.clientX - startX)) / innerWidth;
             let dy = (5 * (e.clientY - startY)) / innerHeight;
-            let d = 4;
+            
+            //console.log(
+            //    inv[12],
+            //    inv[13],
+            //    inv[14],
+            //    Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2),
+            //)            
+              
+            let cam_x = inv[12];
+            let cam_y = inv[13];
+            let cam_z = inv[14];
+            //
+            // let d = 4;
+            let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
+            //
 
+            //console.log("=======================================================")
+            //console.log(viewMatrix)
+            //console.log(inv)
+            //console.log(d)
+            //console.log("=======================================================")
+
+
+            //
             inv = translate4(inv, 0, 0, d);
+            // inv = translate4(inv, cam_x, cam_y, cam_z);
+            // inv = pureTranslate4(inv, -cam_x, -cam_y, -cam_z);
+            //
+            //console.log(inv)
             inv = rotate4(inv, dx, 0, 1, 0);
             inv = rotate4(inv, -dy, 1, 0, 0);
+
+            //
             inv = translate4(inv, 0, 0, -d);
+            // inv = translate4(inv, -cam_x, -cam_y, -cam_z);
+            // inv = pureTranslate4(inv, cam_x, cam_y, cam_z);
+            //
+
             // let postAngle = Math.atan2(inv[0], inv[10])
             // inv = rotate4(inv, postAngle - preAngle, 0, 0, 1)
-            // console.log(postAngle)
+            // console.log(postAngle)            
             viewMatrix = invert4(inv);
 
             startX = e.clientX;
@@ -1074,16 +1102,17 @@ async function main() {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
                 down = 1;
-            } else if (e.touches.length === 2) {
-                // console.log('beep')
-                carousel = false;
-                startX = e.touches[0].clientX;
-                altX = e.touches[1].clientX;
-                startY = e.touches[0].clientY;
-                altY = e.touches[1].clientY;
-                down = 1;
-            }
-        },
+            } 
+				//  else if (e.touches.length === 2) {
+        //        // console.log('beep')
+        //        carousel = false;
+        //        startX = e.touches[0].clientX;
+        //        altX = e.touches[1].clientX;
+        //        startY = e.touches[0].clientY;
+        //        altY = e.touches[1].clientY;
+        //        down = 1;
+        //    }
+				},
         { passive: false },
     );
     canvas.addEventListener(
@@ -1095,7 +1124,11 @@ async function main() {
                 let dx = (4 * (e.touches[0].clientX - startX)) / innerWidth;
                 let dy = (4 * (e.touches[0].clientY - startY)) / innerHeight;
 
-                let d = 4;
+                //let d = 4; //juil: fix the distance.
+								let cam_x = inv[12];
+								let cam_y = inv[13];
+								let cam_z = inv[14];
+								let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
                 inv = translate4(inv, 0, 0, d);
                 // inv = translate4(inv,  -x, -y, -z);
                 // inv = translate4(inv,  x, y, z);
@@ -1107,47 +1140,48 @@ async function main() {
 
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
-            } else if (e.touches.length === 2) {
-                // alert('beep')
-                const dtheta =
-                    Math.atan2(startY - altY, startX - altX) -
-                    Math.atan2(
-                        e.touches[0].clientY - e.touches[1].clientY,
-                        e.touches[0].clientX - e.touches[1].clientX,
-                    );
-                const dscale =
-                    Math.hypot(startX - altX, startY - altY) /
-                    Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY,
-                    );
-                const dx =
-                    (e.touches[0].clientX +
-                        e.touches[1].clientX -
-                        (startX + altX)) /
-                    2;
-                const dy =
-                    (e.touches[0].clientY +
-                        e.touches[1].clientY -
-                        (startY + altY)) /
-                    2;
-                let inv = invert4(viewMatrix);
-                // inv = translate4(inv,  0, 0, d);
-                inv = rotate4(inv, dtheta, 0, 0, 1);
+            } 
+					//else if (e.touches.length === 2) {
+          //      // alert('beep')
+          //      const dtheta =
+          //          Math.atan2(startY - altY, startX - altX) -
+          //          Math.atan2(
+          //              e.touches[0].clientY - e.touches[1].clientY,
+          //              e.touches[0].clientX - e.touches[1].clientX,
+          //          );
+          //      const dscale =
+          //          Math.hypot(startX - altX, startY - altY) /
+          //          Math.hypot(
+          //              e.touches[0].clientX - e.touches[1].clientX,
+          //              e.touches[0].clientY - e.touches[1].clientY,
+          //          );
+          //      const dx =
+          //          (e.touches[0].clientX +
+          //              e.touches[1].clientX -
+          //              (startX + altX)) /
+          //          2;
+          //      const dy =
+          //          (e.touches[0].clientY +
+          //              e.touches[1].clientY -
+          //              (startY + altY)) /
+          //          2;
+          //      let inv = invert4(viewMatrix);
+          //      // inv = translate4(inv,  0, 0, d);
+          //      inv = rotate4(inv, dtheta, 0, 0, 1);
 
-                inv = translate4(inv, -dx / innerWidth, -dy / innerHeight, 0);
+          //      inv = translate4(inv, -dx / innerWidth, -dy / innerHeight, 0);
 
-                // let preY = inv[13];
-                inv = translate4(inv, 0, 0, 3 * (1 - dscale));
-                // inv[13] = preY;
+          //      // let preY = inv[13];
+          //      inv = translate4(inv, 0, 0, 3 * (1 - dscale));
+          //      // inv[13] = preY;
 
-                viewMatrix = invert4(inv);
+          //      viewMatrix = invert4(inv);
 
-                startX = e.touches[0].clientX;
-                altX = e.touches[1].clientX;
-                startY = e.touches[0].clientY;
-                altY = e.touches[1].clientY;
-            }
+          //      startX = e.touches[0].clientX;
+          //      altX = e.touches[1].clientX;
+          //      startY = e.touches[0].clientY;
+          //      altY = e.touches[1].clientY;
+          //  }
         },
         { passive: false },
     );
@@ -1311,9 +1345,15 @@ async function main() {
         if (carousel) {
             let inv = invert4(defaultViewMatrix);
 
-            const t = Math.sin((Date.now() - start) / 5000);
-            inv = translate4(inv, 2.5 * t, 0, 6 * (1 - Math.cos(t)));
+            const t = Math.sin((Date.now() - start) / 1000);
+
+            //
+            // inv = translate4(inv, 2.5 * t, 0, 6 * (1 - Math.cos(t)));
+            let d = Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2);
+            inv = translate4(inv, 0, 0, d);
+            //
             inv = rotate4(inv, -0.6 * t, 0, 1, 0);
+            inv = translate4(inv, 0, 0, -d);
 
             viewMatrix = invert4(inv);
         }
@@ -1351,10 +1391,10 @@ async function main() {
         } else {
             document.getElementById("progress").style.display = "none";
         }
-        fps.innerText = Math.round(avgFps) + " fps";
-        if (isNaN(currentCameraIndex)){
-            camid.innerText = "";
-        }
+        //fps.innerText = Math.round(avgFps) + " fps";
+        //if (isNaN(currentCameraIndex)){
+        //    camid.innerText = "";
+        //}
         lastFrame = now;
         requestAnimationFrame(frame);
     };
@@ -1382,7 +1422,7 @@ async function main() {
             stopLoading = true;
             fr.onload = () => {
                 splatData = new Uint8Array(fr.result);
-                console.log("Loaded", Math.floor(splatData.length / rowLength));
+                //console.log("Loaded", Math.floor(splatData.length / rowLength));
 
                 if (
                     splatData[0] == 112 &&
@@ -1451,5 +1491,5 @@ async function main() {
 
 main().catch((err) => {
     document.getElementById("spinner").style.display = "none";
-    document.getElementById("message").innerText = err.toString();
+    //document.getElementById("message").innerText = err.toString();
 });

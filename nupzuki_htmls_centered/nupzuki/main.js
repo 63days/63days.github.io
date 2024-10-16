@@ -155,7 +155,7 @@ let cameras = [
     },
 ];
 
-let camera = cameras[5];
+let camera = cameras[0];
 
 function getProjectionMatrix(fx, fy, width, height) {
     const znear = 0.2;
@@ -286,23 +286,12 @@ function rotate4(a, rad, x, y, z) {
 }
 
 function translate4(a, x, y, z) {
-
     return [
         ...a.slice(0, 12),
         a[0] * x + a[4] * y + a[8] * z + a[12],
         a[1] * x + a[5] * y + a[9] * z + a[13],
         a[2] * x + a[6] * y + a[10] * z + a[14],
         a[3] * x + a[7] * y + a[11] * z + a[15],
-    ];
-}
-
-function pureTranslate4(a, x, y, z) {
-    return [
-        ...a.slice(0, 12),
-        a[12] + x,
-        a[13] + y,
-        a[14] + z,
-        a[15],
     ];
 }
 
@@ -444,7 +433,7 @@ function createWorker(self) {
             lastVertexCount = vertexCount;
         }
 
-        console.time("sort");
+        //console.time("sort");
         let maxDepth = -Infinity;
         let minDepth = Infinity;
         let sizeList = new Int32Array(vertexCount);
@@ -474,7 +463,7 @@ function createWorker(self) {
         for (let i = 0; i < vertexCount; i++)
             depthIndex[starts0[sizeList[i]]++] = i;
 
-        console.timeEnd("sort");
+        //console.timeEnd("sort");
 
         lastProj = viewProj;
         self.postMessage({ depthIndex, viewProj, vertexCount }, [
@@ -743,17 +732,15 @@ void main () {
 `.trim();
 
 //let defaultViewMatrix = [
-//    0.47, 0.04, 0.88, 0, -0.11, 0.99, 0.02, 0, -0.88, -0.11, 0.47, 0, 0.07,
-//    0.03, 6.55, 1,
-//];
-// juil
-let defaultViewMatrix = [
-    0.7149813783807665, 0.001274576727314298, -0.6991423345949099, 0,
-    -0.008715746487168118, 0.99993688000384, -0.007090258901065894, 0,
-    0.6990891676544845, 0.011162950428943904, 0.7149473576465687, -0,
-    0.009698117452394524, 0.23767216996073245, 4.200771851259573, 0.999999999999857]
-;
+//    0.7149813783807665, 0.001274576727314298, -0.6991423345949099, 0,
+//    -0.008715746487168118, 0.99993688000384, -0.007090258901065894, 0,
+//    0.6990891676544845, 0.011162950428943904, 0.7149473576465687, -0,
+//    0.009698117452394524, 0.23767216996073245, 4.200771851259573, 0.999999999999857]
+//;
 
+//let defaultViewMatrix = [0.7250955142200447, 0.0008016819724615412, -0.688647843650053, 0, -0.01014773861509558, 0.9999031842389345, -0.009520795647188425, 0, 0.6885735390347866, 0.013891704530799421, 0.7250334488051707, -0, 0.00948765389242452, 0.23755559636115942, 7.300289475630149, 0.9999999999998535];
+
+let defaultViewMatrix = [0.6964256086171294, 0.0008016819724612522, -0.7176285452573338, 0, -0.0105273482816454, 0.9999031842389363, -0.009099290462050364, 0, 0.7175517727665134, 0.013891704530799812, 0.6963666232272068, -0, 0.009322030091387287, 0.2375555963611552, 9.599906000611217, 0.9999999999998537];
 let viewMatrix = defaultViewMatrix;
 async function main() {
     // let carousel = false; //juil
@@ -940,86 +927,86 @@ async function main() {
     let activeKeys = [];
 	let currentCameraIndex = 0;
 
-    window.addEventListener("keydown", (e) => {
-        // if (document.activeElement != document.body) return;
-        carousel = false;
-        if (!activeKeys.includes(e.code)) activeKeys.push(e.code);
-        if (/\d/.test(e.key)) {
-            currentCameraIndex = parseInt(e.key)
-            camera = cameras[currentCameraIndex];
-            viewMatrix = getViewMatrix(camera);
-        }
-		if (['-', '_'].includes(e.key)){
-			currentCameraIndex = (currentCameraIndex + cameras.length - 1) % cameras.length;
-			viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
-		}
-		if (['+', '='].includes(e.key)){
-			currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
-			viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
-		}
-        camid.innerText = "cam  " + currentCameraIndex;
-        if (e.code == "KeyV") {
-            location.hash =
-                "#" +
-                JSON.stringify(
-                    viewMatrix.map((k) => Math.round(k * 100) / 100),
-                );
-                camid.innerText =""
-        } else if (e.code === "KeyP") {
-            carousel = true;
-            camid.innerText =""
-        }
-    });
-    window.addEventListener("keyup", (e) => {
-        activeKeys = activeKeys.filter((k) => k !== e.code);
-    });
+    //window.addEventListener("keydown", (e) => {
+    //    // if (document.activeElement != document.body) return;
+    //    carousel = false;
+    //    if (!activeKeys.includes(e.code)) activeKeys.push(e.code);
+    //    if (/\d/.test(e.key)) {
+    //        currentCameraIndex = parseInt(e.key)
+    //        camera = cameras[currentCameraIndex];
+    //        viewMatrix = getViewMatrix(camera);
+    //    }
+		//if (['-', '_'].includes(e.key)){
+		//  currentCameraIndex = (currentCameraIndex + cameras.length - 1) % cameras.length;
+		//  viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
+		//}
+		//if (['+', '='].includes(e.key)){
+		//  currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
+		//  viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
+		//}
+    //    //camid.innerText = "cam  " + currentCameraIndex;
+    //    if (e.code == "KeyV") {
+    //        location.hash =
+    //            "#" +
+    //            JSON.stringify(
+    //                viewMatrix.map((k) => Math.round(k * 100) / 100),
+    //            );
+    //            //camid.innerText =""
+    //    } else if (e.code === "KeyP") {
+    //        carousel = true;
+    //        //camid.innerText =""
+    //    }
+    //});
+    //window.addEventListener("keyup", (e) => {
+    //    activeKeys = activeKeys.filter((k) => k !== e.code);
+    //});
     window.addEventListener("blur", () => {
         activeKeys = [];
     });
 
-    window.addEventListener(
-        "wheel",
-        (e) => {
-            carousel = false;
-            e.preventDefault();
-            const lineHeight = 10;
-            const scale =
-                e.deltaMode == 1
-                    ? lineHeight
-                    : e.deltaMode == 2
-                    ? innerHeight
-                    : 1;
-            let inv = invert4(viewMatrix);
-            if (e.shiftKey) {
-                inv = translate4(
-                    inv,
-                    (e.deltaX * scale) / innerWidth,
-                    (e.deltaY * scale) / innerHeight,
-                    0,
-                );
-            } else if (e.ctrlKey || e.metaKey) {
-                // inv = rotate4(inv,  (e.deltaX * scale) / innerWidth,  0, 0, 1);
-                // inv = translate4(inv,  0, (e.deltaY * scale) / innerHeight, 0);
-                // let preY = inv[13];
-                inv = translate4(
-                    inv,
-                    0,
-                    0,
-                    (-10 * (e.deltaY * scale)) / innerHeight,
-                );
-                // inv[13] = preY;
-            } else {
-                let d = 4;
-                inv = translate4(inv, 0, 0, d);
-                inv = rotate4(inv, -(e.deltaX * scale) / innerWidth, 0, 1, 0);
-                inv = rotate4(inv, (e.deltaY * scale) / innerHeight, 1, 0, 0);
-                inv = translate4(inv, 0, 0, -d);
-            }
+    //window.addEventListener(
+    //    "wheel",
+    //    (e) => {
+    //        carousel = false;
+    //        e.preventDefault();
+    //        const lineHeight = 10;
+    //        const scale =
+    //            e.deltaMode == 1
+    //                ? lineHeight
+    //                : e.deltaMode == 2
+    //                ? innerHeight
+    //                : 1;
+    //        let inv = invert4(viewMatrix);
+    //        if (e.shiftKey) {
+    //            inv = translate4(
+    //                inv,
+    //                (e.deltaX * scale) / innerWidth,
+    //                (e.deltaY * scale) / innerHeight,
+    //                0,
+    //            );
+    //        } else if (e.ctrlKey || e.metaKey) {
+    //            // inv = rotate4(inv,  (e.deltaX * scale) / innerWidth,  0, 0, 1);
+    //            // inv = translate4(inv,  0, (e.deltaY * scale) / innerHeight, 0);
+    //            // let preY = inv[13];
+    //            inv = translate4(
+    //                inv,
+    //                0,
+    //                0,
+    //                (-10 * (e.deltaY * scale)) / innerHeight,
+    //            );
+    //            // inv[13] = preY;
+    //        } else {
+    //            let d = 4;
+    //            inv = translate4(inv, 0, 0, d);
+    //            inv = rotate4(inv, -(e.deltaX * scale) / innerWidth, 0, 1, 0);
+    //            inv = rotate4(inv, (e.deltaY * scale) / innerHeight, 1, 0, 0);
+    //            inv = translate4(inv, 0, 0, -d);
+    //        }
 
-            viewMatrix = invert4(inv);
-        },
-        { passive: false },
-    );
+    //        viewMatrix = invert4(inv);
+    //    },
+    //    { passive: false },
+    //);
 
     let startX, startY, down;
     canvas.addEventListener("mousedown", (e) => {
@@ -1045,12 +1032,12 @@ async function main() {
             let dx = (5 * (e.clientX - startX)) / innerWidth;
             let dy = (5 * (e.clientY - startY)) / innerHeight;
             
-            console.log(
-                inv[12],
-                inv[13],
-                inv[14],
-                Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2),
-            )            
+            //console.log(
+            //    inv[12],
+            //    inv[13],
+            //    inv[14],
+            //    Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2),
+            //)            
               
             let cam_x = inv[12];
             let cam_y = inv[13];
@@ -1060,11 +1047,11 @@ async function main() {
             let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
             //
 
-            console.log("=======================================================")
-            console.log(viewMatrix)
-            console.log(inv)
-            console.log(d)
-            console.log("=======================================================")
+            //console.log("=======================================================")
+            //console.log(viewMatrix)
+            //console.log(inv)
+            //console.log(d)
+            //console.log("=======================================================")
 
 
             //
@@ -1072,7 +1059,7 @@ async function main() {
             // inv = translate4(inv, cam_x, cam_y, cam_z);
             // inv = pureTranslate4(inv, -cam_x, -cam_y, -cam_z);
             //
-            console.log(inv)
+            //console.log(inv)
             inv = rotate4(inv, dx, 0, 1, 0);
             inv = rotate4(inv, -dy, 1, 0, 0);
 
@@ -1145,7 +1132,13 @@ async function main() {
                 let dx = (4 * (e.touches[0].clientX - startX)) / innerWidth;
                 let dy = (4 * (e.touches[0].clientY - startY)) / innerHeight;
 
-                let d = 4;
+                //let d = 4;
+								//juil: fix the distance.
+								let cam_x = inv[12];
+								let cam_y = inv[13];
+								let cam_z = inv[14];
+								let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
+
                 inv = translate4(inv, 0, 0, d);
                 // inv = translate4(inv,  -x, -y, -z);
                 // inv = translate4(inv,  x, y, z);
@@ -1157,47 +1150,48 @@ async function main() {
 
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
-            } else if (e.touches.length === 2) {
-                // alert('beep')
-                const dtheta =
-                    Math.atan2(startY - altY, startX - altX) -
-                    Math.atan2(
-                        e.touches[0].clientY - e.touches[1].clientY,
-                        e.touches[0].clientX - e.touches[1].clientX,
-                    );
-                const dscale =
-                    Math.hypot(startX - altX, startY - altY) /
-                    Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY,
-                    );
-                const dx =
-                    (e.touches[0].clientX +
-                        e.touches[1].clientX -
-                        (startX + altX)) /
-                    2;
-                const dy =
-                    (e.touches[0].clientY +
-                        e.touches[1].clientY -
-                        (startY + altY)) /
-                    2;
-                let inv = invert4(viewMatrix);
-                // inv = translate4(inv,  0, 0, d);
-                inv = rotate4(inv, dtheta, 0, 0, 1);
+            } 
+					//else if (e.touches.length === 2) {
+          //      // alert('beep')
+          //      const dtheta =
+          //          Math.atan2(startY - altY, startX - altX) -
+          //          Math.atan2(
+          //              e.touches[0].clientY - e.touches[1].clientY,
+          //              e.touches[0].clientX - e.touches[1].clientX,
+          //          );
+          //      const dscale =
+          //          Math.hypot(startX - altX, startY - altY) /
+          //          Math.hypot(
+          //              e.touches[0].clientX - e.touches[1].clientX,
+          //              e.touches[0].clientY - e.touches[1].clientY,
+          //          );
+          //      const dx =
+          //          (e.touches[0].clientX +
+          //              e.touches[1].clientX -
+          //              (startX + altX)) /
+          //          2;
+          //      const dy =
+          //          (e.touches[0].clientY +
+          //              e.touches[1].clientY -
+          //              (startY + altY)) /
+          //          2;
+          //      let inv = invert4(viewMatrix);
+          //      // inv = translate4(inv,  0, 0, d);
+          //      inv = rotate4(inv, dtheta, 0, 0, 1);
 
-                inv = translate4(inv, -dx / innerWidth, -dy / innerHeight, 0);
+          //      inv = translate4(inv, -dx / innerWidth, -dy / innerHeight, 0);
 
-                // let preY = inv[13];
-                inv = translate4(inv, 0, 0, 3 * (1 - dscale));
-                // inv[13] = preY;
+          //      // let preY = inv[13];
+          //      inv = translate4(inv, 0, 0, 3 * (1 - dscale));
+          //      // inv[13] = preY;
 
-                viewMatrix = invert4(inv);
+          //      viewMatrix = invert4(inv);
 
-                startX = e.touches[0].clientX;
-                altX = e.touches[1].clientX;
-                startY = e.touches[0].clientY;
-                altY = e.touches[1].clientY;
-            }
+          //      startX = e.touches[0].clientX;
+          //      altX = e.touches[1].clientX;
+          //      startY = e.touches[0].clientY;
+          //      altY = e.touches[1].clientY;
+          //  }
         },
         { passive: false },
     );
@@ -1407,10 +1401,10 @@ async function main() {
         } else {
             document.getElementById("progress").style.display = "none";
         }
-        fps.innerText = Math.round(avgFps) + " fps";
-        if (isNaN(currentCameraIndex)){
-            camid.innerText = "";
-        }
+        //fps.innerText = Math.round(avgFps) + " fps";
+        //if (isNaN(currentCameraIndex)){
+        //    camid.innerText = "";
+        //}
         lastFrame = now;
         requestAnimationFrame(frame);
     };
@@ -1438,7 +1432,7 @@ async function main() {
             stopLoading = true;
             fr.onload = () => {
                 splatData = new Uint8Array(fr.result);
-                console.log("Loaded", Math.floor(splatData.length / rowLength));
+                //console.log("Loaded", Math.floor(splatData.length / rowLength));
 
                 if (
                     splatData[0] == 112 &&
@@ -1507,5 +1501,5 @@ async function main() {
 
 main().catch((err) => {
     document.getElementById("spinner").style.display = "none";
-    document.getElementById("message").innerText = err.toString();
+    //document.getElementById("message").innerText = err.toString();
 });

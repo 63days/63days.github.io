@@ -2,15 +2,12 @@
  JUIL's publication style
  ==========================*/
 
-article.publication header {
-	font-size: $type-size-6;
-	margin-bottom: 5px;
-}
+article.publication header,
 article.publication authors,
 article.publication conference,
 article.publication p,
 article.publication links {
-	font-size: $type-size-6;
+	font-size: $content-font-size;
 	margin-top: 0px;
 	margin-bottom: 5px;
 	padding-top: 0px;
@@ -44,7 +41,7 @@ article.publication desc-cell {
 	flex: 1;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 900px) {
 	article.publication publication-cell {
 		flex-direction: column;
 		/* Stacks elrements vertically */
@@ -84,9 +81,9 @@ article.publication desc-cell {
 }
 
 .bio {
-	font-size: $type-size-6;
+	font-size: $content-font-size;
 }
 
 .news {
-	font-size: $type-size-6;
+	font-size: $content-font-size;
 }
