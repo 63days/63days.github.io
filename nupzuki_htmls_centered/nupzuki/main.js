@@ -15,145 +15,21 @@ let cameras = [
         fy: 1164.6601287484507,
         fx: 1159.5880733038064,
     },
-    {
-        id: 1,
-        img_name: "00009",
-        width: 1959,
-        height: 1090,
-        position: [
-            -2.5199776022057296, -0.09704735754873686, -3.6247725540304545,
-        ],
-        rotation: [
-            [0.9982731285632193, -0.011928707708098955, -0.05751927260507243],
-            [0.0065061360949636325, 0.9955928229282383, -0.09355533724430458],
-            [0.058381769258182864, 0.09301955098900708, 0.9939511719154457],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 2,
-        img_name: "00017",
-        width: 1959,
-        height: 1090,
-        position: [
-            -0.7737533667465242, -0.3364271945329695, -2.9358969417573753,
-        ],
-        rotation: [
-            [0.9998813418672372, 0.013742375651625236, -0.0069605529394208224],
-            [-0.014268370388586709, 0.996512943252834, -0.08220929105659476],
-            [0.00580653013657589, 0.08229885200307129, 0.9965907801935302],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 3,
-        img_name: "00025",
-        width: 1959,
-        height: 1090,
-        position: [
-            1.2198221749590001, -0.2196687861401182, -2.3183162007028453,
-        ],
-        rotation: [
-            [0.9208648867765482, 0.0012010625395201253, 0.389880004297208],
-            [-0.06298204172269357, 0.987319521752825, 0.14571693239364383],
-            [-0.3847611242348369, -0.1587410451475895, 0.9092635249821667],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 4,
-        img_name: "00033",
-        width: 1959,
-        height: 1090,
-        position: [
-            1.742387858893817, -0.13848225198886954, -2.0566370113193146,
-        ],
-        rotation: [
-            [0.24669889292141334, -0.08370189346592856, -0.9654706879349405],
-            [0.11343747891376445, 0.9919082664242816, -0.05700815184573074],
-            [0.9624300466054861, -0.09545671285663988, 0.2541976029815521],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 5,
-        img_name: "00041",
-        width: 1959,
-        height: 1090,
-        position: [
-            3.6567309419223935, -0.16470990600750707, -1.3458085590422042,
-        ],
-        rotation: [
-            [0.2341293058324528, -0.02968330457755884, -0.9717522161434825],
-            [0.10270823606832301, 0.99469554638321, -0.005638106875665722],
-            [0.9667649592295676, -0.09848690996657204, 0.2359360976431732],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 6,
-        img_name: "00049",
-        width: 1959,
-        height: 1090,
-        position: [
-            3.9013554243203497, -0.2597500978038105, -0.8106154188297828,
-        ],
-        rotation: [
-            [0.6717235545638952, -0.015718162115524837, -0.7406351366386528],
-            [0.055627354673906296, 0.9980224478387622, 0.029270992841185218],
-            [0.7387104058127439, -0.060861588786650656, 0.6712695459756353],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 7,
-        img_name: "00057",
-        width: 1959,
-        height: 1090,
-        position: [4.742994605467533, -0.05591660945412069, 0.9500365976084458],
-        rotation: [
-            [-0.17042655709210375, 0.01207080756938, -0.9852964448542146],
-            [0.1165090336695526, 0.9931575292530063, -0.00798543433078162],
-            [0.9784581921120181, -0.1161568667478904, -0.1706667764862097],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 8,
-        img_name: "00065",
-        width: 1959,
-        height: 1090,
-        position: [4.34676307626522, 0.08168160516967145, 1.0876221470355405],
-        rotation: [
-            [-0.003575447631888379, -0.044792503246552894, -0.9989899137764799],
-            [0.10770152645126597, 0.9931680875192705, -0.04491693593046672],
-            [0.9941768441149182, -0.10775333677534978, 0.0012732004866391048],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
-    {
-        id: 9,
-        img_name: "00073",
-        width: 1959,
-        height: 1090,
-        position: [3.264984351114202, 0.078974937336732, 1.0117200284114904],
-        rotation: [
-            [-0.026919994628162257, -0.1565891128261527, -0.9872968974090509],
-            [0.08444552208239385, 0.983768234577625, -0.1583319754069128],
-            [0.9960643893290491, -0.0876350978794554, -0.013259786205163005],
-        ],
-        fy: 1164.6601287484507,
-        fx: 1159.5880733038064,
-    },
 ];
+
+
+function calculateCentroid(splatData) {
+    let totalPoints = splatData.length / 8; // Each vertex has 8 floats
+    let sumX = 0, sumY = 0, sumZ = 0;
+
+    for (let i = 0; i < totalPoints; i++) {
+        sumX += splatData[8 * i + 0]; // X coordinate
+        sumY += splatData[8 * i + 1]; // Y coordinate
+        sumZ += splatData[8 * i + 2]; // Z coordinate
+    }
+
+    return [sumX / totalPoints, sumY / totalPoints, sumZ / totalPoints]; // The centroid
+}
 
 let camera = cameras[0];
 
@@ -167,22 +43,77 @@ function getProjectionMatrix(fx, fy, width, height) {
         [0, 0, -(zfar * znear) / (zfar - znear), 0],
     ].flat();
 }
+function viewMatrix2Cam(cam2worldMatrix) {
+	const position = [
+        cam2worldMatrix[12], // X position
+        cam2worldMatrix[13], // Y position
+        cam2worldMatrix[14], // Z position
+    ];
 
+	// Step 2: Extract the rotation matrix (top-left 3x3 part of the matrix)
+	const rotation = [
+			[cam2worldMatrix[0], cam2worldMatrix[1], cam2worldMatrix[2]],
+			[cam2worldMatrix[4], cam2worldMatrix[5], cam2worldMatrix[6]],
+			[cam2worldMatrix[8], cam2worldMatrix[9], cam2worldMatrix[10]],
+	];
+	return position, rotation
+}
 function getViewMatrix(camera) {
-    const R = camera.rotation.flat();
-    const t = camera.position;
-    const camToWorld = [
-        [R[0], R[1], R[2], 0],
-        [R[3], R[4], R[5], 0],
-        [R[6], R[7], R[8], 0],
-        [
-            -t[0] * R[0] - t[1] * R[3] - t[2] * R[6],
-            -t[0] * R[1] - t[1] * R[4] - t[2] * R[7],
-            -t[0] * R[2] - t[1] * R[5] - t[2] * R[8],
-            1,
-        ],
-    ].flat();
-    return camToWorld;
+	const eye = camera.position;
+	const target = [0,0,0];
+	const up = [0,1,0];
+
+	let forward = [
+		target[0] - eye[0],
+		target[1] - eye[1],
+		target[2] - eye[2]
+	];
+	let forwardLen = Math.hypot(...forward);
+	forward = forward.map(x => x / forwardLen);
+    // Compute right vector as the cross product of forward and up vectors
+	let right = [
+			forward[1] * up[2] - forward[2] * up[1],
+			forward[2] * up[0] - forward[0] * up[2],
+			forward[0] * up[1] - forward[1] * up[0]
+	];
+	let rightLen = Math.hypot(...right);
+	right = right.map(x => x / rightLen);  // Normalize right vector
+
+	// Compute the new up vector as the cross product of right and forward
+	let adjustedUp = [
+			right[1] * forward[2] - right[2] * forward[1],
+			right[2] * forward[0] - right[0] * forward[2],
+			right[0] * forward[1] - right[1] * forward[0]
+	];
+
+	// Create the view matrix (camera to world transformation)
+	let viewMatrix = [
+			right[0], adjustedUp[0], -forward[0], 0,
+			right[1], adjustedUp[1], -forward[1], 0,
+			right[2], adjustedUp[2], -forward[2], 0,
+			-(right[0] * eye[0] + right[1] * eye[1] + right[2] * eye[2]),
+			-(adjustedUp[0] * eye[0] + adjustedUp[1] * eye[1] + adjustedUp[2] * eye[2]),
+			forward[0] * eye[0] + forward[1] * eye[1] + forward[2] * eye[2], 1
+	];
+
+	return viewMatrix;
+		// previous code juil
+    //const R = camera.rotation.flat();
+    //const t = camera.position;
+    //const camToWorld = [
+    //    [R[0], R[1], R[2], 0],
+    //    [R[3], R[4], R[5], 0],
+    //    [R[6], R[7], R[8], 0],
+    //    [
+    //        -t[0] * R[0] - t[1] * R[3] - t[2] * R[6],
+    //        -t[0] * R[1] - t[1] * R[4] - t[2] * R[7],
+    //        -t[0] * R[2] - t[1] * R[5] - t[2] * R[8],
+    //        1,
+    //    ],
+    //].flat();
+    //return camToWorld;
+
+
 }
 // function translate4(a, x, y, z) {
 //     return [
@@ -250,7 +181,6 @@ function invert4(a) {
         (a[8] * b03 - a[9] * b01 + a[10] * b00) / det,
     ];
 }
-
 function rotate4(a, rad, x, y, z) {
     let len = Math.hypot(x, y, z);
     x /= len;
@@ -259,30 +189,56 @@ function rotate4(a, rad, x, y, z) {
     let s = Math.sin(rad);
     let c = Math.cos(rad);
     let t = 1 - c;
-    let b00 = x * x * t + c;
-    let b01 = y * x * t + z * s;
-    let b02 = z * x * t - y * s;
-    let b10 = x * y * t - z * s;
-    let b11 = y * y * t + c;
-    let b12 = z * y * t + x * s;
-    let b20 = x * z * t + y * s;
-    let b21 = y * z * t - x * s;
-    let b22 = z * z * t + c;
-    return [
-        a[0] * b00 + a[4] * b01 + a[8] * b02,
-        a[1] * b00 + a[5] * b01 + a[9] * b02,
-        a[2] * b00 + a[6] * b01 + a[10] * b02,
-        a[3] * b00 + a[7] * b01 + a[11] * b02,
-        a[0] * b10 + a[4] * b11 + a[8] * b12,
-        a[1] * b10 + a[5] * b11 + a[9] * b12,
-        a[2] * b10 + a[6] * b11 + a[10] * b12,
-        a[3] * b10 + a[7] * b11 + a[11] * b12,
-        a[0] * b20 + a[4] * b21 + a[8] * b22,
-        a[1] * b20 + a[5] * b21 + a[9] * b22,
-        a[2] * b20 + a[6] * b21 + a[10] * b22,
-        a[3] * b20 + a[7] * b21 + a[11] * b22,
-        ...a.slice(12, 16),
-    ];
+		let rotationMatrix = [
+						t * x * x + c,        t * x * y + z * s,    t * x * z - y * s,   0,
+						t * x * y - z * s,    t * y * y + c,        t * y * z + x * s,   0,
+						t * x * z + y * s,    t * y * z - x * s,    t * z * z + c,       0,
+						0,                    0,                    0,                  1,
+				];
+    // Step 4: Extract the camera position from the transformation matrix (a)
+    let cam_x = a[12];
+    let cam_y = a[13];
+    let cam_z = a[14];
+
+    // Step 5: Translate the camera to the origin (set position to 0)
+    a[12] = 0;
+    a[13] = 0;
+    a[14] = 0;
+
+    // Step 6: Multiply the current matrix by the rotation matrix (apply the rotation)
+    let resultMatrix = multiply4(a, rotationMatrix);
+
+    // Step 7: Translate the camera back to its original position (restore translation)
+    resultMatrix[12] = cam_x;
+    resultMatrix[13] = cam_y;
+    resultMatrix[14] = cam_z;
+
+    return resultMatrix;
+
+    //let b00 = x * x * t + c;
+    //let b01 = y * x * t + z * s;
+    //let b02 = z * x * t - y * s;
+    //let b10 = x * y * t - z * s;
+    //let b11 = y * y * t + c;
+    //let b12 = z * y * t + x * s;
+    //let b20 = x * z * t + y * s;
+    //let b21 = y * z * t - x * s;
+    //let b22 = z * z * t + c;
+    //return [
+    //    a[0] * b00 + a[4] * b01 + a[8] * b02,
+    //    a[1] * b00 + a[5] * b01 + a[9] * b02,
+    //    a[2] * b00 + a[6] * b01 + a[10] * b02,
+    //    a[3] * b00 + a[7] * b01 + a[11] * b02,
+    //    a[0] * b10 + a[4] * b11 + a[8] * b12,
+    //    a[1] * b10 + a[5] * b11 + a[9] * b12,
+    //    a[2] * b10 + a[6] * b11 + a[10] * b12,
+    //    a[3] * b10 + a[7] * b11 + a[11] * b12,
+    //    a[0] * b20 + a[4] * b21 + a[8] * b22,
+    //    a[1] * b20 + a[5] * b21 + a[9] * b22,
+    //    a[2] * b20 + a[6] * b21 + a[10] * b22,
+    //    a[3] * b20 + a[7] * b21 + a[11] * b22,
+    //    ...a.slice(12, 16),
+    //];
 }
 
 function translate4(a, x, y, z) {
@@ -291,7 +247,8 @@ function translate4(a, x, y, z) {
         a[0] * x + a[4] * y + a[8] * z + a[12],
         a[1] * x + a[5] * y + a[9] * z + a[13],
         a[2] * x + a[6] * y + a[10] * z + a[14],
-        a[3] * x + a[7] * y + a[11] * z + a[15],
+				1,
+        //a[3] * x + a[7] * y + a[11] * z + a[15],
     ];
 }
 
@@ -731,31 +688,38 @@ void main () {
 
 `.trim();
 
-//let defaultViewMatrix = [
-//    0.7149813783807665, 0.001274576727314298, -0.6991423345949099, 0,
-//    -0.008715746487168118, 0.99993688000384, -0.007090258901065894, 0,
-//    0.6990891676544845, 0.011162950428943904, 0.7149473576465687, -0,
-//    0.009698117452394524, 0.23767216996073245, 4.200771851259573, 0.999999999999857]
-//;
-
-//let defaultViewMatrix = [0.7250955142200447, 0.0008016819724615412, -0.688647843650053, 0, -0.01014773861509558, 0.9999031842389345, -0.009520795647188425, 0, 0.6885735390347866, 0.013891704530799421, 0.7250334488051707, -0, 0.00948765389242452, 0.23755559636115942, 7.300289475630149, 0.9999999999998535];
-
-let defaultViewMatrix = [0.6964256086171294, 0.0008016819724612522, -0.7176285452573338, 0, -0.0105273482816454, 0.9999031842389363, -0.009099290462050364, 0, 0.7175517727665134, 0.013891704530799812, 0.6963666232272068, -0, 0.009322030091387287, 0.2375555963611552, 9.599906000611217, 0.9999999999998537];
+let defaultViewMatrix = [0.6964256086171294, 0.0008016819724612522, -0.7176285452573338, 0, 
+	-0.0105273482816454, 0.9999031842389363, -0.009099290462050364, 0, 
+	0.7175517727665134, 0.013891704530799812, 0.6963666232272068, 0, 
+	0.0, 0.2, 9.8, 1];
 let viewMatrix = defaultViewMatrix;
+let idleTime = 0;
+let idleLimit = 2500;
+let idleTimer;
+let carousel = true; //juil
+  
 async function main() {
-    // let carousel = false; //juil
-    let carousel = true; //juil
+  // let carousel = false; //juil
+		function resetIdleTimer() {
+			clearTimeout(idleTimer);
+			idleTime = 0;
+			idleTimer = setTimeout(() => {
+				startCarousel();
+			}, idleLimit);
+		}
+		function startCarousel() {
+			carousel = true;
+		}
+		function stopCarousel() {
+			if (carousel) {carousel = false;}
+		}
     const params = new URLSearchParams(location.search);
     try {
         viewMatrix = JSON.parse(decodeURIComponent(location.hash.slice(1)));
         carousel = false;
     } catch (err) {}
     const url = new URL(
-        // "nike.splat",
-        // location.href,
-        //params.get("url") || "train.splat",
         params.get("url") || "gs_nerfzooki.splat",
-        //"https://huggingface.co/cakewalk/splat-data/resolve/main/",
 			  "https://huggingface.co/datasets/63days/splat/resolve/main/",
     );
     const req = await fetch(url, {
@@ -772,8 +736,8 @@ async function main() {
 
     const downsample =
         splatData.length / rowLength > 500000 ? 1 : 1 / devicePixelRatio;
-    console.log(splatData.length / rowLength, downsample);
-
+    //console.log(splatData.length / rowLength, downsample);
+	
     const worker = new Worker(
         URL.createObjectURL(
             new Blob(["(", createWorker.toString(), ")(self)"], {
@@ -927,86 +891,9 @@ async function main() {
     let activeKeys = [];
 	let currentCameraIndex = 0;
 
-    //window.addEventListener("keydown", (e) => {
-    //    // if (document.activeElement != document.body) return;
-    //    carousel = false;
-    //    if (!activeKeys.includes(e.code)) activeKeys.push(e.code);
-    //    if (/\d/.test(e.key)) {
-    //        currentCameraIndex = parseInt(e.key)
-    //        camera = cameras[currentCameraIndex];
-    //        viewMatrix = getViewMatrix(camera);
-    //    }
-		//if (['-', '_'].includes(e.key)){
-		//  currentCameraIndex = (currentCameraIndex + cameras.length - 1) % cameras.length;
-		//  viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
-		//}
-		//if (['+', '='].includes(e.key)){
-		//  currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
-		//  viewMatrix = getViewMatrix(cameras[currentCameraIndex]);
-		//}
-    //    //camid.innerText = "cam  " + currentCameraIndex;
-    //    if (e.code == "KeyV") {
-    //        location.hash =
-    //            "#" +
-    //            JSON.stringify(
-    //                viewMatrix.map((k) => Math.round(k * 100) / 100),
-    //            );
-    //            //camid.innerText =""
-    //    } else if (e.code === "KeyP") {
-    //        carousel = true;
-    //        //camid.innerText =""
-    //    }
-    //});
-    //window.addEventListener("keyup", (e) => {
-    //    activeKeys = activeKeys.filter((k) => k !== e.code);
-    //});
     window.addEventListener("blur", () => {
         activeKeys = [];
     });
-
-    //window.addEventListener(
-    //    "wheel",
-    //    (e) => {
-    //        carousel = false;
-    //        e.preventDefault();
-    //        const lineHeight = 10;
-    //        const scale =
-    //            e.deltaMode == 1
-    //                ? lineHeight
-    //                : e.deltaMode == 2
-    //                ? innerHeight
-    //                : 1;
-    //        let inv = invert4(viewMatrix);
-    //        if (e.shiftKey) {
-    //            inv = translate4(
-    //                inv,
-    //                (e.deltaX * scale) / innerWidth,
-    //                (e.deltaY * scale) / innerHeight,
-    //                0,
-    //            );
-    //        } else if (e.ctrlKey || e.metaKey) {
-    //            // inv = rotate4(inv,  (e.deltaX * scale) / innerWidth,  0, 0, 1);
-    //            // inv = translate4(inv,  0, (e.deltaY * scale) / innerHeight, 0);
-    //            // let preY = inv[13];
-    //            inv = translate4(
-    //                inv,
-    //                0,
-    //                0,
-    //                (-10 * (e.deltaY * scale)) / innerHeight,
-    //            );
-    //            // inv[13] = preY;
-    //        } else {
-    //            let d = 4;
-    //            inv = translate4(inv, 0, 0, d);
-    //            inv = rotate4(inv, -(e.deltaX * scale) / innerWidth, 0, 1, 0);
-    //            inv = rotate4(inv, (e.deltaY * scale) / innerHeight, 1, 0, 0);
-    //            inv = translate4(inv, 0, 0, -d);
-    //        }
-
-    //        viewMatrix = invert4(inv);
-    //    },
-    //    { passive: false },
-    //);
 
     let startX, startY, down;
     canvas.addEventListener("mousedown", (e) => {
@@ -1025,68 +912,38 @@ async function main() {
     });
 
     canvas.addEventListener("mousemove", (e) => {
+				resetIdleTimer();
         e.preventDefault();
         if (down == 1) {
 
-            let inv = invert4(viewMatrix);
-            let dx = (5 * (e.clientX - startX)) / innerWidth;
+            let inv = invert4(viewMatrix); 
+						let dx = (5 * (e.clientX - startX)) / innerWidth;
             let dy = (5 * (e.clientY - startY)) / innerHeight;
-            
-            //console.log(
-            //    inv[12],
-            //    inv[13],
-            //    inv[14],
-            //    Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2),
-            //)            
               
             let cam_x = inv[12];
             let cam_y = inv[13];
             let cam_z = inv[14];
-            //
+
             // let d = 4;
             let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
             //
 
-            //console.log("=======================================================")
-            //console.log(viewMatrix)
-            //console.log(inv)
-            //console.log(d)
-            //console.log("=======================================================")
-
-
-            //
             inv = translate4(inv, 0, 0, d);
-            // inv = translate4(inv, cam_x, cam_y, cam_z);
-            // inv = pureTranslate4(inv, -cam_x, -cam_y, -cam_z);
-            //
-            //console.log(inv)
             inv = rotate4(inv, dx, 0, 1, 0);
             inv = rotate4(inv, -dy, 1, 0, 0);
-
-            //
             inv = translate4(inv, 0, 0, -d);
-            // inv = translate4(inv, -cam_x, -cam_y, -cam_z);
-            // inv = pureTranslate4(inv, cam_x, cam_y, cam_z);
-            //
-
-            // let postAngle = Math.atan2(inv[0], inv[10])
-            // inv = rotate4(inv, postAngle - preAngle, 0, 0, 1)
-            // console.log(postAngle)            
             viewMatrix = invert4(inv);
 
             startX = e.clientX;
             startY = e.clientY;
         } else if (down == 2) {
             let inv = invert4(viewMatrix);
-            // inv = rotateY(inv, );
-            // let preY = inv[13];
             inv = translate4(
                 inv,
                 (-10 * (e.clientX - startX)) / innerWidth,
                 0,
                 (10 * (e.clientY - startY)) / innerHeight,
             );
-            // inv[13] = preY;
             viewMatrix = invert4(inv);
 
             startX = e.clientX;
@@ -1126,73 +983,29 @@ async function main() {
     canvas.addEventListener(
         "touchmove",
         (e) => {
+						resetIdleTimer();
             e.preventDefault();
             if (e.touches.length === 1 && down) {
                 let inv = invert4(viewMatrix);
                 let dx = (4 * (e.touches[0].clientX - startX)) / innerWidth;
                 let dy = (4 * (e.touches[0].clientY - startY)) / innerHeight;
 
-                //let d = 4;
-								//juil: fix the distance.
 								let cam_x = inv[12];
 								let cam_y = inv[13];
 								let cam_z = inv[14];
 								let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
-
-                inv = translate4(inv, 0, 0, d);
-                // inv = translate4(inv,  -x, -y, -z);
-                // inv = translate4(inv,  x, y, z);
+								inv = translate4(inv, 0, 0, d);
                 inv = rotate4(inv, dx, 0, 1, 0);
                 inv = rotate4(inv, -dy, 1, 0, 0);
-                inv = translate4(inv, 0, 0, -d);
+								inv = translate4(inv, 0, 0, -d);
 
                 viewMatrix = invert4(inv);
 
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
             } 
-					//else if (e.touches.length === 2) {
-          //      // alert('beep')
-          //      const dtheta =
-          //          Math.atan2(startY - altY, startX - altX) -
-          //          Math.atan2(
-          //              e.touches[0].clientY - e.touches[1].clientY,
-          //              e.touches[0].clientX - e.touches[1].clientX,
-          //          );
-          //      const dscale =
-          //          Math.hypot(startX - altX, startY - altY) /
-          //          Math.hypot(
-          //              e.touches[0].clientX - e.touches[1].clientX,
-          //              e.touches[0].clientY - e.touches[1].clientY,
-          //          );
-          //      const dx =
-          //          (e.touches[0].clientX +
-          //              e.touches[1].clientX -
-          //              (startX + altX)) /
-          //          2;
-          //      const dy =
-          //          (e.touches[0].clientY +
-          //              e.touches[1].clientY -
-          //              (startY + altY)) /
-          //          2;
-          //      let inv = invert4(viewMatrix);
-          //      // inv = translate4(inv,  0, 0, d);
-          //      inv = rotate4(inv, dtheta, 0, 0, 1);
-
-          //      inv = translate4(inv, -dx / innerWidth, -dy / innerHeight, 0);
-
-          //      // let preY = inv[13];
-          //      inv = translate4(inv, 0, 0, 3 * (1 - dscale));
-          //      // inv[13] = preY;
-
-          //      viewMatrix = invert4(inv);
-
-          //      startX = e.touches[0].clientX;
-          //      altX = e.touches[1].clientX;
-          //      startY = e.touches[0].clientY;
-          //      altY = e.touches[1].clientY;
-          //  }
         },
+
         { passive: false },
     );
     canvas.addEventListener(
@@ -1227,34 +1040,34 @@ async function main() {
 
     const frame = (now) => {
         let inv = invert4(viewMatrix);
-        let shiftKey = activeKeys.includes("Shift") || activeKeys.includes("ShiftLeft") || activeKeys.includes("ShiftRight")
+        //let shiftKey = activeKeys.includes("Shift") || activeKeys.includes("ShiftLeft") || activeKeys.includes("ShiftRight")
 
-        if (activeKeys.includes("ArrowUp")) {
-            if (shiftKey) {
-                inv = translate4(inv, 0, -0.03, 0);
-            } else {
-                inv = translate4(inv, 0, 0, 0.1);
-            }
-        }
-        if (activeKeys.includes("ArrowDown")) {
-            if (shiftKey) {
-                inv = translate4(inv, 0, 0.03, 0);
-            } else {
-                inv = translate4(inv, 0, 0, -0.1);
-            }
-        }
-        if (activeKeys.includes("ArrowLeft"))
-            inv = translate4(inv, -0.03, 0, 0);
-        //
-        if (activeKeys.includes("ArrowRight"))
-            inv = translate4(inv, 0.03, 0, 0);
+        //if (activeKeys.includes("ArrowUp")) {
+        //    if (shiftKey) {
+        //        inv = translate4(inv, 0, -0.03, 0);
+        //    } else {
+        //        inv = translate4(inv, 0, 0, 0.1);
+        //    }
+        //}
+        //if (activeKeys.includes("ArrowDown")) {
+        //    if (shiftKey) {
+        //        inv = translate4(inv, 0, 0.03, 0);
+        //    } else {
+        //        inv = translate4(inv, 0, 0, -0.1);
+        //    }
+        //}
+        //if (activeKeys.includes("ArrowLeft"))
+        //    inv = translate4(inv, -0.03, 0, 0);
+        ////
+        //if (activeKeys.includes("ArrowRight"))
+        //    inv = translate4(inv, 0.03, 0, 0);
         // inv = rotate4(inv, 0.01, 0, 1, 0);
-        if (activeKeys.includes("KeyA")) inv = rotate4(inv, -0.01, 0, 1, 0);
-        if (activeKeys.includes("KeyD")) inv = rotate4(inv, 0.01, 0, 1, 0);
-        if (activeKeys.includes("KeyQ")) inv = rotate4(inv, 0.01, 0, 0, 1);
-        if (activeKeys.includes("KeyE")) inv = rotate4(inv, -0.01, 0, 0, 1);
-        if (activeKeys.includes("KeyW")) inv = rotate4(inv, 0.005, 1, 0, 0);
-        if (activeKeys.includes("KeyS")) inv = rotate4(inv, -0.005, 1, 0, 0);
+        //if (activeKeys.includes("KeyA")) inv = rotate4(inv, -0.01, 0, 1, 0);
+        //if (activeKeys.includes("KeyD")) inv = rotate4(inv, 0.01, 0, 1, 0);
+        //if (activeKeys.includes("KeyQ")) inv = rotate4(inv, 0.01, 0, 0, 1);
+        //if (activeKeys.includes("KeyE")) inv = rotate4(inv, -0.01, 0, 0, 1);
+        //if (activeKeys.includes("KeyW")) inv = rotate4(inv, 0.005, 1, 0, 0);
+        //if (activeKeys.includes("KeyS")) inv = rotate4(inv, -0.005, 1, 0, 0);
 
         const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
         let isJumping = activeKeys.includes("Space");
@@ -1357,12 +1170,9 @@ async function main() {
 
             const t = Math.sin((Date.now() - start) / 1000);
 
-            //
-            // inv = translate4(inv, 2.5 * t, 0, 6 * (1 - Math.cos(t)));
             let d = Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2);
-            inv = translate4(inv, 0, 0, d);
-            //
-            inv = rotate4(inv, -0.6 * t, 0, 1, 0);
+						inv = translate4(inv, 0, 0, d);
+            inv = rotate4(inv, -Math.PI/3*t, 0, 1, 0);
             inv = translate4(inv, 0, 0, -d);
 
             viewMatrix = invert4(inv);
@@ -1401,10 +1211,6 @@ async function main() {
         } else {
             document.getElementById("progress").style.display = "none";
         }
-        //fps.innerText = Math.round(avgFps) + " fps";
-        //if (isNaN(currentCameraIndex)){
-        //    camid.innerText = "";
-        //}
         lastFrame = now;
         requestAnimationFrame(frame);
     };

@@ -1,6 +1,7 @@
 ---
 layout: archive
 ---
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
 	.box {
@@ -29,9 +30,10 @@ layout: archive
 			transform: translateY(-50%);
 			background-color: #252a34; /*rgba(0, 0, 0, 0.5);*/
 			color: white;
+			font-size: 18px;
 			border: 2px solid white;
-			border-radius: 10%;
-			padding: 10px 20px;
+			border-radius: 50%;
+			padding: 10px;
 			cursor: pointer;
 			z-index: 10;
 		}
@@ -51,16 +53,15 @@ layout: archive
 <p class="bio">
 	I am Juil Koo, a second-year PhD student in the <a href="https://visualai.kaist.ac.kr/" target="_blank">KAIST Visual
 		AI Group</a>, led by Prof. <a href="https://mhsung.github.io/" target="_blank">Minhyuk
-		Sung</a>. This summer, I joined <a href="https://research.adobe.com/" target="_blank">Adobe
-		Research</a> as an intern, closely collaborating with <a href="https://www.duygu-ceylan.com/" target="_blank">Duygu
+		Sung</a>. In summer 2024, I interned at  <a href="https://research.adobe.com/" target="_blank">Adobe
+		Research</a>, closely collaborating with <a href="https://www.duygu-ceylan.com/" target="_blank">Duygu
 		Ceylan</a>, <a href="https://paulguerrero.net/" target="_blank">Paul Guerrero</a> and <a
 		href="https://research.adobe.com/person/paulchhuang/" target="_blank">Chun-Hao Huang</a>.
 </p>
 <p class="bio">
 	My research interests primarily revolve around stochastic differential equations and 3D
-	geometry. Recently, I've been focusing on understanding and leveraging the rich prior of diffusion models to unlock
-	their potential in diverse applications. Prior to this, I mainly worked on the intersection between 3D geometry and
-	language. My research aims to address practical problrems through theoretical insights.
+	geometry. Recently, I've been focusing on understanding the underlying fundamentals of diffusion models and leveraging their rich priors to unlock their potential in diverse applications. Prior to this, I mainly worked on the intersection between 3D geometry and
+	language. I aim to address practical problems through theoretical insights.
 </p>
 <p class="bio">
 	My <a href="https://en.wikipedia.org/wiki/Erd%C5%91s_number" target="_blank">Erdős
@@ -84,8 +85,12 @@ layout: archive
 		style="display: block;"></iframe>
 	<iframe class="iframe" id="iframe2" width="100%" height="240em" src="../nupzuki_htmls_centered/duck_nupzuki/index.html" frameborder="0"
 		scrolling="no" style="display: none;"></iframe>
-	<button class="gallery_prev" onclick="prevIframe()">Prev</button>
-	<button class="gallery_next" onclick="nextIframe()">Next</button>
+	<button class="gallery_prev" onclick="prevIframe()">
+		<i class="fas fa-arrow-left"></i>
+	</button>
+	<button class="gallery_next" onclick="nextIframe()">
+		<i class="fas fa-arrow-right"></i>
+	</button>
 </div>
 
 <h3 class="archive__subtitle">News</h3>
@@ -320,7 +325,6 @@ layout: archive
 
 	function showIframe(iframeNumber) {
 			var iframes = document.querySelectorAll('.iframe');
-			console.log(iframes)
 			iframes.forEach(item => item.style.display = "none");
 			document.getElementById('iframe' + iframeNumber).style.display = 'block';
 	}
