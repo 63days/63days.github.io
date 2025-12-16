@@ -20,30 +20,35 @@ layout: archive
 	.img-container {
 		text-align: center;
 	}
+
 	.iframe-container {
-			position: relative;
-			width: 100%;
-		}
-	.gallery_prev, .gallery_next {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			background-color: #252a34; /*rgba(0, 0, 0, 0.5);*/
-			color: white;
-			font-size: 18px;
-			border: 2px solid white;
-			border-radius: 50%;
-			padding: 10px;
-			cursor: pointer;
-			z-index: 10;
-		}
+		position: relative;
+		width: 100%;
+	}
+
+	.gallery_prev,
+	.gallery_next {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background-color: #252a34;
+		/*rgba(0, 0, 0, 0.5);*/
+		color: white;
+		font-size: 18px;
+		border: 2px solid white;
+		border-radius: 50%;
+		padding: 10px;
+		cursor: pointer;
+		z-index: 10;
+	}
+
 	.gallery_prev {
 		left: 0;
 	}
+
 	.gallery_next {
 		right: 0;
 	}
-
 </style>
 
 {{ content }}
@@ -51,16 +56,18 @@ layout: archive
 <!--<h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>-->
 <h3 class="archive__subtitle">Bio</h3>
 <p class="bio">
-	I am Juil Koo, a third-year PhD student in the <a href="https://visualai.kaist.ac.kr/" target="_blank">KAIST Visual
+	I am Juil Koo, a fourth-year PhD student in the <a href="https://visualai.kaist.ac.kr/" target="_blank">KAIST Visual
 		AI Group</a>, led by Prof. <a href="https://mhsung.github.io/" target="_blank">Minhyuk
-		Sung</a>. In summer 2024, I interned at  <a href="https://research.adobe.com/" target="_blank">Adobe
+		Sung</a>. In summer 2024, I interned at <a href="https://research.adobe.com/" target="_blank">Adobe
 		Research</a>, closely collaborating with <a href="https://www.duygu-ceylan.com/" target="_blank">Duygu
 		Ceylan</a>, <a href="https://paulguerrero.net/" target="_blank">Paul Guerrero</a> and <a
 		href="https://research.adobe.com/person/paulchhuang/" target="_blank">Chun-Hao Huang</a>.
 </p>
 <p class="bio">
 	My research interests primarily revolve around stochastic differential equations and 3D
-	geometry. Recently, I've been focusing on understanding the underlying fundamentals of diffusion models and leveraging their rich priors to unlock their potential in diverse applications. Prior to this, I mainly worked on the intersection between 3D geometry and
+	geometry. Recently, I've been focusing on understanding the underlying fundamentals of diffusion models and
+	leveraging their rich priors to unlock their potential in diverse applications. Prior to this, I mainly worked on
+	the intersection between 3D geometry and
 	language. I aim to address practical problems through theoretical insights.
 </p>
 <p class="bio">
@@ -81,10 +88,11 @@ layout: archive
 <!--<iframe width="100%" height="240em" src="../nupzuki_htmls_centered/nupzuki/index.html" frameborder="0" scrolling="no"></iframe>-->
 
 <div class="iframe-container">
-	<iframe class="iframe" id="iframe1" width="100%" height="240em" src="../nupzuki_htmls_centered/nupzuki/index.html" frameborder="0" scrolling="no"
-		style="display: block;"></iframe>
-	<iframe class="iframe" id="iframe2" width="100%" height="240em" src="../nupzuki_htmls_centered/duck_nupzuki/index.html" frameborder="0"
-		scrolling="no" style="display: none;"></iframe>
+	<iframe class="iframe" id="iframe1" width="100%" height="240em" src="../nupzuki_htmls_centered/nupzuki/index.html"
+		frameborder="0" scrolling="no" style="display: block;"></iframe>
+	<iframe class="iframe" id="iframe2" width="100%" height="240em"
+		src="../nupzuki_htmls_centered/duck_nupzuki/index.html" frameborder="0" scrolling="no"
+		style="display: none;"></iframe>
 	<button class="gallery_prev" onclick="prevIframe()">
 		<i class="fas fa-arrow-left"></i>
 	</button>
@@ -96,29 +104,41 @@ layout: archive
 <h3 class="archive__subtitle">News</h3>
 <article class="news">
 	<ul id="newsList">
-		<li> (Aug. 2025) I gave a talk at the SIGGRAPH 2025 Course, <a href="https://geometry.cs.ucl.ac.uk/courses/diffusion_ImageVideo_sigg25/" target="_blank">Diffusion Models for Image and Video Generation</a>.</li>
-		<li> (Feb. 2025) <a href="https://videohandles.github.io" target="_blank">VideoHandles</a> is accepted at CVPR 2025.</li>
+		<li> (Aug. 2025) I gave a talk at the SIGGRAPH 2025 Course, <a
+				href="https://geometry.cs.ucl.ac.uk/courses/diffusion_ImageVideo_sigg25/" target="_blank">Diffusion
+				Models for Image and Video Generation</a>.</li>
+		<li> (Feb. 2025) <a href="https://videohandles.github.io" target="_blank">VideoHandles</a> is accepted at CVPR
+			2025.</li>
 		<li> (Feb. 2025) I received an outstanding TA award. </li>
 		<li> (Sep. 2024) Two papers are accepted at NeurIPS 2024: <a href="https://synctweedies.github.io"
-				target="_blank">SyncTweedies</a> and <a href="https://arxiv.org/abs/2406.09728" target="_blank">NeuralPose</a>.
+				target="_blank">SyncTweedies</a> and <a href="https://arxiv.org/abs/2406.09728"
+				target="_blank">NeuralPose</a>.
 		</li>
-		<li> (Aug. 2024) <a href="https://posterior-distillation-sampling.github.io/" target="_blank">Posterior Distillation
-				Sampling</a> received the Best Paper Award at the 2024 Samsung Electronics DS-KAIST R&D Exchange Meeting.</li>
-		<li> (Jun. 2024) <a href="https://posterior-distillation-sampling.github.io/" target="_blank">Posterior Distillation
+		<li> (Aug. 2024) <a href="https://posterior-distillation-sampling.github.io/" target="_blank">Posterior
+				Distillation
+				Sampling</a> received the Best Paper Award at the 2024 Samsung Electronics DS-KAIST R&D Exchange
+			Meeting.</li>
+		<li> (Jun. 2024) <a href="https://posterior-distillation-sampling.github.io/" target="_blank">Posterior
+				Distillation
 				Sampling</a> is presented in six workshops at CVPR 2024: <a href="https://abdullahamdi.com/3dmv2024/"
-				target="_blank">3DMV</a>, <a href="https://multimodalitiesfor3dscenes.github.io/" target="_blank">M3DS</a>, <a
-				href="https://ai4cc.net/">AI4CC</a>, <a href="https://ai3dg.github.io/">AI3DG</a>, <a
-				href="https://cveu.github.io/" target="_blank">CVEU</a>, and <a
-				href="https://generative-vision.github.io/workshop-CVPR-24/" target="_blank">GCV</a>.</li>
+				target="_blank">3DMV</a>, <a href="https://multimodalitiesfor3dscenes.github.io/"
+				target="_blank">M3DS</a>, <a href="https://ai4cc.net/">AI4CC</a>, <a
+				href="https://ai3dg.github.io/">AI3DG</a>, <a href="https://cveu.github.io/" target="_blank">CVEU</a>,
+			and <a href="https://generative-vision.github.io/workshop-CVPR-24/" target="_blank">GCV</a>.</li>
 		<li> (Mar. 2024) I start my internship at <a href="https://research.adobe.com/" target="_blank">Adobe
 				Research</a> in London.</li>
-		<li> (Feb. 2024) <a href="https://posterior-distillation-sampling.github.io/" target="_blank">Posterior Distillation
+		<li> (Feb. 2024) <a href="https://posterior-distillation-sampling.github.io/" target="_blank">Posterior
+				Distillation
 				Sampling</a> has been accepted at CVPR 2024!</li>
-		<li> (Sep. 2023) I presented a brief overview of <a href="https://salad3d.github.io/" target="_blank">SALAD</a> at
-			two workshops during ICCV 2023: <a href="https://languagefor3dscenes.github.io/ICCV2023/" target="_blank">Language
-				for 3D Scenes (L3DS)</a> and <a href="https://ai3dcc.github.io/" target="_blank">AI for 3D Content Creation
+		<li> (Sep. 2023) I presented a brief overview of <a href="https://salad3d.github.io/" target="_blank">SALAD</a>
+			at
+			two workshops during ICCV 2023: <a href="https://languagefor3dscenes.github.io/ICCV2023/"
+				target="_blank">Language
+				for 3D Scenes (L3DS)</a> and <a href="https://ai3dcc.github.io/" target="_blank">AI for 3D Content
+				Creation
 				(AI3DCC)</a>.</li>
-		<li> (Jul. 2023) Our <a href="https://salad3d.github.io/" target="_blank">SALAD</a> paper got accepted to ICCV 2023!
+		<li> (Jul. 2023) Our <a href="https://salad3d.github.io/" target="_blank">SALAD</a> paper got accepted to ICCV
+			2023!
 		</li>
 		<li> (Jun. 2023) PartGlot is featured in the <a href="https://www.kaist.ac.kr/kr/html/kaist/010504.html"
 				target="_blank">KAIST R&D Annual Report</a> as a research highlight.</li>
@@ -132,8 +152,10 @@ layout: archive
 				target="_blank">PartGlot</a> at the <a href="https://languagefor3dscenes.github.io/ECCV2022/"
 				target="_blank">ECCV 2022 Language for 3D Scenes (L3DS) Workshop</a>.</li>
 		<li> (Jul. 2022) I won an outstanding paper award at Korea Computer Graphics Society (KCGS 2022). </li>
-		<li> (Mar. 2022) My first work, <a href="https://arxiv.org/abs/2112.06390/" target="_blank">PartGlot</a>, has been
-			accepted as an <b>oral paper</b> at CVPR 2022. Thank all my valuable collaborators for this huge accomplishment!
+		<li> (Mar. 2022) My first work, <a href="https://arxiv.org/abs/2112.06390/" target="_blank">PartGlot</a>, has
+			been
+			accepted as an <b>oral paper</b> at CVPR 2022. Thank all my valuable collaborators for this huge
+			accomplishment!
 		</li>
 		<li> (Feb. 2022) I received an outstanding TA award. </li>
 	</ul>
@@ -143,180 +165,35 @@ layout: archive
 <h3 class="archive__subtitle">Publications</h3>
 <!--<article style="font-size: 14px;" role="publication">-->
 <article class="publication">
-	<!--VideoHandles-->
+	{% for pub in site.data.publications %}
+	<!--{{ pub.title }}-->
 	<publication-cell>
 		<thumbnail style="align-items: center; display: flex;">
-			<img stye="max-width:100%; max-height: 100%; object-fit: contain;" src="assets/images/videohandles_thumbnail.gif">
+			<img style="max-width:100%; max-height: 100%; object-fit: contain;" src="{{ pub.thumbnail }}">
 		</thumbnail>
 		<desc-cell>
-			<header><b>VideoHandles: Editing 3D Object Compositions in Videos Using Video Generative Priors</b></header>
+			<header><b>{{ pub.title }}</b></header>
 			<authors>
-				<b>Juil Koo</b>,
-				<a href="https://paulguerrero.net/" target="_blank">Paul Guerrero</a>,
-				<a href="https://paulchhuang.wixsite.com/chhuang" target="_blank">Chun-Hao Paul Huang</a>,
-				<a href="https://www.duygu-ceylan.com/" target="_blank">Duygu Ceylan</a>,
-				<a href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
+				{% for author in pub.authors %}{% if author.name contains "Juil Koo" %}<b>{{ author.name }}</b>{% elsif
+				author.link %}<a href="{{ author.link }}" target="_blank">{{ author.name }}</a>{% else %}{{ author.name
+				}}{% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}
+				{% if pub.authors_note %}
+				<br>({{ pub.authors_note }})
+				{% endif %}
 			</authors>
-			<conference>CVPR 2025</conference>
-			<links>
-				<a href="https://videohandles.github.io" target="_blank">
-					[Project]
-				</a>
-				<a href="https://arxiv.org/abs/2503.01107" target="_blank">
-					[Paper]
-				</a>
-				<!--<a href="https://arxiv.org/abs/2403.14370" target="_blank">-->
-				<!--  [Paper]-->
-				<!--</a>-->
-				<!--<a href="https://github.com/KAIST-Visual-AI-Group/SyncTweedies" target="_blank">-->
-				<!--  [Code]-->
-				<!--</a>-->
-			</links>
-		</desc-cell>
-	</publication-cell>
-
-
-	<!--SyncTweedies-->
-	<publication-cell>
-		<thumbnail>
-			<img stye="width:100%; height:auto;" src="assets/images/synctweedies_thumbnail.png">
-		</thumbnail>
-		<desc-cell>
-			<header><b>SyncTweedies: A General Generative Framework Based on Synchronized Diffusions</b></header>
-			<authors>
-				<a href="https://jh27kim.github.io/" target="_blank">Jaihoon Kim*</a>,
-				<b>Juil Koo*</b>,
-				Kyeongmin Yeo*,
-				<a href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
-				(* co-first author.)
-			</authors>
-			<conference>NeurIPS 2024</conference>
-			<links>
-				<a href="https://synctweedies.github.io" target="_blank">
-					[Project]
-				</a>
-				<a href="https://arxiv.org/abs/2403.14370" target="_blank">
-					[Paper]
-				</a>
-				<a href="https://github.com/KAIST-Visual-AI-Group/SyncTweedies" target="_blank">
-					[Code]
-				</a>
-			</links>
-		</desc-cell>
-	</publication-cell>
-
-	<!--Neural Pose Transfer-->
-	<publication-cell>
-		<thumbnail>
-			<img stye="width:100%; height:auto;" src="assets/images/neural_pose_transfer_thumbnail.png">
-		</thumbnail>
-		<desc-cell>
-			<header><b>Neural Pose Representation Learning for Generating and Transferring Non-Rigid Object Poses</b></header>
-			<authors>
-				<a href="https://dvelopery0115.github.io/" target="_blank">Seungwoo Yoo</a>,
-				<b>Juil Koo</b>,
-				Kyeongmin Yeo,
-				<a href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
-			</authors>
-			<conference>NeurIPS 2024
+			<conference>{{ pub.venue }}{% if pub.publication_note %} (<b>{{ pub.publication_note }}</b>){% endif %}
 			</conference>
 			<links>
-				<a href="https://neural-pose.github.io/" target="_blank">[Project]</a>
-				<a href="https://arxiv.org/abs/2406.09728" target="_blank">[Paper]</a>
-				<a href="https://github.com/KAIST-Visual-AI-Group/NPR" target="_blank">[Code]</a>
+				{% if pub.project %}<a href="{{ pub.project }}" target="_blank">[Project]</a> {% endif %}
+				{% if pub.arXiv %}<a href="{{ pub.arXiv }}" target="_blank">[Paper]</a> {% endif %}
+				{% if pub.code %}<a href="{{ pub.code }}" target="_blank">[Code]</a> {% endif %}
+				{% if pub.video %}<a href="{{ pub.video }}" target="_blank">[Video]</a> {% endif %}
+				{% if pub.pdf %}<a href="{{ pub.pdf }}" target="_blank">[PDF]</a> {% endif %}
+				{% if pub.hugging_face %}<a href="{{ pub.hugging_face }}" target="_blank">[Hugging Face]</a> {% endif %}
 			</links>
 		</desc-cell>
 	</publication-cell>
-
-	<!--PDS-->
-	<publication-cell>
-		<thumbnail>
-			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
-				src="assets/images/PDS_banner.png">
-		</thumbnail>
-		<desc-cell>
-			<header><b>Posterior Distillation Sampling</b></header>
-			<authors>
-				<b>Juil Koo</b>, <a href="https://github.com/charlieppark" target="_blank">Chanho Park</a>, <a
-					href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
-			</authors>
-			<conference>CVPR 2024</conference>
-			<links>
-				<a href="https://posterior-distillation-sampling.github.io" target="_blank">
-					[Project]
-				</a>
-				<a href="https://arxiv.org/abs/2311.13831" target="_blank">
-					[Paper]
-				</a>
-				<a href="https://github.com/KAIST-Visual-AI-Group/PDS" target="_blank">
-					[Code]
-				</a>
-				<a href="https://www.youtube.com/watch?v=GNqJYk949pY" target="_blank">[Video]</a>
-			</links>
-		</desc-cell>
-	</publication-cell>
-
-	<!--SALAD-->
-	<publication-cell>
-		<thumbnail>
-			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
-				src="assets/images/salad_thumnail_white_bg.png">
-		</thumbnail>
-		<desc-cell>
-			<header><b>SALAD: Part-Level Latent Diffusion for 3D Shape Generation and Manipulation</b></header>
-			<authors>
-				<b>Juil Koo*</b>, <a href="https://dvelopery0115.github.io/" target="_blank">Seungwoo Yoo*</a>, <a
-					href="http://min-hieu.github.io/" target="_blank">Minh Hieu Nguyen*</a>, <a href="https://mhsung.github.io/"
-					target="_blank">Minhyuk Sung</a>
-				(* co-first author.)
-			</authors>
-			<conference>ICCV 2023
-			</conference>
-			<links>
-				<a href="https://salad3d.github.io/" target="_blank">
-					[Project]
-				</a>
-				<a href="https://arxiv.org/abs/2303.12236" target="_blank">
-					[Paper]
-				</a>
-				<a href="https://github.com/KAIST-Visual-AI-Group/SALAD" target="_blank">
-					[Code]
-				</a>
-			</links>
-		</desc-cell>
-	</publication-cell>
-
-	<!--PartGlot-->
-	<publication-cell>
-		<thumbnail>
-			<img style="max-width: 100%; max-height: 100%; object-fit: cover; display: block;"
-				src="assets/images/partglot_thumbnail_white_bg.png">
-		</thumbnail>
-		<desc-cell>
-			<header><b>PartGlot: Learning Shape Part Segmentation from Language Reference Games</b></header>
-			<authors>
-				<b>Juil Koo</b>, <a href="https://ianhuang0630.github.io/" target="_blank">Ian Huang</a>, <a
-					href="https://optas.github.io/" target="_blank">Panos Achlioptas</a>, <a
-					href="https://geometry.stanford.edu/mrember/guibas/" target="_blank">Leonidas Guibas</a>, <a
-					href="https://mhsung.github.io/" target="_blank">Minhyuk Sung</a>
-			</authors>
-			<conference>CVPR 2022 (<b>Oral</b>)</conference>
-			<links>
-				<a href="https://mhsung.github.io/publications/partglot" target="_blank">
-					[Project]
-				</a>
-				<a href="https://arxiv.org/abs/2112.06390/" target="_blank">
-					[Paper]
-				</a>
-				<a href="https://github.com/63days/PartGlot/" target="_blank">
-					[Code]
-				</a>
-				<a href="https://www.youtube.com/watch?v=0qziHtjl5l4&t=1s/" target="_blank">
-					[Video]
-				</a>
-			</links>
-		</desc-cell>
-	</publication-cell>
+	{% endfor %}
 </article>
 
 <h3 class="archive__subtitle">Academic Service</h3>
@@ -361,19 +238,19 @@ layout: archive
 	const totalIframes = 2; // Total number of iframes
 
 	function showIframe(iframeNumber) {
-			var iframes = document.querySelectorAll('.iframe');
-			iframes.forEach(item => item.style.display = "none");
-			document.getElementById('iframe' + iframeNumber).style.display = 'block';
+		var iframes = document.querySelectorAll('.iframe');
+		iframes.forEach(item => item.style.display = "none");
+		document.getElementById('iframe' + iframeNumber).style.display = 'block';
 	}
 
 	function nextIframe() {
-			currentIframe = (currentIframe % totalIframes) + 1; // Go to the next iframe, loop back to 1
-			showIframe(currentIframe);
+		currentIframe = (currentIframe % totalIframes) + 1; // Go to the next iframe, loop back to 1
+		showIframe(currentIframe);
 	}
 
 	function prevIframe() {
-			currentIframe = (currentIframe - 2 + totalIframes) % totalIframes + 1; // Go to the previous iframe, loop back to the last
-			showIframe(currentIframe);
+		currentIframe = (currentIframe - 2 + totalIframes) % totalIframes + 1; // Go to the previous iframe, loop back to the last
+		showIframe(currentIframe);
 	}
 </script>
 

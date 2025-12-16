@@ -1,0 +1,155 @@
+- key: vg-avs
+  title: "Toward Ambulatory Vision: Learning Visually-Grounded Active View Selection"
+  authors:
+    - name: Juil Koo*
+    - name: Daehyeon Choi*
+      link: https://choidaedae.github.io/
+    - name: Sangwoo Youn*
+      link: https://github.com/sang-w00
+    - name: Phillip Y. Lee
+      link: https://phillipinseoul.github.io/
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  authors_note: "* co-first author"
+  venue: arXiv 2025
+  project: https://active-view-selection.github.io/
+  arXiv: https://arxiv.org/abs/2512.13250
+  code: https://github.com/KAIST-Visual-AI-Group/VG-AVS
+  thumbnail: assets/images/vgavs_thumbnail.png
+
+- key: bezierflow
+  title: "BézierFlow: Bézier Stochastic Interpolant Schedulers for Few-Step Generation"
+  authors: 
+    - name: Yunhong Min*
+      link: https://myh4832.github.io/
+    - name: Juil Koo*
+    - name: Seungwoo Yoo
+      link: https://dvelopery0115.github.io/
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  authors_note: "* co-first author"
+  venue: arXiv 2025
+  project: https://bezierflow.github.io/
+  arXiv: https://arxiv.org/abs/2512.13255
+  code: https://github.com/KAIST-Visual-AI-Group/BezierFlow
+  thumbnail: assets/images/bezierflow_thumbnail.png
+
+- key: boxsplitgen
+  title: "BoxSplitGen: A Generative Model for 3D Part Bounding Boxes in Varying Granularity"
+  authors:
+    - name: Juil Koo*
+    - name: Wei-Tung Lin*
+      link: https://weitunglin.github.io/
+    - name: Chanho Park
+      link: https://charlieppark.kr/
+    - name: Chanhyeok Park
+      link: https://chpark1111.github.io/
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  authors_note: "* co-first author"
+  venue: WACV 2026
+  project: https://boxsplitgen.github.io/
+  thumbnail: assets/images/boxsplitgen_thumbnail.png
+
+- key: videohandles
+  title: "VideoHandles: Editing 3D Object Compositions in Videos Using Video Generative Priors"
+  authors:
+    - name: Juil Koo
+    - name: Paul Guerrero
+      link: https://paulguerrero.net/
+    - name: Chun-Hao Paul Huang
+      link: https://paulchhuang.wixsite.com/chhuang
+    - name: Duygu Ceylan
+      link: https://www.duygu-ceylan.com/
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  venue: CVPR 2025
+  project: https://videohandles.github.io
+  arXiv: https://arxiv.org/abs/2503.01107
+  thumbnail: assets/images/videohandles_thumbnail.gif
+
+- key: synctweedies
+  title: "SyncTweedies: A General Generative Framework Based on Synchronized Diffusions"
+  authors:
+    - name: Jaihoon Kim*
+      link: https://jh27kim.github.io/
+    - name: Juil Koo*
+    - name: Kyeongmin Yeo*
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  authors_note: "* co-first author"
+  venue: NeurIPS 2024
+  project: https://synctweedies.github.io
+  arXiv: https://arxiv.org/abs/2403.14370
+  code: https://github.com/KAIST-Visual-AI-Group/SyncTweedies
+  thumbnail: assets/images/synctweedies_thumbnail.png
+
+- key: npr
+  title: "Neural Pose Representation Learning for Generating and Transferring Non-Rigid Object Poses"
+  authors:
+    - name: Seungwoo Yoo
+      link: https://dvelopery0115.github.io/
+    - name: Juil Koo
+    - name: Kyeongmin Yeo
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  venue: NeurIPS 2024
+  project: https://neural-pose.github.io/
+  arXiv: https://arxiv.org/abs/2406.09728
+  code: https://github.com/KAIST-Visual-AI-Group/NPR
+  thumbnail: assets/images/neural_pose_transfer_thumbnail.png
+
+- key: pds
+  title: "Posterior Distillation Sampling"
+  authors:
+    - name: Juil Koo
+    - name: Chanho Park
+      link: https://github.com/charlieppark
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io
+  venue: CVPR 2024
+  project: https://posterior-distillation-sampling.github.io/
+  arXiv: https://arxiv.org/abs/2311.13831
+  pdf: https://posterior-distillation-sampling.github.io/static/assets/pds.pdf
+  code: https://github.com/KAIST-Visual-AI-Group/PDS
+  video: https://www.youtube.com/watch?v=GNqJYk949pY
+  thumbnail: assets/images/PDS_banner.png
+
+- key: salad
+  title: "SALAD: Part-Level Latent Diffusion for 3D Shape Generation and Manipulation"
+  authors:
+    - name: Juil Koo*
+    - name: Seungwoo Yoo*
+      link: https://dvelopery0115.github.io/
+    - name: Minh Hieu Nguyen*
+      link: http://min-hieu.github.io/
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io
+  authors_note: "* co-first author"
+  venue: ICCV 2023
+  project: https://salad3d.github.io/
+  arXiv: https://arxiv.org/abs/2303.12236
+  pdf: https://salad3d.github.io/assets/salad.pdf
+  code: https://github.com/63days/salad
+  hugging_face: https://huggingface.co/spaces/KAIST-Visual-AI-Group/salad-demo
+  thumbnail: assets/images/salad_thumnail_white_bg.png
+
+- key: partglot
+  title: "PartGlot: Learning Shape Part Segmentation from Language Reference Games"
+  authors:
+    - name: Juil Koo
+    - name: Ian Huang
+      link: https://ianhuang0630.github.io/me/
+    - name: Panos Achlioptas
+      link: https://optas.github.io/
+    - name: Leonidas Guibas
+      link: https://geometry.stanford.edu/member/guibas/
+    - name: Minhyuk Sung
+      link: https://github.com/63days
+  venue: CVPR 2022
+  publication_note: Oral
+  project: https://mhsung.github.io/publications/partglot
+  arXiv: https://arxiv.org/abs/2112.06390
+  code: https://github.com/63days/PartGlot
+  video: https://www.youtube.com/watch?v=0qziHtjl5l4&t=1s/
+  thumbnail: assets/images/partglot_thumbnail_white_bg.png
