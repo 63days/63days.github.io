@@ -34,6 +34,20 @@
   code: https://github.com/KAIST-Visual-AI-Group/BezierFlow
   thumbnail: assets/images/bezierflow_thumbnail.png
 
+- key: diffusionrollout
+  title: "DiffusionRollout: Uncertainty-Aware Rollout Planning in Long-Horizon PDE Solving"
+  authors:
+    - name: Seungwoo Yoo*
+      link: https://dvelopery0115.github.io/
+    - name: Juil Koo*
+    - name: Daehyeon Choi*
+      link: https://choidaedae.github.io/
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  authors_note: "* co-first author"
+  venue: TMLR 2026
+  thumbnail: assets/images/diffusionrollout_thumbnail.gif
+
 - key: boxsplitgen
   title: "BoxSplitGen: A Generative Model for 3D Part Bounding Boxes in Varying Granularity"
   authors:
