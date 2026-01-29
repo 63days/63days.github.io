@@ -14,6 +14,7 @@ article.publication links {
 	padding-bottom: 0px;
 	display: block;
 }
+
 article.publication conference {
 	display: block;
 }
@@ -21,7 +22,7 @@ article.publication conference {
 article.publication publication-cell {
 	width: 100%;
 	padding-bottom: 15px;
-	marign-bottom: 15px;
+	margin-bottom: 15px;
 	display: flex;
 }
 
@@ -66,18 +67,28 @@ article.publication desc-cell {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
+}
+
+article.publication publication-cell.publication-hidden {
+	display: none !important;
 }
 
 .listBtn {
 	border: none;
 	background-color: transparent;
-	border: none;
-	color: inherit;
+	color: $link-color;
 	font-weight: bold;
+	font-size: $content-font-size;
+	cursor: pointer;
+	padding: 0;
+	margin-bottom: 10px;
+	display: inline-block;
 }
+
 .listBtn:hover {
 	outline: 2px solid;
+	color: $link-color-hover;
 }
 
 .bio {

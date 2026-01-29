@@ -1,4 +1,5 @@
 - key: vg-avs
+  selected: true
   title: "Toward Ambulatory Vision: Learning Visually-Grounded Active View Selection"
   authors:
     - name: Juil Koo*
@@ -18,6 +19,7 @@
   thumbnail: assets/images/vgavs_thumbnail.png
 
 - key: bezierflow
+  selected: true
   title: "BézierFlow: Bézier Stochastic Interpolant Schedulers for Few-Step Generation"
   authors: 
     - name: Yunhong Min*
@@ -26,15 +28,16 @@
     - name: Seungwoo Yoo
       link: https://dvelopery0115.github.io/
     - name: Minhyuk Sung
-      link: https://mhsung.github.io/
+      link: https//mhsung.github.io/
   authors_note: "* co-first author"
-  venue: arXiv 2025
+  venue: ICLR 2026
   project: https://bezierflow.github.io/
   arXiv: https://arxiv.org/abs/2512.13255
   code: https://github.com/KAIST-Visual-AI-Group/BezierFlow
   thumbnail: assets/images/bezierflow_thumbnail.png
 
 - key: diffusionrollout
+  selected: false
   title: "DiffusionRollout: Uncertainty-Aware Rollout Planning in Long-Horizon PDE Solving"
   authors:
     - name: Seungwoo Yoo*
@@ -45,10 +48,11 @@
     - name: Minhyuk Sung
       link: https://mhsung.github.io/
   authors_note: "* co-first author"
-  venue: TMLR 2026
+  venue: TMLR
   thumbnail: assets/images/diffusionrollout_thumbnail.gif
 
 - key: boxsplitgen
+  selected: false
   title: "BoxSplitGen: A Generative Model for 3D Part Bounding Boxes in Varying Granularity"
   authors:
     - name: Juil Koo*
@@ -66,6 +70,7 @@
   thumbnail: assets/images/boxsplitgen_thumbnail.png
 
 - key: videohandles
+  selected: true
   title: "VideoHandles: Editing 3D Object Compositions in Videos Using Video Generative Priors"
   authors:
     - name: Juil Koo
@@ -83,6 +88,7 @@
   thumbnail: assets/images/videohandles_thumbnail.gif
 
 - key: synctweedies
+  selected: true
   title: "SyncTweedies: A General Generative Framework Based on Synchronized Diffusions"
   authors:
     - name: Jaihoon Kim*
@@ -99,6 +105,7 @@
   thumbnail: assets/images/synctweedies_thumbnail.png
 
 - key: npr
+  selected: true
   title: "Neural Pose Representation Learning for Generating and Transferring Non-Rigid Object Poses"
   authors:
     - name: Seungwoo Yoo
@@ -114,6 +121,7 @@
   thumbnail: assets/images/neural_pose_transfer_thumbnail.png
 
 - key: pds
+  selected: true
   title: "Posterior Distillation Sampling"
   authors:
     - name: Juil Koo
@@ -130,6 +138,7 @@
   thumbnail: assets/images/PDS_banner.png
 
 - key: salad
+  selected: true
   title: "SALAD: Part-Level Latent Diffusion for 3D Shape Generation and Manipulation"
   authors:
     - name: Juil Koo*
@@ -149,6 +158,7 @@
   thumbnail: assets/images/salad_thumnail_white_bg.png
 
 - key: partglot
+  selected: true
   title: "PartGlot: Learning Shape Part Segmentation from Language Reference Games"
   authors:
     - name: Juil Koo

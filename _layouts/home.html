@@ -49,6 +49,10 @@ layout: archive
 	.gallery_next {
 		right: 0;
 	}
+
+	.publication-hidden {
+		display: none;
+	}
 </style>
 
 {{ content }}
@@ -104,6 +108,8 @@ layout: archive
 <h3 class="archive__subtitle">News</h3>
 <article class="news">
 	<ul id="newsList">
+		<li> (Jan. 2026) <a href="https://bezierflow.github.io/" target="_blank">BézierFlow</a> is accepted at ICLR
+			2026. </li>
 		<li> (Aug. 2025) I gave a talk at the SIGGRAPH 2025 Course, <a
 				href="https://geometry.cs.ucl.ac.uk/courses/diffusion_ImageVideo_sigg25/" target="_blank">Diffusion
 				Models for Image and Video Generation</a>.</li>
@@ -162,12 +168,13 @@ layout: archive
 	<button class="listBtn" , id="newsBtn">Show All</button>
 </article>
 
-<h3 class="archive__subtitle">Publications</h3>
+<h3 class="archive__subtitle">Selected Publications</h3>
+<button class="listBtn" id="pubBtn">Show All</button>
 <!--<article style="font-size: 14px;" role="publication">-->
 <article class="publication">
 	{% for pub in site.data.publications %}
 	<!--{{ pub.title }}-->
-	<publication-cell>
+	<publication-cell {% if pub.selected==false %}class="publication-hidden" {% endif %}>
 		<thumbnail style="align-items: center; display: flex;">
 			<img style="max-width:100%; max-height: 100%; object-fit: contain;" src="{{ pub.thumbnail }}">
 		</thumbnail>
@@ -233,6 +240,22 @@ layout: archive
 			newsButton.textContent = "Show All";
 		};
 	});
+
+	const pubButton = document.getElementById("pubBtn");
+	const hiddenPubs = document.querySelectorAll(".publication-hidden");
+
+	pubButton.addEventListener("click", () => {
+		const isShowingAll = pubButton.textContent == "Show Less";
+		hiddenPubs.forEach(pub => {
+			if (isShowingAll) {
+				pub.classList.add("publication-hidden");
+			} else {
+				pub.classList.remove("publication-hidden");
+			}
+		});
+		pubButton.textContent = isShowingAll ? "Show All" : "Show Less";
+	});
+
 
 	let currentIframe = 1; // Start with the first iframe
 	const totalIframes = 2; // Total number of iframes
