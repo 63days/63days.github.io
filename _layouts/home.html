@@ -53,6 +53,40 @@ layout: archive
 	.publication-hidden {
 		display: none;
 	}
+
+	.toggle-container {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 10px;
+	}
+
+	.toggle-btn {
+		background: transparent;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 4px;
+		padding: 5px 15px;
+		cursor: pointer;
+		font-size: 14px;
+		color: #eaeaea;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.toggle-btn:hover {
+		background-color: rgba(255, 255, 255, 0.05);
+	}
+
+	.toggle-btn.active {
+		border-color: #00adb5;
+		color: #00adb5;
+		background: rgba(0, 173, 181, 0.1);
+	}
+
+	.global-note {
+		font-size: 16px;
+		color: #ffffff;
+		margin-bottom: 20px;
+		margin-top: 5px;
+	}
 </style>
 
 {{ content }}
@@ -63,16 +97,13 @@ layout: archive
 	I am Juil Koo, a fourth-year PhD student in the <a href="https://visualai.kaist.ac.kr/" target="_blank">KAIST Visual
 		AI Group</a>, led by Prof. <a href="https://mhsung.github.io/" target="_blank">Minhyuk
 		Sung</a>. In summer 2024, I interned at <a href="https://research.adobe.com/" target="_blank">Adobe
-		Research</a>, closely collaborating with <a href="https://www.duygu-ceylan.com/" target="_blank">Duygu
-		Ceylan</a>, <a href="https://paulguerrero.net/" target="_blank">Paul Guerrero</a> and <a
-		href="https://research.adobe.com/person/paulchhuang/" target="_blank">Chun-Hao Huang</a>.
+		Research</a>.
 </p>
 <p class="bio">
-	My research interests primarily revolve around stochastic differential equations and 3D
-	geometry. Recently, I've been focusing on understanding the underlying fundamentals of diffusion models and
-	leveraging their rich priors to unlock their potential in diverse applications. Prior to this, I mainly worked on
-	the intersection between 3D geometry and
-	language. I aim to address practical problems through theoretical insights.
+	My research interests lie in <b>generative modeling</b> and <b>reasoning</b> in vision, aiming to build AI systems
+	that can assist or automate human workflows via visual understanding and generation.
+	Prior to this, I mainly worked on the intersection between 3D geometry and language. I aim to address practical
+	problems through theoretical insights.
 </p>
 <p class="bio">
 	My <a href="https://en.wikipedia.org/wiki/Erd%C5%91s_number" target="_blank">Erdős
@@ -168,13 +199,17 @@ layout: archive
 	<button class="listBtn" , id="newsBtn">Show All</button>
 </article>
 
-<h3 class="archive__subtitle">Selected Publications</h3>
-<button class="listBtn" id="pubBtn">Show All</button>
-<!--<article style="font-size: 14px;" role="publication">-->
+<h3 class="archive__subtitle">Publications</h3>
+<div class="toggle-container">
+	<button class="toggle-btn active" id="btnSelected">Selected</button>
+	<button class="toggle-btn" id="btnAll">All</button>
+</div>
+<p class="global-note">* denotes equal contribution.</p>
+
 <article class="publication">
 	{% for pub in site.data.publications %}
-	<!--{{ pub.title }}-->
-	<publication-cell {% if pub.selected==false %}class="publication-hidden" {% endif %}>
+	<publication-cell class="pub-item {% if pub.selected == false %}publication-hidden{% endif %}"
+		data-selected="{{ pub.selected }}">
 		<thumbnail style="align-items: center; display: flex;">
 			<img style="max-width:100%; max-height: 100%; object-fit: contain;" src="{{ pub.thumbnail }}">
 		</thumbnail>
@@ -184,9 +219,6 @@ layout: archive
 				{% for author in pub.authors %}{% if author.name contains "Juil Koo" %}<b>{{ author.name }}</b>{% elsif
 				author.link %}<a href="{{ author.link }}" target="_blank">{{ author.name }}</a>{% else %}{{ author.name
 				}}{% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}
-				{% if pub.authors_note %}
-				<br>({{ pub.authors_note }})
-				{% endif %}
 			</authors>
 			<conference>{{ pub.venue }}{% if pub.publication_note %} (<b>{{ pub.publication_note }}</b>){% endif %}
 			</conference>
@@ -241,19 +273,28 @@ layout: archive
 		};
 	});
 
-	const pubButton = document.getElementById("pubBtn");
-	const hiddenPubs = document.querySelectorAll(".publication-hidden");
+	const btnSelected = document.getElementById("btnSelected");
+	const btnAll = document.getElementById("btnAll");
+	const pubItems = document.querySelectorAll(".pub-item");
 
-	pubButton.addEventListener("click", () => {
-		const isShowingAll = pubButton.textContent == "Show Less";
-		hiddenPubs.forEach(pub => {
-			if (isShowingAll) {
-				pub.classList.add("publication-hidden");
+	btnSelected.addEventListener("click", () => {
+		btnSelected.classList.add("active");
+		btnAll.classList.remove("active");
+		pubItems.forEach(item => {
+			if (item.dataset.selected === "true") {
+				item.classList.remove("publication-hidden");
 			} else {
-				pub.classList.remove("publication-hidden");
+				item.classList.add("publication-hidden");
 			}
 		});
-		pubButton.textContent = isShowingAll ? "Show All" : "Show Less";
+	});
+
+	btnAll.addEventListener("click", () => {
+		btnAll.classList.add("active");
+		btnSelected.classList.remove("active");
+		pubItems.forEach(item => {
+			item.classList.remove("publication-hidden");
+		});
 	});
 
 

@@ -105,7 +105,7 @@
   thumbnail: assets/images/synctweedies_thumbnail.png
 
 - key: npr
-  selected: true
+  selected: false
   title: "Neural Pose Representation Learning for Generating and Transferring Non-Rigid Object Poses"
   authors:
     - name: Seungwoo Yoo
