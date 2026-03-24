@@ -95,9 +95,12 @@ layout: archive
 <h3 class="archive__subtitle">Bio</h3>
 <p class="bio">
 	I am Juil Koo, a fourth-year PhD student in the <a href="https://visualai.kaist.ac.kr/" target="_blank">KAIST Visual
-		AI Group</a>, led by Prof. <a href="https://mhsung.github.io/" target="_blank">Minhyuk
-		Sung</a>. In summer 2024, I interned at <a href="https://research.adobe.com/" target="_blank">Adobe
-		Research</a>.
+		AI Group</a>, advised by Prof. <a href="https://mhsung.github.io/" target="_blank">Minhyuk
+		Sung</a>. This summer, I will be joining <a href="https://ai.meta.com/" target="_blank">Meta Reality Labs
+		Research</a> in Redmond as
+	a research intern. Previously, I interned at <a href="https://research.adobe.com/" target="_blank">Adobe
+		Research</a>
+	in 2024.
 </p>
 <p class="bio">
 	My research interests lie in <b>generative modeling</b> and <b>reasoning</b> in vision, aiming to build AI systems
@@ -139,6 +142,9 @@ layout: archive
 <h3 class="archive__subtitle">News</h3>
 <article class="news">
 	<ul id="newsList">
+		<li> (Mar. 2026) I will join <a href="https://ai.meta.com/" target="_blank">Meta Reality Labs Research</a> in
+			Redmond as a research intern this June.</li>
+		<li> (Feb. 2026) One paper, <a href="#">Token Warping</a>, is accepted at CVPR 2026.</li>
 		<li> (Feb. 2026) I will serve as the lead organizer for the <a href="https://musi-workshop.github.io/"
 				target="_blank">Multimodal Spatial Intelligence (MUSI) Workshop</a> at CVPR 2026.</li>
 		<li> (Jan. 2026) <a href="https://bezierflow.github.io/" target="_blank">BézierFlow</a> is accepted at ICLR
@@ -218,11 +224,12 @@ layout: archive
 		<desc-cell>
 			<header><b>{{ pub.title }}</b></header>
 			<authors>
-				{% for author in pub.authors %}{% if author.name contains "Juil Koo" %}<b>{{ author.name }}</b>{% elsif
+				{% for author in pub.authors %}{% if author.name contains "Juil Koo" %}<u>{{ author.name }}</u>{% elsif
 				author.link %}<a href="{{ author.link }}" target="_blank">{{ author.name }}</a>{% else %}{{ author.name
 				}}{% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}
 			</authors>
-			<conference>{{ pub.venue }}{% if pub.publication_note %} (<b>{{ pub.publication_note }}</b>){% endif %}
+			<conference><i>{{ pub.venue }}</i>{% if pub.publication_note %} (<b>{{ pub.publication_note }}</b>){% endif
+				%}
 			</conference>
 			<links>
 				{% if pub.project %}<a href="{{ pub.project }}" target="_blank">[Project]</a> {% endif %}
@@ -240,7 +247,7 @@ layout: archive
 <h3 class="archive__subtitle">Academic Service</h3>
 <article class="publication">
 	<p>
-		<b>Reviewer</b>: CVPR, NeurIPS, ICCV, ECCV, TPAMI, AAAI, WACV, Euroghraphics
+		<b>Reviewer</b>: CVPR, NeurIPS, ICCV, ECCV, SIGGRAPH, TPAMI, AAAI, WACV, Euroghraphics, TVCG
 	</p>
 	<!--<p>-->
 	<!--  <b>Workshop Reviewer</b>:-->

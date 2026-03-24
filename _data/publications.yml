@@ -1,3 +1,23 @@
+- key: token-warping
+  selected: false
+  title: "Token Warping Helps MLLMs Look from Nearby Viewpoints"
+  authors:
+    - name: Phillip Y. Lee*
+      link: https://phillipinseoul.github.io/
+    - name: Chanho Park*
+      link: https://charlieppark.kr/
+    - name: Mingue Park
+      link: https://uygnim99.github.io/
+    - name: Seugwoo Yoo
+      link: https://dvelopery0115.github.io/
+    - name: Juil Koo
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  authors_note: "* co-first author"
+  venue: CVPR 2026
+  publication_note: "Coming soon"
+  thumbnail: assets/images/token-warping_thumbnail.png
+
 - key: vg-avs
   selected: true
   title: "Toward Ambulatory Vision: Learning Visually-Grounded Active View Selection"
@@ -95,6 +115,7 @@
       link: https://jh27kim.github.io/
     - name: Juil Koo*
     - name: Kyeongmin Yeo*
+      link: https://32v.github.io/
     - name: Minhyuk Sung
       link: https://mhsung.github.io/
   authors_note: "* co-first author"

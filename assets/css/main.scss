@@ -13,3 +13,20 @@
     align-items: center;
     justify-content: center;
 }
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: $link-color;
+}
+
+.author__urls a {
+    color: #fff !important;
+}
+
+a:hover {
+    color: $primary-color !important;
+    text-decoration: underline !important;
+}
