@@ -57,7 +57,7 @@
   thumbnail: assets/images/bezierflow_thumbnail.png
 
 - key: diffusionrollout
-  selected: false
+  selected: true
   title: "DiffusionRollout: Uncertainty-Aware Rollout Planning in Long-Horizon PDE Solving"
   authors:
     - name: Seungwoo Yoo*
@@ -69,6 +69,7 @@
       link: https://mhsung.github.io/
   authors_note: "* co-first author"
   venue: TMLR
+  arXiv: https://arxiv.org/abs/2602.13616
   thumbnail: assets/images/diffusionrollout_thumbnail.gif
 
 - key: boxsplitgen
