@@ -248,8 +248,20 @@ function translate4(a, x, y, z) {
         a[1] * x + a[5] * y + a[9] * z + a[13],
         a[2] * x + a[6] * y + a[10] * z + a[14],
 				1,
-        //a[3] * x + a[7] * y + a[11] * z + a[15],
     ];
+}
+
+function worldRotate4(m, rad, x, y, z) {
+    let len = Math.hypot(x, y, z);
+    x /= len; y /= len; z /= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c;
+    let r = [
+        t*x*x+c,   t*x*y+z*s, t*x*z-y*s, 0,
+        t*x*y-z*s, t*y*y+c,   t*y*z+x*s, 0,
+        t*x*z+y*s, t*y*z-x*s, t*z*z+c,   0,
+        0,          0,          0,          1,
+    ];
+    return multiply4(r, m);
 }
 
 function createWorker(self) {
@@ -693,6 +705,43 @@ let defaultViewMatrix = [0.6964256086171294, 0.0008016819724612522, -0.717628545
 	0.7175517727665134, 0.013891704530799812, 0.6963666232272068, 0, 
 	0.0, 0.2, 9.8, 1];
 let viewMatrix = defaultViewMatrix;
+
+function getDefaultCamPos() {
+    let inv = invert4(defaultViewMatrix);
+    return [inv[12], inv[13], inv[14]];
+}
+
+function rotatePosition(px, py, pz, rad, ax, ay, az) {
+    let c = Math.cos(rad), s = Math.sin(rad), t = 1 - c;
+    let dot = ax * px + ay * py + az * pz;
+    let cx = ay * pz - az * py, cy = az * px - ax * pz, cz = ax * py - ay * px;
+    return [
+        px * c + cx * s + ax * dot * t,
+        py * c + cy * s + ay * dot * t,
+        pz * c + cz * s + az * dot * t,
+    ];
+}
+
+function orbitCamera(dx, dy) {
+    let inv = invert4(viewMatrix);
+    let px = inv[12], py = inv[13], pz = inv[14];
+    let dist = Math.hypot(px, py, pz);
+
+    [px, py, pz] = rotatePosition(px, py, pz, dx, 0, 1, 0);
+
+    let fLen = Math.hypot(px, py, pz);
+    let rx = pz / fLen, rz = -px / fLen;
+    let rLen = Math.hypot(rx, rz);
+    if (rLen > 1e-6) { rx /= rLen; rz /= rLen; }
+    [px, py, pz] = rotatePosition(px, py, pz, -dy, rx, 0, rz);
+
+    let newDist = Math.hypot(px, py, pz);
+    let scale = dist / newDist;
+    px *= scale; py *= scale; pz *= scale;
+
+    camera.position = [px, py, pz];
+    viewMatrix = getViewMatrix(camera);
+}
 let idleTime = 0;
 let idleLimit = 2500;
 let idleTimer;
@@ -915,25 +964,9 @@ async function main() {
 				resetIdleTimer();
         e.preventDefault();
         if (down == 1) {
-
-            let inv = invert4(viewMatrix); 
-						let dx = (5 * (e.clientX - startX)) / innerWidth;
+            let dx = (5 * (e.clientX - startX)) / innerWidth;
             let dy = (5 * (e.clientY - startY)) / innerHeight;
-              
-            let cam_x = inv[12];
-            let cam_y = inv[13];
-            let cam_z = inv[14];
-
-            // let d = 4;
-            let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
-            //
-
-            inv = translate4(inv, 0, 0, d);
-            inv = rotate4(inv, dx, 0, 1, 0);
-            inv = rotate4(inv, -dy, 1, 0, 0);
-            inv = translate4(inv, 0, 0, -d);
-            viewMatrix = invert4(inv);
-
+            orbitCamera(dx, dy);
             startX = e.clientX;
             startY = e.clientY;
         } else if (down == 2) {
@@ -986,21 +1019,9 @@ async function main() {
 						resetIdleTimer();
             e.preventDefault();
             if (e.touches.length === 1 && down) {
-                let inv = invert4(viewMatrix);
                 let dx = (4 * (e.touches[0].clientX - startX)) / innerWidth;
                 let dy = (4 * (e.touches[0].clientY - startY)) / innerHeight;
-
-								let cam_x = inv[12];
-								let cam_y = inv[13];
-								let cam_z = inv[14];
-								let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
-								inv = translate4(inv, 0, 0, d);
-                inv = rotate4(inv, dx, 0, 1, 0);
-                inv = rotate4(inv, -dy, 1, 0, 0);
-								inv = translate4(inv, 0, 0, -d);
-
-                viewMatrix = invert4(inv);
-
+                orbitCamera(dx, dy);
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
             } 
@@ -1136,46 +1157,20 @@ async function main() {
         if (
             ["KeyJ", "KeyK", "KeyL", "KeyI"].some((k) => activeKeys.includes(k))
         ) {
-            let d = 4;
-            inv = translate4(inv, 0, 0, d);
-            inv = rotate4(
-                inv,
-                activeKeys.includes("KeyJ")
-                    ? -0.05
-                    : activeKeys.includes("KeyL")
-                    ? 0.05
-                    : 0,
-                0,
-                1,
-                0,
-            );
-            inv = rotate4(
-                inv,
-                activeKeys.includes("KeyI")
-                    ? 0.05
-                    : activeKeys.includes("KeyK")
-                    ? -0.05
-                    : 0,
-                1,
-                0,
-                0,
-            );
-            inv = translate4(inv, 0, 0, -d);
+            let yaw = activeKeys.includes("KeyJ") ? -0.05 : activeKeys.includes("KeyL") ? 0.05 : 0;
+            let pitch = activeKeys.includes("KeyI") ? 0.05 : activeKeys.includes("KeyK") ? -0.05 : 0;
+            orbitCamera(yaw, pitch);
+        } else {
+            viewMatrix = invert4(inv);
         }
 
-        viewMatrix = invert4(inv);
-
         if (carousel) {
-            let inv = invert4(defaultViewMatrix);
-
+            let defPos = getDefaultCamPos();
             const t = Math.sin((Date.now() - start) / 1000);
-
-            let d = Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2);
-						inv = translate4(inv, 0, 0, d);
-            inv = rotate4(inv, -Math.PI/3*t, 0, 1, 0);
-            inv = translate4(inv, 0, 0, -d);
-
-            viewMatrix = invert4(inv);
+            let angle = -Math.PI / 3 * t;
+            let cy = Math.cos(angle), sy = Math.sin(angle);
+            camera.position = [cy * defPos[0] + sy * defPos[2], defPos[1], -sy * defPos[0] + cy * defPos[2]];
+            viewMatrix = getViewMatrix(camera);
         }
 
         if (isJumping) {
