@@ -6,6 +6,16 @@
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+@import "minimal-mistakes/kaist-overrides";
+
+/* Kaist skin: white page */
+html {
+  background-color: #ffffff;
+}
+
+body.site--skin-kaist {
+  background-color: #ffffff;
+}
 
 .publication-container {
     display: flex;
@@ -23,10 +33,16 @@ a:visited {
 }
 
 .author__urls a {
-    color: #fff !important;
+    color: $link-color !important;
 }
 
 a:hover {
-    color: $primary-color !important;
+    color: $link-color-hover !important;
+    text-decoration: underline !important;
+}
+
+.author__urls a:hover,
+.page__footer-follow a:hover {
+    color: $link-color-hover !important;
     text-decoration: underline !important;
 }

@@ -12,7 +12,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "kaist" # _kaist.scss — gray tint bg, black text, blue links
 
 # Site Settings
 locale                   : "en-US"
@@ -179,13 +179,10 @@ exclude:
   - LICENSE
   - log
   - node_modules
-  - package.json
-  - package-lock.json
   - Rakefile
   - README
   - tmp
-  - /docs # ignore Minimal Mistakes /docs
-  - /test # ignore Minimal Mistakes /test
+  - /test # ignore Minimal Mistakes /test (if present)
 keep_files:
   - .git
   - .svn

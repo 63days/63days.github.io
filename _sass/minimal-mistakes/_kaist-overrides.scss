@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Kaist — cascade fixes (black body copy, match theme links)
+   Loaded after theme partials in main.scss
+   ========================================================================== */
+
+body.site--skin-kaist {
+  color: #000000;
+
+  b,
+  strong {
+    font-weight: 600;
+  }
+}
+
+body.site--skin-kaist #main,
+body.site--skin-kaist .archive,
+body.site--skin-kaist .page__inner-wrap,
+body.site--skin-kaist .page__content,
+body.site--skin-kaist .sidebar,
+body.site--skin-kaist .author__bio,
+body.site--skin-kaist .bio,
+body.site--skin-kaist .news,
+body.site--skin-kaist article.news,
+body.site--skin-kaist article.publication,
+body.site--skin-kaist .page__footer,
+body.site--skin-kaist .page__meta,
+body.site--skin-kaist figcaption,
+body.site--skin-kaist .taxonomy__title,
+body.site--skin-kaist .taxonomy__count,
+body.site--skin-kaist .back-to-top {
+  color: #000000;
+}
+
+body.site--skin-kaist .pagination__pager {
+  color: #000000;
+
+  &:hover {
+    color: #000000;
+  }
+
+  &.disabled {
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+
+body.site--skin-kaist .pagination li a.disabled {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+body.site--skin-kaist .page__content a,
+body.site--skin-kaist .archive a,
+body.site--skin-kaist .bio a,
+body.site--skin-kaist .news a,
+body.site--skin-kaist article.publication a,
+body.site--skin-kaist .page__footer a {
+  color: $link-color;
+}
+
+body.site--skin-kaist .page__content a:hover,
+body.site--skin-kaist .archive a:hover,
+body.site--skin-kaist .bio a:hover,
+body.site--skin-kaist .news a:hover,
+body.site--skin-kaist article.publication a:hover,
+body.site--skin-kaist .page__footer a:hover {
+  color: $link-color-hover;
+}
+
+/* Section headers (Bio, 3D Gallery, …) — .archive__subtitle is 20px in theme */
+body.site--skin-kaist .archive__subtitle {
+  font-size: 24px;
+}
+
+body.site--skin-kaist .sidebar .author__name {
+  font-size: 19px;
+}
+
+body.site--skin-kaist article.publication thumbnail {
+  border-color: #000000;
+}
+
+body.site--skin-kaist .listBtn {
+  color: $link-color-hover;
+}

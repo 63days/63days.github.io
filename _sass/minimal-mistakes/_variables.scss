@@ -124,6 +124,10 @@ $masthead-link-color: $primary-color !default;
 $masthead-link-color-hover: mix(#000, $primary-color, 25%) !default;
 $navicon-link-color-hover: mix(#fff, $primary-color, 75%) !default;
 
+/* vim-chrome (set in skins: dark = white headings, kaist = black) */
+$chrome-heading-color: $text-color !default;
+$highlight-color: $link-color !default;
+
 /* notices */
 $notice-background-mix: 80% !default;
 $code-notice-background-mix: 90% !default;

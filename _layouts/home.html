@@ -31,15 +31,23 @@ layout: archive
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
-		background-color: #252a34;
-		/*rgba(0, 0, 0, 0.5);*/
-		color: white;
+		box-sizing: border-box;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 1;
+		background-color: #ffffff;
+		color: #000000;
 		font-size: 18px;
-		border: 2px solid white;
+		border: 2px solid #000000;
 		border-radius: 50%;
-		padding: 10px;
 		cursor: pointer;
 		z-index: 10;
+		appearance: none;
+		-webkit-appearance: none;
 	}
 
 	.gallery_prev {
@@ -61,29 +69,30 @@ layout: archive
 	}
 
 	.toggle-btn {
-		background: transparent;
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.12);
 		border-radius: 4px;
 		padding: 5px 15px;
 		cursor: pointer;
 		font-size: 14px;
-		color: #eaeaea;
+		color: #1f2937;
 		transition: all 0.2s ease-in-out;
 	}
 
 	.toggle-btn:hover {
-		background-color: rgba(255, 255, 255, 0.05);
+		background-color: #ffffff;
+		border-color: rgba(0, 0, 0, 0.25);
 	}
 
 	.toggle-btn.active {
-		border-color: #00adb5;
-		color: #00adb5;
-		background: rgba(0, 173, 181, 0.1);
+		border-color: rgb(0, 65, 135);
+		color: rgb(0, 65, 135);
+		background: #ffffff;
 	}
 
 	.global-note {
 		font-size: 16px;
-		color: #ffffff;
+		color: #000000;
 		margin-bottom: 20px;
 		margin-top: 5px;
 	}
@@ -123,13 +132,13 @@ layout: archive
 </div>
 
 <h3 class="archive__subtitle">3D Gallery</h3>
-<!--<iframe width="100%" height="240em" src="../nupzuki_htmls_centered/nupzuki/index.html" frameborder="0" scrolling="no"></iframe>-->
+<!--<iframe width="100%" height="240em" src="{{ '/assets/nupzuki/nupzuki/index.html' | relative_url }}" frameborder="0" scrolling="no"></iframe>-->
 
 <div class="iframe-container">
-	<iframe class="iframe" id="iframe1" width="100%" height="240em" src="../nupzuki_htmls_centered/nupzuki/index.html"
+	<iframe class="iframe" id="iframe1" width="100%" height="240em" src="{{ '/assets/nupzuki/nupzuki/index.html' | relative_url }}"
 		frameborder="0" scrolling="no" style="display: block;"></iframe>
 	<iframe class="iframe" id="iframe2" width="100%" height="240em"
-		src="../nupzuki_htmls_centered/duck_nupzuki/index.html" frameborder="0" scrolling="no"
+		src="{{ '/assets/nupzuki/duck_nupzuki/index.html' | relative_url }}" frameborder="0" scrolling="no"
 		style="display: none;"></iframe>
 	<button class="gallery_prev" onclick="prevIframe()">
 		<i class="fas fa-arrow-left"></i>
@@ -204,7 +213,7 @@ layout: archive
 		</li>
 		<li> (Feb. 2022) I received an outstanding TA award. </li>
 	</ul>
-	<button class="listBtn" , id="newsBtn">Show All</button>
+	<button class="listBtn" id="newsBtn">Show All</button>
 </article>
 
 <h3 class="archive__subtitle">Publications</h3>
@@ -246,6 +255,9 @@ layout: archive
 
 <h3 class="archive__subtitle">Academic Service</h3>
 <article class="publication">
+	<p>
+		<b>Workshop Organizer</b>: <a href="https://musi-workshop.github.io/" target="_blank">Multimodal Spatial Intelligence (MUSI) Workshop</a></a> @ CVPR 2026
+	</p>
 	<p>
 		<b>Reviewer</b>: CVPR, NeurIPS, ICCV, ECCV, SIGGRAPH, TPAMI, AAAI, WACV, Eurographics, TVCG
 	</p>

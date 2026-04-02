@@ -1,7 +1,8 @@
 /* ==========================================================================
-   Page chrome — KAIST Dark Blue only (matches $primary-color)
+   Page chrome — headings/bio: $chrome-heading-color; accents: $highlight-color
    ========================================================================== */
 
+/* Section titles (Bio, 3D Gallery, …) + page title */
 .archive h3.archive__subtitle,
 .page__content h3.archive__subtitle {
   border-bottom: none;
@@ -9,43 +10,31 @@
   padding-left: 0;
   padding-bottom: 0.35em;
   margin-bottom: 0.65em;
-  color: $primary-color;
+  color: $chrome-heading-color;
   font-weight: 600;
 }
 
 .page__title {
-  color: $primary-color;
+  color: $chrome-heading-color;
 }
 
 .page__content {
-  h1 {
-    color: $primary-color;
+  h1,
+  h2,
+  h3:not(.archive__subtitle),
+  h4,
+  h5,
+  h6 {
+    color: $chrome-heading-color;
   }
 
   h2 {
-    color: $primary-color;
-    border-bottom-color: mix($primary-color, $border-color, 35%);
-  }
-
-  h3:not(.archive__subtitle) {
-    color: $primary-color;
-  }
-
-  h4 {
-    color: mix($primary-color, $text-color, 55%);
-  }
-
-  h5 {
-    color: mix($primary-color, $text-color, 45%);
-  }
-
-  h6 {
-    color: mix($primary-color, $text-color, 40%);
+    border-bottom-color: mix($highlight-color, $border-color, 55%);
   }
 
   blockquote {
-    border-left-color: $primary-color;
-    background: mix($primary-color, $background-color, 5%);
+    border-left-color: $highlight-color;
+    background: mix($highlight-color, $background-color, 12%);
   }
 
   hr {
@@ -54,9 +43,9 @@
     background: linear-gradient(
       90deg,
       transparent,
-      $border-color 20%,
-      $primary-color 50%,
-      $border-color 80%,
+      $border-color 15%,
+      $highlight-color 50%,
+      $border-color 85%,
       transparent
     );
     margin: 2em 0;
@@ -65,34 +54,35 @@
 
 .bio b,
 .bio strong {
-  color: $primary-color;
+  color: $chrome-heading-color;
 }
 
+/* Highlights — bright KAIST blue (readable on dark background) */
 article.news ul li::marker {
-  color: $primary-color;
+  color: $highlight-color;
 }
 
 article.publication desc-cell header {
-  color: $text-color;
+  color: $chrome-heading-color;
 }
 
 article.publication conference {
-  color: $primary-color;
+  color: $text-color;
 }
 
 article.publication authors {
-  color: $muted-text-color;
+  color: $text-color;
 }
 
 article.publication authors u {
-  color: $primary-color;
-  border-bottom-color: mix($primary-color, $text-color, 40%);
+  color: $text-color;
+  border-bottom-color: mix(#000, $text-color, 35%);
 }
 
 .sidebar .author__name {
-  color: $primary-color;
+  color: $text-color;
 }
 
 article.publication thumbnail {
-  border-color: mix($primary-color, #cdcdcd, 35%);
+  border-color: mix($highlight-color, #9aa4b2, 45%);
 }

@@ -1,0 +1,82 @@
+/* ==========================================================================
+   KAIST skin — white page, black text,
+   link rgb(20,135,200), hover rgb(0,65,135), black buttons ($primary-color)
+   ========================================================================== */
+
+/* Typography — fonts loaded in _includes/head/custom.html */
+$sans-serif: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Helvetica Neue", Arial, sans-serif !default;
+$serif: "Source Serif 4", Georgia, Times, serif !default;
+
+/* Headings — a step up from theme default (_base h1–h6, page titles) */
+$h-size-1: 1.85em !default;
+$h-size-2: 1.45em !default;
+$h-size-3: 1.3em !default;
+$h-size-4: 1.12em !default;
+$h-size-5: 1.06em !default;
+$h-size-6: 1.03em !default;
+$static-h-size-1: 30px !default;
+$static-h-size-2: 24px !default;
+$static-h-size-3: 22px !default;
+
+$kaist-link: rgb(20, 135, 200) !default;
+$kaist-link-hover: rgb(0, 65, 135) !default;
+
+$background-color: #ffffff !default;
+$text-color: #000000 !default;
+/* Theme uses $muted-text-color widely (archive, footer, meta, captions); keep black for kaist */
+$muted-text-color: #000000 !default;
+
+$chrome-heading-color: #000000 !default;
+$highlight-color: $kaist-link !default;
+
+$primary-color: #000000 !default;
+$border-color: #c8c8c8 !default;
+$code-background-color: #f0f0f0 !default;
+$code-background-color-dark: #e6e6e6 !default;
+$form-background-color: #f5f5f5 !default;
+$footer-background-color: #ffffff !default;
+
+$link-color: $kaist-link !default;
+$link-color-hover: $kaist-link-hover !default;
+$link-color-visited: mix(#000, $kaist-link, 22%) !default;
+
+$masthead-link-color: $text-color !default;
+$masthead-link-color-hover: $kaist-link-hover !default;
+$navicon-link-color-hover: mix(#000, $background-color, 12%) !default;
+
+$info-color: $kaist-link !default;
+$focus-color: #000000 !default;
+
+/* Syntax — light (GitHub-ish) */
+$base00: #f6f8fa !default;
+$base01: #eff2f5 !default;
+$base02: #e8ebef !default;
+$base03: #9aa0a6 !default;
+$base04: #656d76 !default;
+$base05: #24292f !default;
+$base06: #1f2328 !default;
+$base07: #0d1117 !default;
+$base08: #cf222e !default;
+$base09: #953800 !default;
+$base0a: #9a6700 !default;
+$base0b: #116329 !default;
+$base0c: #1b7c83 !default;
+$base0d: #0550ae !default;
+$base0e: #8250df !default;
+$base0f: #82071e !default;
+
+.author__urls.social-icons i,
+.author__urls.social-icons .svg-inline--fa,
+.page__footer-follow .social-icons i,
+.page__footer-follow .social-icons .svg-inline--fa {
+  color: inherit;
+}
+
+.ais-search-box .ais-search-box--input {
+  background-color: $form-background-color;
+}
+
+/* Force black copy after any downstream !default (avoids gray $text-color / $muted-text-color) */
+$text-color: #000000;
+$muted-text-color: #000000;
