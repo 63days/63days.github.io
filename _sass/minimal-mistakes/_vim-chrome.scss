@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Page chrome — KAIST Dark Blue only (matches $primary-color)
+   ========================================================================== */
+
+.archive h3.archive__subtitle,
+.page__content h3.archive__subtitle {
+  border-bottom: none;
+  border-left: none;
+  padding-left: 0;
+  padding-bottom: 0.35em;
+  margin-bottom: 0.65em;
+  color: $primary-color;
+  font-weight: 600;
+}
+
+.page__title {
+  color: $primary-color;
+}
+
+.page__content {
+  h1 {
+    color: $primary-color;
+  }
+
+  h2 {
+    color: $primary-color;
+    border-bottom-color: mix($primary-color, $border-color, 35%);
+  }
+
+  h3:not(.archive__subtitle) {
+    color: $primary-color;
+  }
+
+  h4 {
+    color: mix($primary-color, $text-color, 55%);
+  }
+
+  h5 {
+    color: mix($primary-color, $text-color, 45%);
+  }
+
+  h6 {
+    color: mix($primary-color, $text-color, 40%);
+  }
+
+  blockquote {
+    border-left-color: $primary-color;
+    background: mix($primary-color, $background-color, 5%);
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      $border-color 20%,
+      $primary-color 50%,
+      $border-color 80%,
+      transparent
+    );
+    margin: 2em 0;
+  }
+}
+
+.bio b,
+.bio strong {
+  color: $primary-color;
+}
+
+article.news ul li::marker {
+  color: $primary-color;
+}
+
+article.publication desc-cell header {
+  color: $text-color;
+}
+
+article.publication conference {
+  color: $primary-color;
+}
+
+article.publication authors {
+  color: $muted-text-color;
+}
+
+article.publication authors u {
+  color: $primary-color;
+  border-bottom-color: mix($primary-color, $text-color, 40%);
+}
+
+.sidebar .author__name {
+  color: $primary-color;
+}
+
+article.publication thumbnail {
+  border-color: mix($primary-color, #cdcdcd, 35%);
+}
