@@ -213,6 +213,19 @@ function translate4(a, x, y, z) {
     ];
 }
 
+function worldRotate4(m, rad, x, y, z) {
+    let len = Math.hypot(x, y, z);
+    x /= len; y /= len; z /= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c;
+    let r = [
+        t*x*x+c,   t*x*y+z*s, t*x*z-y*s, 0,
+        t*x*y-z*s, t*y*y+c,   t*y*z+x*s, 0,
+        t*x*z+y*s, t*y*z-x*s, t*z*z+c,   0,
+        0,          0,          0,          1,
+    ];
+    return multiply4(r, m);
+}
+
 function createWorker(self) {
     let buffer;
     let vertexCount = 0;
@@ -650,7 +663,7 @@ void main () {
 `.trim();
 
 let defaultViewMatrix = [-0.8798535963573135, -0.1550073294297372, 0.4492553581206105, 0, -0.0574575177288285, 0.9730748652115421, 0.22321276923588976, 0, -0.4717587123026946, 0.17058146006110056, -0.865069756060163, 0, 0., 0.6, 14.0, 1.00000000000000];
-//let defaultViewMatrix = [-0.8899561608609746, -0.17517121236650618, 0.4210618459366187, 0, -0.060400682658013904, 0.9604289002399675, 0.2718971958631998, 0, -0.4520285270643733, 0.21654416164348342, -0.8653200776465375, 0, -0.07849438220251653, 0.5163347939300488, 13.602223905852199, 0.9999999999996931];
+
 let viewMatrix = defaultViewMatrix;
 let idleTime = 0;
 let idleLimit = 2500;
@@ -955,53 +968,12 @@ async function main() {
 				resetIdleTimer();
         e.preventDefault();
         if (down == 1) {
-
             let inv = invert4(viewMatrix);
             let dx = (5 * (e.clientX - startX)) / innerWidth;
             let dy = (5 * (e.clientY - startY)) / innerHeight;
-            
-            //console.log(
-            //    inv[12],
-            //    inv[13],
-            //    inv[14],
-            //    Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2),
-            //)            
-              
-            let cam_x = inv[12];
-            let cam_y = inv[13];
-            let cam_z = inv[14];
-            //
-            // let d = 4;
-            let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
-            //
-
-            //console.log("=======================================================")
-            //console.log(viewMatrix)
-            //console.log(inv)
-            //console.log(d)
-            //console.log("=======================================================")
-
-
-            //
-            inv = translate4(inv, 0, 0, d);
-            // inv = translate4(inv, cam_x, cam_y, cam_z);
-            // inv = pureTranslate4(inv, -cam_x, -cam_y, -cam_z);
-            //
-            //console.log(inv)
-            inv = rotate4(inv, dx, 0, 1, 0);
-            inv = rotate4(inv, -dy, 1, 0, 0);
-
-            //
-            inv = translate4(inv, 0, 0, -d);
-            // inv = translate4(inv, -cam_x, -cam_y, -cam_z);
-            // inv = pureTranslate4(inv, cam_x, cam_y, cam_z);
-            //
-
-            // let postAngle = Math.atan2(inv[0], inv[10])
-            // inv = rotate4(inv, postAngle - preAngle, 0, 0, 1)
-            // console.log(postAngle)            
+            inv = worldRotate4(inv, dx, 0, 1, 0);
+            inv = worldRotate4(inv, -dy, inv[0], inv[1], inv[2]);
             viewMatrix = invert4(inv);
-
             startX = e.clientX;
             startY = e.clientY;
         } else if (down == 2) {
@@ -1061,19 +1033,9 @@ async function main() {
                 let inv = invert4(viewMatrix);
                 let dx = (4 * (e.touches[0].clientX - startX)) / innerWidth;
                 let dy = (4 * (e.touches[0].clientY - startY)) / innerHeight;
-
-                //let d = 4; //juil: fix the distance.
-								let cam_x = inv[12];
-								let cam_y = inv[13];
-								let cam_z = inv[14];
-								let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
-								inv = translate4(inv, 0, 0, d);
-                inv = rotate4(inv, dx, 0, 1, 0);
-                inv = rotate4(inv, -dy, 1, 0, 0);
-                inv = translate4(inv, 0, 0, -d);
-
+                inv = worldRotate4(inv, dx, 0, 1, 0);
+                inv = worldRotate4(inv, -dy, inv[0], inv[1], inv[2]);
                 viewMatrix = invert4(inv);
-
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
             } 
@@ -1184,56 +1146,52 @@ async function main() {
 
         const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
         let isJumping = activeKeys.includes("Space");
+        let invModified = false;
         for (let gamepad of gamepads) {
             if (!gamepad) continue;
 
-            const axisThreshold = 0.1; // Threshold to detect when the axis is intentionally moved
+            const axisThreshold = 0.1;
             const moveSpeed = 0.06;
             const rotateSpeed = 0.02;
 
-            // Assuming the left stick controls translation (axes 0 and 1)
             if (Math.abs(gamepad.axes[0]) > axisThreshold) {
                 inv = translate4(inv, moveSpeed * gamepad.axes[0], 0, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (Math.abs(gamepad.axes[1]) > axisThreshold) {
                 inv = translate4(inv, 0, 0, -moveSpeed * gamepad.axes[1]);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if(gamepad.buttons[12].pressed || gamepad.buttons[13].pressed){
                 inv = translate4(inv, 0, -moveSpeed*(gamepad.buttons[12].pressed - gamepad.buttons[13].pressed), 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
-
             if(gamepad.buttons[14].pressed || gamepad.buttons[15].pressed){
                 inv = translate4(inv, -moveSpeed*(gamepad.buttons[14].pressed - gamepad.buttons[15].pressed), 0, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
-
-            // Assuming the right stick controls rotation (axes 2 and 3)
             if (Math.abs(gamepad.axes[2]) > axisThreshold) {
                 inv = rotate4(inv, rotateSpeed * gamepad.axes[2], 0, 1, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (Math.abs(gamepad.axes[3]) > axisThreshold) {
                 inv = rotate4(inv, -rotateSpeed * gamepad.axes[3], 1, 0, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
-
             let tiltAxis = gamepad.buttons[6].value - gamepad.buttons[7].value;
             if (Math.abs(tiltAxis) > axisThreshold) {
                 inv = rotate4(inv, rotateSpeed * tiltAxis, 0, 0, 1);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (gamepad.buttons[4].pressed && !leftGamepadTrigger) {
                 camera = cameras[(cameras.indexOf(camera)+1)%cameras.length]
                 inv = invert4(getViewMatrix(camera));
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (gamepad.buttons[5].pressed && !rightGamepadTrigger) {
                 camera = cameras[(cameras.indexOf(camera)+cameras.length-1)%cameras.length]
                 inv = invert4(getViewMatrix(camera));
-                carousel = false;
+                carousel = false; invModified = true;
             }
             leftGamepadTrigger = gamepad.buttons[4].pressed;
             rightGamepadTrigger = gamepad.buttons[5].pressed;
@@ -1249,49 +1207,21 @@ async function main() {
         if (
             ["KeyJ", "KeyK", "KeyL", "KeyI"].some((k) => activeKeys.includes(k))
         ) {
-            let d = 4;
-            inv = translate4(inv, 0, 0, d);
-            inv = rotate4(
-                inv,
-                activeKeys.includes("KeyJ")
-                    ? -0.05
-                    : activeKeys.includes("KeyL")
-                    ? 0.05
-                    : 0,
-                0,
-                1,
-                0,
-            );
-            inv = rotate4(
-                inv,
-                activeKeys.includes("KeyI")
-                    ? 0.05
-                    : activeKeys.includes("KeyK")
-                    ? -0.05
-                    : 0,
-                1,
-                0,
-                0,
-            );
-            inv = translate4(inv, 0, 0, -d);
+            let yaw = activeKeys.includes("KeyJ") ? -0.05 : activeKeys.includes("KeyL") ? 0.05 : 0;
+            let pitch = activeKeys.includes("KeyI") ? 0.05 : activeKeys.includes("KeyK") ? -0.05 : 0;
+            if (yaw) inv = worldRotate4(inv, yaw, 0, 1, 0);
+            if (pitch) inv = worldRotate4(inv, pitch, inv[0], inv[1], inv[2]);
+            invModified = true;
         }
 
-        viewMatrix = invert4(inv);
+        if (invModified) {
+            viewMatrix = invert4(inv);
+        }
 
         if (carousel) {
             let inv = invert4(defaultViewMatrix);
-
             const t = Math.sin((Date.now() - start) / 1000);
-
-            // inv = translate4(inv, 2.5 * t, 0, 6 * (1 - Math.cos(t)));
-						let cam_x = inv[12];
-						let cam_y = inv[13];
-						let cam_z = inv[14];
-            let d = Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2);
-						inv = translate4(inv, 0, 0, d);
-            inv = rotate4(inv, -Math.PI/3 * t, 0, 1, 0);
-						inv = translate4(inv, 0, 0, -d);
-
+            inv = worldRotate4(inv, -Math.PI / 3 * t, 0, 1, 0);
             viewMatrix = invert4(inv);
         }
 

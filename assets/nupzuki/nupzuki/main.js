@@ -248,8 +248,20 @@ function translate4(a, x, y, z) {
         a[1] * x + a[5] * y + a[9] * z + a[13],
         a[2] * x + a[6] * y + a[10] * z + a[14],
 				1,
-        //a[3] * x + a[7] * y + a[11] * z + a[15],
     ];
+}
+
+function worldRotate4(m, rad, x, y, z) {
+    let len = Math.hypot(x, y, z);
+    x /= len; y /= len; z /= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c;
+    let r = [
+        t*x*x+c,   t*x*y+z*s, t*x*z-y*s, 0,
+        t*x*y-z*s, t*y*y+c,   t*y*z+x*s, 0,
+        t*x*z+y*s, t*y*z-x*s, t*z*z+c,   0,
+        0,          0,          0,          1,
+    ];
+    return multiply4(r, m);
 }
 
 function createWorker(self) {
@@ -693,6 +705,7 @@ let defaultViewMatrix = [0.6964256086171294, 0.0008016819724612522, -0.717628545
 	0.7175517727665134, 0.013891704530799812, 0.6963666232272068, 0, 
 	0.0, 0.2, 9.8, 1];
 let viewMatrix = defaultViewMatrix;
+
 let idleTime = 0;
 let idleLimit = 2500;
 let idleTimer;
@@ -915,25 +928,12 @@ async function main() {
 				resetIdleTimer();
         e.preventDefault();
         if (down == 1) {
-
-            let inv = invert4(viewMatrix); 
-						let dx = (5 * (e.clientX - startX)) / innerWidth;
+            let inv = invert4(viewMatrix);
+            let dx = (5 * (e.clientX - startX)) / innerWidth;
             let dy = (5 * (e.clientY - startY)) / innerHeight;
-              
-            let cam_x = inv[12];
-            let cam_y = inv[13];
-            let cam_z = inv[14];
-
-            // let d = 4;
-            let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
-            //
-
-            inv = translate4(inv, 0, 0, d);
-            inv = rotate4(inv, dx, 0, 1, 0);
-            inv = rotate4(inv, -dy, 1, 0, 0);
-            inv = translate4(inv, 0, 0, -d);
+            inv = worldRotate4(inv, dx, 0, 1, 0);
+            inv = worldRotate4(inv, -dy, inv[0], inv[1], inv[2]);
             viewMatrix = invert4(inv);
-
             startX = e.clientX;
             startY = e.clientY;
         } else if (down == 2) {
@@ -989,18 +989,9 @@ async function main() {
                 let inv = invert4(viewMatrix);
                 let dx = (4 * (e.touches[0].clientX - startX)) / innerWidth;
                 let dy = (4 * (e.touches[0].clientY - startY)) / innerHeight;
-
-								let cam_x = inv[12];
-								let cam_y = inv[13];
-								let cam_z = inv[14];
-								let d = Math.sqrt(cam_x ** 2 + cam_y ** 2 + cam_z ** 2);
-								inv = translate4(inv, 0, 0, d);
-                inv = rotate4(inv, dx, 0, 1, 0);
-                inv = rotate4(inv, -dy, 1, 0, 0);
-								inv = translate4(inv, 0, 0, -d);
-
+                inv = worldRotate4(inv, dx, 0, 1, 0);
+                inv = worldRotate4(inv, -dy, inv[0], inv[1], inv[2]);
                 viewMatrix = invert4(inv);
-
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
             } 
@@ -1071,56 +1062,52 @@ async function main() {
 
         const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
         let isJumping = activeKeys.includes("Space");
+        let invModified = false;
         for (let gamepad of gamepads) {
             if (!gamepad) continue;
 
-            const axisThreshold = 0.1; // Threshold to detect when the axis is intentionally moved
+            const axisThreshold = 0.1;
             const moveSpeed = 0.06;
             const rotateSpeed = 0.02;
 
-            // Assuming the left stick controls translation (axes 0 and 1)
             if (Math.abs(gamepad.axes[0]) > axisThreshold) {
                 inv = translate4(inv, moveSpeed * gamepad.axes[0], 0, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (Math.abs(gamepad.axes[1]) > axisThreshold) {
                 inv = translate4(inv, 0, 0, -moveSpeed * gamepad.axes[1]);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if(gamepad.buttons[12].pressed || gamepad.buttons[13].pressed){
                 inv = translate4(inv, 0, -moveSpeed*(gamepad.buttons[12].pressed - gamepad.buttons[13].pressed), 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
-
             if(gamepad.buttons[14].pressed || gamepad.buttons[15].pressed){
                 inv = translate4(inv, -moveSpeed*(gamepad.buttons[14].pressed - gamepad.buttons[15].pressed), 0, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
-
-            // Assuming the right stick controls rotation (axes 2 and 3)
             if (Math.abs(gamepad.axes[2]) > axisThreshold) {
                 inv = rotate4(inv, rotateSpeed * gamepad.axes[2], 0, 1, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (Math.abs(gamepad.axes[3]) > axisThreshold) {
                 inv = rotate4(inv, -rotateSpeed * gamepad.axes[3], 1, 0, 0);
-                carousel = false;
+                carousel = false; invModified = true;
             }
-
             let tiltAxis = gamepad.buttons[6].value - gamepad.buttons[7].value;
             if (Math.abs(tiltAxis) > axisThreshold) {
                 inv = rotate4(inv, rotateSpeed * tiltAxis, 0, 0, 1);
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (gamepad.buttons[4].pressed && !leftGamepadTrigger) {
                 camera = cameras[(cameras.indexOf(camera)+1)%cameras.length]
                 inv = invert4(getViewMatrix(camera));
-                carousel = false;
+                carousel = false; invModified = true;
             }
             if (gamepad.buttons[5].pressed && !rightGamepadTrigger) {
                 camera = cameras[(cameras.indexOf(camera)+cameras.length-1)%cameras.length]
                 inv = invert4(getViewMatrix(camera));
-                carousel = false;
+                carousel = false; invModified = true;
             }
             leftGamepadTrigger = gamepad.buttons[4].pressed;
             rightGamepadTrigger = gamepad.buttons[5].pressed;
@@ -1136,45 +1123,21 @@ async function main() {
         if (
             ["KeyJ", "KeyK", "KeyL", "KeyI"].some((k) => activeKeys.includes(k))
         ) {
-            let d = 4;
-            inv = translate4(inv, 0, 0, d);
-            inv = rotate4(
-                inv,
-                activeKeys.includes("KeyJ")
-                    ? -0.05
-                    : activeKeys.includes("KeyL")
-                    ? 0.05
-                    : 0,
-                0,
-                1,
-                0,
-            );
-            inv = rotate4(
-                inv,
-                activeKeys.includes("KeyI")
-                    ? 0.05
-                    : activeKeys.includes("KeyK")
-                    ? -0.05
-                    : 0,
-                1,
-                0,
-                0,
-            );
-            inv = translate4(inv, 0, 0, -d);
+            let yaw = activeKeys.includes("KeyJ") ? -0.05 : activeKeys.includes("KeyL") ? 0.05 : 0;
+            let pitch = activeKeys.includes("KeyI") ? 0.05 : activeKeys.includes("KeyK") ? -0.05 : 0;
+            if (yaw) inv = worldRotate4(inv, yaw, 0, 1, 0);
+            if (pitch) inv = worldRotate4(inv, pitch, inv[0], inv[1], inv[2]);
+            invModified = true;
         }
 
-        viewMatrix = invert4(inv);
+        if (invModified) {
+            viewMatrix = invert4(inv);
+        }
 
         if (carousel) {
             let inv = invert4(defaultViewMatrix);
-
             const t = Math.sin((Date.now() - start) / 1000);
-
-            let d = Math.sqrt(inv[12] ** 2 + inv[13] ** 2 + inv[14] ** 2);
-						inv = translate4(inv, 0, 0, d);
-            inv = rotate4(inv, -Math.PI/3*t, 0, 1, 0);
-            inv = translate4(inv, 0, 0, -d);
-
+            inv = worldRotate4(inv, -Math.PI / 3 * t, 0, 1, 0);
             viewMatrix = invert4(inv);
         }
 
