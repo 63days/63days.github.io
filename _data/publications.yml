@@ -1,3 +1,19 @@
+- key: dfp
+  selected: true
+  title: "Drifting Field Policy: A One-Step Generative Policy via Wasserstein Gradient Flow"
+  authors:
+    - name: Juil Koo
+    - name: Mingue Park
+      link: https://uygnim99.github.io/
+    - name: Jiwon Choi
+    - name: Yunhong Min
+      link: https://myh4832.github.io/
+    - name: Minhyuk Sung
+      link: https://mhsung.github.io/
+  venue: arXiv 2026
+  arXiv: https://arxiv.org/abs/2605.07727
+  thumbnail: assets/images/dfp_thumbnail.png
+
 - key: token-warping
   selected: false
   title: "Token Warping Helps MLLMs Look from Nearby Viewpoints"
