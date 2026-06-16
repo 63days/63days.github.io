@@ -11,6 +11,9 @@
     - name: Minhyuk Sung
       link: https://mhsung.github.io/
   venue: arXiv 2026
+  project: https://driftingpolicy.github.io/
+  code: https://github.com/KAIST-Visual-AI-Group/DFP
+  slides: assets/slides/talk_juil_stanford_2026.pdf
   arXiv: https://arxiv.org/abs/2605.07727
   thumbnail: assets/images/dfp_thumbnail.png
 
@@ -31,7 +34,9 @@
       link: https://mhsung.github.io/
   authors_note: "* co-first author"
   venue: CVPR 2026
-  publication_note: "Coming soon"
+  project: https://token-warping-mllm.github.io/
+  code: https://github.com/KAIST-Visual-AI-Group/Token-Warping-MLLM
+  arXiv: https://arxiv.org/abs/2604.02870
   thumbnail: assets/images/token-warping_thumbnail.png
 
 - key: vg-avs
