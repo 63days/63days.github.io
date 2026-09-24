@@ -10,7 +10,7 @@
       link: https://myh4832.github.io/
     - name: Minhyuk Sung
       link: https://mhsung.github.io/
-  venue: arXiv 2026
+  venue: NeurIPS 2026
   project: https://driftingpolicy.github.io/
   code: https://github.com/KAIST-Visual-AI-Group/DFP
   slides: assets/slides/talk_juil_stanford_2026.pdf
@@ -53,7 +53,7 @@
     - name: Minhyuk Sung
       link: https://mhsung.github.io/
   authors_note: "* co-first author"
-  venue: arXiv 2025
+  venue: ICML 2026 Workshop RLxF
   project: https://active-view-selection.github.io/
   arXiv: https://arxiv.org/abs/2512.13250
   code: https://github.com/KAIST-Visual-AI-Group/VG-AVS
