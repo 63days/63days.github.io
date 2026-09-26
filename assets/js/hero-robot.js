@@ -26,7 +26,7 @@ const FIGURES = [
 ];
 const DIFFUSE = 3.2; // seconds for the figurines to denoise, all splats together
 const SPLAT_NOISE = 0.0025, SPLAT_BLUR = 0.012; // splat std as noise, and extra blur mid-way (coarse to fine)
-const JITTER = 0.025; // shimmer while a resample is adding noise
+const JITTER = 0.025, SPREAD = 0.18; // on a resample: shimmer, and how far points diffuse apart (so the letters dissolve)
 const NOISE_SHOWN = 0.18; // share of splats visible while they are noise; the rest fade in as they come together
 const FIG_POINT = 0.036; // point size for the disc fallback when the splat shader is unavailable
 const FOV = 35, TAN = Math.tan((FOV / 2) * Math.PI / 180);
@@ -846,7 +846,8 @@ function pointsMaterial(size, dot, solid) {
 	material.onBeforeCompile = shader => {
 		shader.vertexShader = shader.vertexShader
 			.replace("uniform float size;", "uniform float size;\nattribute float pscale;")
-			.replace("gl_PointSize = size;", "gl_PointSize = size * pscale;");
+			// a size of 0 would still draw one pixel (GPUs clamp point size to at least 1), so hidden points go out of view
+			.replace("gl_PointSize = size;", "gl_PointSize = size * pscale;\n\tif (pscale <= 0.0) gl_Position = vec4(2.0, 2.0, 2.0, 1.0);");
 	};
 	return material;
 }
@@ -861,6 +862,7 @@ function makeCloud(scene, max, size, dot, solid, share = 1) {
 		arrive: new Float32Array(max), dur: new Float32Array(max), line: new Uint8Array(max),
 		scale: new Float32Array(max).fill(NOISE_SIZE), inkScale: new Float32Array(max).fill(1),
 		shown: Uint8Array.from({ length: max }, () => (Math.random() < share ? 1 : 0)),
+		kick: Float32Array.from({ length: 3 * max }, (_, j) => (j % 3 === 1 ? Math.abs(gauss()) : gauss())), // own direction when noise is added; up, never into the desk
 	};
 	for (let j = 0; j < 3 * max; j++) c.wob[j] = Math.random() * TAU;
 	c.geometry = new THREE.BufferGeometry();
@@ -942,14 +944,17 @@ function updateCloud(c, now) {
 	};
 	const ink = j => [c.ink[j], c.ink[j + 1], c.ink[j + 2]];
 	if (c.stage === "scatter") {
-		// forward diffusion: straight out to fresh noise (leaving the paper at once), shimmering most
-		// while noise is half added
+		// forward diffusion: every point first diffuses apart in its own random direction (the letters
+		// blur away at once, as when noise is added to an image), then settles into fresh noise
 		const e = 1 - Math.pow(1 - clamp((now - c.t0) / (SCATTER * 1000), 0, 1), 3), shake = JITTER * Math.sin(Math.PI * e);
+		const spread = SPREAD * Math.sqrt(Math.sin(Math.PI * e));
 		for (let i = 0, j = 0; i < c.drawN; i++, j += 3) {
-			for (let k = 0; k < 3; k++) pos[j + k] = c.from[j + k] + (drift(j, k) - c.from[j + k]) * e + shake * Math.sin(s * (9 + 0.8 * k) + 3 * c.wob[j + k]);
+			for (let k = 0; k < 3; k++) {
+				pos[j + k] = c.from[j + k] + (drift(j, k) - c.from[j + k]) * e + spread * c.kick[j + k] + shake * Math.sin(s * (9 + 0.8 * k) + 3 * c.wob[j + k]);
+			}
 			const rest = c.shown[i] ? NOISE_SIZE : 0;
 			if (i < c.fresh) {
-				mix(j, ink(j), NOISE, e);
+				mix(j, ink(j), NOISE, Math.min(1, 3 * e)); // no dark letters left behind
 				scale[i] = lerp(c.inkScale[i], rest, e);
 			} else {
 				mix(j, NOISE, NOISE, 0);
