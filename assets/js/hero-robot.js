@@ -17,21 +17,24 @@ const L1 = 1.05, L2 = 1.0, PEN = 0.24, PEN_PITCH = -1.35; // arm links; the pen 
 const REST = [1.3, 0.55, -0.75]; // pen tip while idle: off to the right and behind the text
 const LIFT = 0.16; // pen height while hopping between strokes
 const DRAW_SPEED = 1.2, HOP_SPEED = 2.625, MIN_HOP = 0.107; // world units per second, the same for any text
-const REACH = 0.7, RETRACT = 0.8, SCATTER = 0.9, MAX_FLOW = 1.4; // seconds
-const MAX_N = 4200, PER_SAMPLE = 3, STROKE_WIDTH = 0.006, DRIFT = 0.03;
+const REACH = 0.7, RETRACT = 0.8, SCATTER = 1.2, MAX_FLOW = 1.4; // seconds; SCATTER is the forward diffusion on a resample
+const LINE_PAUSE = 1; // seconds the lifted pen waits before starting the next line
+const MAX_N = 6000, PER_SAMPLE = 4, STROKE_WIDTH = 0.006, DRIFT = 0.03;
 const FIGURES = [
 	{ file: "nupzuki.splats", x: -2.05, z: -0.05, turn: 0.3 },
 	{ file: "duck.splats", x: 2.05, z: -0.05, turn: -0.3 },
 ];
-const FIG_START = 0.6, FIG_SPAN = 1.8; // figurines build up from their feet over this window (s)
-const SPLAT_NOISE = 0.0032; // std of a splat while it is still noise (world units)
-const NOISE_SHOWN = 0.3; // share of splats visible while they are noise; the rest fade in as they fly in
+const DIFFUSE = 3.2; // seconds for the figurines to denoise, all splats together
+const SPLAT_NOISE = 0.0025, SPLAT_BLUR = 0.012; // splat std as noise, and extra blur mid-way (coarse to fine)
+const JITTER = 0.025; // shimmer while a resample is adding noise
+const NOISE_SHOWN = 0.18; // share of splats visible while they are noise; the rest fade in as they come together
 const FIG_POINT = 0.036; // point size for the disc fallback when the splat shader is unavailable
 const FOV = 35, TAN = Math.tan((FOV / 2) * Math.PI / 180);
 const EXPOSURE = 0.92; // overall brightness of the scene
 const TARGET = [0, 0.35, -0.25], PHI_MIN = 0.12, PHI_MAX = 1.35;
-const INK = srgb(0x1a1a1a), BLUE = srgb(0x1487c8), NOISE = srgb(0x7d8a99);
-const NOISE_SIZE = 1.45; // noise points are drawn this much bigger, shrinking to crisp ink as they land
+const INK = srgb(0x1a1a1a), BLUE = srgb(0x2590d8), NOISE = BLUE; // noise and flying points share one blue
+const NOISE_SIZE = 2, NOISE_SHARE = 0.5; // noise points: drawn this much bigger; this share visible while waiting
+const SWELL = 0.5, TRAIL = [0.07, 0.14]; // emphasis while flying: size swell, and ghosts this far back along the path
 
 // Vertex colors are linear, so convert from sRGB
 function linear(c) {
@@ -340,7 +343,7 @@ function textStrokes(text) {
 		for (const ch of Array.from(line)) {
 			const a = x0 + measure(prefix);
 			prefix += ch;
-			if (ch.trim()) boxes.push({ ch, x0: a, x1: x0 + measure(prefix), y0: base - S, y1: base + 0.35 * S, strokes: [] });
+			if (ch.trim()) boxes.push({ ch, line: L, x0: a, x1: x0 + measure(prefix), y0: base - S, y1: base + 0.35 * S, strokes: [] });
 		}
 	});
 	const alpha = g.getImageData(0, 0, w, h).data;
@@ -399,7 +402,7 @@ function textStrokes(text) {
 	}
 
 	// Within a character: (Hangul part), top to bottom, left to right, dots last
-	const ordered = [];
+	const ordered = [], lineOf = [];
 	for (const box of boxes) {
 		if (!box.strokes.length) continue;
 		let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
@@ -419,6 +422,7 @@ function textStrokes(text) {
 		});
 		keyed.sort((a, b) => a.key[0] - b.key[0] || a.key[1] - b.key[1] || a.key[2] - b.key[2] || a.key[3] - b.key[3]);
 		for (const { s, pts } of keyed) {
+			lineOf.push(box.line);
 			if (s.dot) {
 				const r = S * 0.035, [px, py] = pts[0];
 				ordered.push(Array.from({ length: 13 }, (_, k) => [px - r * Math.sin((k / 12) * TAU), py - r * Math.cos((k / 12) * TAU)]));
@@ -443,6 +447,7 @@ function textStrokes(text) {
 	// Down the page (image y) is toward the viewer (+z) on the desk
 	const world = ordered.map(s => s.map(([x, y]) => [PAPER.x + (x - cx) * k, PAPER.y + 0.002, PAPER.z + (y - cy) * k]));
 	world.width = STROKE_WIDTH * clamp((S * k) / 0.35, 0.5, 1.6); // strokes scale with the lettering
+	world.lineStarts = lineOf.flatMap((line, i) => (i && line !== lineOf[i - 1] ? [i] : []));
 	return world;
 }
 
@@ -458,10 +463,18 @@ function penTimeline(strokes) {
 	};
 	const first = strokes[0][0], lastStroke = strokes[strokes.length - 1];
 	const last = lastStroke[lastStroke.length - 1];
+	const breaks = new Set(strokes.lineStarts || []);
 	hop(REST, first, REACH);
 	strokes.forEach((pts, k) => {
 		if (k) {
-			const a = strokes[k - 1][strokes[k - 1].length - 1];
+			let a = strokes[k - 1][strokes[k - 1].length - 1];
+			if (breaks.has(k)) {
+				// end of a line: lift the pen and wait a moment before moving to the next one
+				const up = [a[0], a[1] + LIFT, a[2]];
+				segs.push({ t0: t, t1: t + LINE_PAUSE, a, b: up, pause: true });
+				t += LINE_PAUSE;
+				a = up;
+			}
 			hop(a, pts[0], Math.max(MIN_HOP, dist(a, pts[0]) / HOP_SPEED));
 		}
 		const cum = [0];
@@ -486,6 +499,7 @@ function penAt(tl, time) {
 	const seg = tl.segs.find(s => time <= s.t1) || tl.segs[tl.segs.length - 1];
 	const u = clamp((time - seg.t0) / (seg.t1 - seg.t0), 0, 1);
 	if (seg.pts) return { p: pointAlong(seg, u * seg.len), down: true };
+	if (seg.pause) return { p: lerp3(seg.a, seg.b, easeInOut(clamp(3 * u, 0, 1))), down: false }; // up, then hover
 	const e = easeInOut(u), p = lerp3(seg.a, seg.b, e);
 	return { p: [p[0], p[1] + Math.sin(Math.PI * u) * LIFT, p[2]], down: false };
 }
@@ -501,11 +515,17 @@ function solveArm(p) {
 	return { yaw: Math.atan2(dx, dz), a1, a2, a3: PEN_PITCH - a1 - a2 };
 }
 
-// Stroke samples with a little width, ordered by when the pen passes them
+// Stroke samples with a little width, ordered by when the pen passes them. Each also carries the
+// time the pen set off for its line: its particles should not start flying before the pen does.
 function strokeParticles(tl) {
 	const step = Math.max(0.008, (tl.length * PER_SAMPLE) / (MAX_N - 300));
 	const list = [];
+	let leave = -Infinity, line = 0;
 	for (const seg of tl.segs) {
+		if (seg.pause) {
+			leave = seg.t1;
+			line++;
+		}
 		if (!seg.pts) continue;
 		for (let d = 0; d <= seg.len; d += step) {
 			const p = pointAlong(seg, d), q = pointAlong(seg, Math.min(seg.len, d + 0.01));
@@ -514,7 +534,7 @@ function strokeParticles(tl) {
 			const at = seg.t0 + (seg.len ? d / seg.len : 1) * (seg.t1 - seg.t0);
 			for (let k = 0; k < PER_SAMPLE; k++) {
 				const w = gauss() * tl.width;
-				list.push([p[0] + nx * w, p[1] + Math.random() * 0.003, p[2] + nz * w, at]);
+				list.push([p[0] + nx * w, p[1] + Math.random() * 0.003, p[2] + nz * w, at, leave, line]);
 			}
 		}
 	}
@@ -820,8 +840,8 @@ function buildRobot(scene) {
 function pointsMaterial(size, dot, solid) {
 	const material = new THREE.PointsMaterial(
 		solid
-			? { size, map: dot, vertexColors: true, alphaTest: 0.5 }
-			: { size, map: dot, vertexColors: true, transparent: true, depthWrite: false }
+			? { size, map: dot, vertexColors: true, alphaTest: 0.5, toneMapped: false }
+			: { size, map: dot, vertexColors: true, transparent: true, depthWrite: false, toneMapped: false } // colours as given
 	);
 	material.onBeforeCompile = shader => {
 		shader.vertexShader = shader.vertexShader
@@ -832,14 +852,15 @@ function pointsMaterial(size, dot, solid) {
 }
 
 // Particles that flow from noise to targets on a schedule; `ink` and `inkScale` are each one's
-// final colour and size
-function makeCloud(scene, max, size, dot, solid) {
+// final colour and size, `shown` whether it is visible while still waiting as noise
+function makeCloud(scene, max, size, dot, solid, share = 1) {
 	const f3 = () => new Float32Array(3 * max);
 	const c = {
 		n: 0, drawN: 0, fresh: 0, stage: "idle", t0: 0, until: 0,
 		target: f3(), ink: f3(), noise: f3(), ctrl: f3(), from: f3(), wob: f3(), pos: f3(), col: f3(),
-		arrive: new Float32Array(max), dur: new Float32Array(max),
+		arrive: new Float32Array(max), dur: new Float32Array(max), line: new Uint8Array(max),
 		scale: new Float32Array(max).fill(NOISE_SIZE), inkScale: new Float32Array(max).fill(1),
+		shown: Uint8Array.from({ length: max }, () => (Math.random() < share ? 1 : 0)),
 	};
 	for (let j = 0; j < 3 * max; j++) c.wob[j] = Math.random() * TAU;
 	c.geometry = new THREE.BufferGeometry();
@@ -855,13 +876,42 @@ function makeCloud(scene, max, size, dot, solid) {
 	return c;
 }
 
-// Fresh Gaussian noise; the first `pair` samples are sorted along `axis` to match target order,
-// so the flow moves as one field instead of crossing paths
-function sampleNoise(c, count, pair, axis, center, sigma, floor) {
-	const pts = Array.from({ length: count }, () => [0, 1, 2].map(k => center[k] + gauss() * sigma[k]));
-	for (const p of pts) p[1] = Math.max(floor, p[1]);
-	const paired = pts.slice(0, pair).sort((a, b) => a[axis] - b[axis]);
-	paired.concat(pts.slice(pair)).forEach((p, i) => c.noise.set(p, 3 * i));
+// Comet tails: ghosts that follow each flying particle a little way back along its own path
+function makeTrail(scene, max, size, dot) {
+	const n = max * TRAIL.length, t = { n, pos: new Float32Array(3 * n), col: new Float32Array(4 * n), scale: new Float32Array(n) };
+	t.geometry = new THREE.BufferGeometry();
+	t.posAttr = new THREE.BufferAttribute(t.pos, 3).setUsage(THREE.DynamicDrawUsage);
+	t.colAttr = new THREE.BufferAttribute(t.col, 4).setUsage(THREE.DynamicDrawUsage); // rgba: the tail fades
+	t.sizeAttr = new THREE.BufferAttribute(t.scale, 1).setUsage(THREE.DynamicDrawUsage);
+	t.geometry.setAttribute("position", t.posAttr);
+	t.geometry.setAttribute("color", t.colAttr);
+	t.geometry.setAttribute("pscale", t.sizeAttr);
+	const points = new THREE.Points(t.geometry, pointsMaterial(size, dot));
+	points.frustumCulled = false;
+	scene.add(points);
+	return t;
+}
+
+function updateTrail(t, c, now) {
+	const s = now / 1000, tc = (now - c.t0) / 1000, flying = c.stage !== "scatter";
+	t.scale.fill(0);
+	for (let i = 0; flying && i < c.n; i++) {
+		const u = (tc - c.arrive[i]) / c.dur[i] + 1;
+		if (u <= 0 || u >= 1) continue;
+		const j = 3 * i;
+		TRAIL.forEach((back, k) => {
+			const ub = u - back;
+			if (ub <= 0) return;
+			const e = easeInOut(ub), f = 1 - e, g = i * TRAIL.length + k;
+			for (let a = 0; a < 3; a++) {
+				const noise = c.noise[j + a] + DRIFT * Math.sin(s * (0.7 + 0.1 * a) + c.wob[j + a]);
+				t.pos[3 * g + a] = f * f * noise + 2 * f * e * c.ctrl[j + a] + e * e * c.target[j + a];
+			}
+			t.col.set([BLUE[0], BLUE[1], BLUE[2], 0.45 / (k + 1)], 4 * g);
+			t.scale[g] = lerp(NOISE_SIZE, 1, e) * (1 - 0.25 * k);
+		});
+	}
+	t.posAttr.needsUpdate = t.colAttr.needsUpdate = t.sizeAttr.needsUpdate = true;
 }
 
 // Bézier control points from a smooth field, so neighbouring paths curve alike
@@ -881,8 +931,9 @@ function bend(ctrl, start, end, amp, count, stride = 3) {
 	}
 }
 
-// Scatter: from -> noise over SCATTER. Otherwise each particle waits as noise, flows during
-// [arrive - dur, arrive] (slate -> blue -> its ink, big -> small) and then sits on its target.
+// Scatter (forward diffusion): from -> noise over SCATTER. Otherwise each particle waits as noise, flows during
+// [arrive - dur, arrive] (slate -> blue -> its ink; swelling mid-flight, landing at ink size) and
+// then sits on its target. For the text, `arrive` is when the pen passes.
 function updateCloud(c, now) {
 	const s = now / 1000, col = c.col, pos = c.pos, scale = c.scale;
 	const drift = (j, k) => c.noise[j + k] + DRIFT * Math.sin(s * (0.7 + 0.1 * k) + c.wob[j + k]);
@@ -891,15 +942,18 @@ function updateCloud(c, now) {
 	};
 	const ink = j => [c.ink[j], c.ink[j + 1], c.ink[j + 2]];
 	if (c.stage === "scatter") {
-		const e = easeInOut(clamp((now - c.t0) / (SCATTER * 1000), 0, 1)), f = 1 - e;
+		// forward diffusion: straight out to fresh noise (leaving the paper at once), shimmering most
+		// while noise is half added
+		const e = 1 - Math.pow(1 - clamp((now - c.t0) / (SCATTER * 1000), 0, 1), 3), shake = JITTER * Math.sin(Math.PI * e);
 		for (let i = 0, j = 0; i < c.drawN; i++, j += 3) {
-			for (let k = 0; k < 3; k++) pos[j + k] = f * f * c.from[j + k] + 2 * f * e * c.ctrl[j + k] + e * e * drift(j, k);
+			for (let k = 0; k < 3; k++) pos[j + k] = c.from[j + k] + (drift(j, k) - c.from[j + k]) * e + shake * Math.sin(s * (9 + 0.8 * k) + 3 * c.wob[j + k]);
+			const rest = c.shown[i] ? NOISE_SIZE : 0;
 			if (i < c.fresh) {
 				mix(j, ink(j), NOISE, e);
-				scale[i] = lerp(c.inkScale[i], NOISE_SIZE, e);
+				scale[i] = lerp(c.inkScale[i], rest, e);
 			} else {
 				mix(j, NOISE, NOISE, 0);
-				scale[i] = NOISE_SIZE;
+				scale[i] = rest;
 			}
 		}
 	} else {
@@ -913,10 +967,10 @@ function updateCloud(c, now) {
 			} else if (u <= 0) {
 				for (let k = 0; k < 3; k++) pos[j + k] = drift(j, k);
 				mix(j, NOISE, NOISE, 0);
-				scale[i] = NOISE_SIZE;
+				scale[i] = c.shown[i] ? NOISE_SIZE : 0;
 			} else {
 				const e = easeInOut(u), f = 1 - e;
-				scale[i] = lerp(NOISE_SIZE, c.inkScale[i], e);
+				scale[i] = lerp(NOISE_SIZE, c.inkScale[i], e) * (1 + SWELL * Math.sin(Math.PI * u)) * (c.shown[i] ? 1 : Math.min(1, u / 0.15));
 				for (let k = 0; k < 3; k++) pos[j + k] = f * f * drift(j, k) + 2 * f * e * c.ctrl[j + k] + e * e * c.target[j + k];
 				if (u < 0.25) mix(j, NOISE, BLUE, u / 0.25);
 				else if (u < 0.75) mix(j, BLUE, BLUE, 0);
@@ -934,47 +988,36 @@ function updateCloud(c, now) {
 // from noise to the figurine (or back, while scattering) and projects its covariance to a screen
 // ellipse (EWA splatting); the CPU sorts splats back to front every frame they are drawn.
 const SPLAT_VERTEX = `
-uniform highp sampler2D tCenter; // xyz: position on the figurine, w: arrival time
-uniform highp sampler2D tCovA; // xx, xy, xz of the covariance, w: flow duration
+uniform highp sampler2D tCenter; // xyz: position on the figurine
+uniform highp sampler2D tCovA; // xx, xy, xz of the covariance
 uniform highp sampler2D tCovB; // yy, yz, zz of the covariance, w: opacity while it is noise
 uniform highp sampler2D tNoise; // xyz: noise position
-uniform highp sampler2D tCtrl; // xyz: Bezier control point
 uniform sampler2D tColor; // sRGB colour and opacity
 uniform vec2 viewport, focal; // drawing-buffer pixels
-uniform float time, scatter, noiseVar; // scatter < 0: building
-uniform vec3 slate, blue;
+uniform float time, tau, forward; // tau: 0 noise .. 1 figurine, shared by all splats; forward: noise being added
+uniform float noiseStd, blur, jitter;
+uniform vec3 slate;
 attribute float splatIndex;
 varying vec4 vColor;
 varying vec2 vPos;
 
-float ease(float u) {
-	return u < 0.5 ? 4.0 * u * u * u : 1.0 - pow(2.0 - 2.0 * u, 3.0) / 2.0;
-}
-
 void main() {
 	int i = int(splatIndex);
 	ivec2 uv = ivec2(i % 1024, i / 1024);
-	vec4 center = texelFetch(tCenter, uv, 0);
-	vec4 covA = texelFetch(tCovA, uv, 0);
+	vec3 center = texelFetch(tCenter, uv, 0).xyz;
+	vec3 covA = texelFetch(tCovA, uv, 0).xyz;
 	vec4 covB = texelFetch(tCovB, uv, 0);
 	vec3 noisePos = texelFetch(tNoise, uv, 0).xyz;
-	vec3 ctrl = texelFetch(tCtrl, uv, 0).xyz;
 	vec4 rgba = texelFetch(tColor, uv, 0);
 
-	float e; // 0: a noise point, 1: the splat itself
-	vec3 p, color;
-	if (scatter >= 0.0) {
-		float s = ease(clamp(scatter, 0.0, 1.0));
-		p = mix(mix(center.xyz, ctrl, s), mix(ctrl, noisePos, s), s);
-		e = 1.0 - s;
-		color = mix(rgba.rgb, slate, s);
-	} else {
-		float u = clamp((time - center.w) / covA.w + 1.0, 0.0, 1.0);
-		e = ease(u);
-		p = mix(mix(noisePos, ctrl, e), mix(ctrl, center.xyz, e), e);
-		color = u < 0.25 ? mix(slate, blue, u / 0.25) : (u < 0.75 ? blue : mix(blue, rgba.rgb, (u - 0.75) / 0.25));
-	}
-	mat3 cov3 = mat3(covA.x, covA.y, covA.z, covA.y, covB.x, covB.y, covA.z, covB.y, covB.z) * e + mat3(noiseVar) * (1.0 - e);
+	float a = tau * tau * (3.0 - 2.0 * tau); // how much of the figurine is there
+	vec3 p = mix(noisePos, center, a);
+	float phase = float(i) * 2.3999632; // golden angle, so neighbours shimmer out of step
+	p += forward * jitter * sin(3.14159265 * a) * vec3(sin(time * 9.0 + phase), sin(time * 7.3 + 2.0 * phase), sin(time * 8.1 + 3.0 * phase));
+	// a tiny dot as noise, blurry half-way (the silhouette shows first), the true Gaussian at the end
+	float b = blur * 4.0 * a * (1.0 - a) + noiseStd * (1.0 - a);
+	mat3 cov3 = mat3(covA.x, covA.y, covA.z, covA.y, covB.x, covB.y, covA.z, covB.y, covB.z) * a + mat3(b * b);
+	vec3 color = mix(slate, rgba.rgb, smoothstep(0.25, 0.95, a));
 
 	vec4 cam = modelViewMatrix * vec4(p, 1.0);
 	vec4 clip = projectionMatrix * cam;
@@ -988,17 +1031,19 @@ void main() {
 	mat3 J = mat3(focal.x / -z, 0.0, 0.0, 0.0, focal.y / -z, 0.0, focal.x * cam.x / (z * z), focal.y * cam.y / (z * z), 0.0);
 	mat3 T = J * mat3(modelViewMatrix);
 	mat3 cov2 = T * cov3 * transpose(T);
-	float a = cov2[0][0] + 0.3, b = cov2[0][1], d = cov2[1][1] + 0.3;
-	float mid = 0.5 * (a + d), rad = length(vec2(0.5 * (a - d), b));
+	float ca = cov2[0][0] + 0.3, cb = cov2[0][1], cd = cov2[1][1] + 0.3;
+	float mid = 0.5 * (ca + cd), rad = length(vec2(0.5 * (ca - cd), cb));
 	float l1 = mid + rad, l2 = mid - rad;
 	if (l2 <= 0.0) {
 		gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
 		return;
 	}
-	vec2 dir = abs(b) > 1e-8 ? normalize(vec2(b, l1 - a)) : (a >= d ? vec2(1.0, 0.0) : vec2(0.0, 1.0));
+	vec2 dir = abs(cb) > 1e-8 ? normalize(vec2(cb, l1 - ca)) : (ca >= cd ? vec2(1.0, 0.0) : vec2(0.0, 1.0));
 	vec2 major = min(sqrt(2.0 * l1), 1024.0) * dir;
 	vec2 minor = min(sqrt(2.0 * l2), 1024.0) * vec2(-dir.y, dir.x); // keeps the quad counter-clockwise
-	vColor = vec4(color, mix(covB.w, rgba.a, e));
+	// spread-out splats get fainter (blurring keeps the total, it doesn't thicken), and fill in late
+	float own = sqrt(max(covA.x, max(covB.x, covB.z))), fade = own / (own + b);
+	vColor = vec4(color, mix(covB.w, rgba.a, a * a) * fade * fade);
 	vPos = position.xy;
 	gl_Position = vec4(clip.xy / clip.w + (position.x * major + position.y * minor) * 2.0 / viewport, clip.z / clip.w, 1.0);
 }`;
@@ -1025,7 +1070,7 @@ function makeSplatFigure(scene, buf, f) {
 	const xyz = new Int16Array(buf, 4, 3 * n), cov = new Uint16Array(buf, 4 + 6 * n, 6 * n);
 	const g = {
 		n, center: new Float32Array(size), covA: new Float32Array(size), covB: new Float32Array(size),
-		noise: new Float32Array(size), ctrl: new Float32Array(size), rgba: new Uint8Array(size),
+		noise: new Float32Array(size), rgba: new Uint8Array(size),
 		order: new Float32Array(n), depth: new Float32Array(n), keys: new Uint16Array(n),
 	};
 	g.rgba.set(new Uint8Array(buf, 4 + 18 * n, 4 * n));
@@ -1043,7 +1088,7 @@ function makeSplatFigure(scene, buf, f) {
 		t.needsUpdate = true;
 		return t;
 	};
-	g.tex = [g.center, g.covA, g.covB, g.noise, g.ctrl].map(d => texture(d, THREE.FloatType));
+	g.tex = [g.center, g.covA, g.covB, g.noise].map(d => texture(d, THREE.FloatType));
 	const geometry = new THREE.InstancedBufferGeometry();
 	geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array([-2, -2, 0, 2, -2, 0, 2, 2, 0, -2, 2, 0]), 3));
 	geometry.setIndex([0, 1, 2, 0, 2, 3]);
@@ -1052,11 +1097,11 @@ function makeSplatFigure(scene, buf, f) {
 	geometry.instanceCount = n;
 	g.uniforms = {
 		tCenter: { value: g.tex[0] }, tCovA: { value: g.tex[1] }, tCovB: { value: g.tex[2] },
-		tNoise: { value: g.tex[3] }, tCtrl: { value: g.tex[4] }, tColor: { value: texture(g.rgba, THREE.UnsignedByteType) },
+		tNoise: { value: g.tex[3] }, tColor: { value: texture(g.rgba, THREE.UnsignedByteType) },
 		viewport: { value: new THREE.Vector2(1, 1) }, focal: { value: new THREE.Vector2(1, 1) },
-		time: { value: 0 }, scatter: { value: -1 }, noiseVar: { value: SPLAT_NOISE * SPLAT_NOISE },
-		slate: { value: new THREE.Vector3(0x7d / 255, 0x8a / 255, 0x99 / 255) }, // sRGB, written out as is
-		blue: { value: new THREE.Vector3(0x14 / 255, 0x87 / 255, 0xc8 / 255) },
+		time: { value: 0 }, tau: { value: 0 }, forward: { value: 0 },
+		noiseStd: { value: SPLAT_NOISE }, blur: { value: SPLAT_BLUR }, jitter: { value: JITTER },
+		slate: { value: new THREE.Vector3(0x25 / 255, 0x90 / 255, 0xd8 / 255) }, // the noise colour (the flow blue), sRGB, written out as is
 	};
 	const material = new THREE.ShaderMaterial({
 		uniforms: g.uniforms, vertexShader: SPLAT_VERTEX, fragmentShader: SPLAT_FRAGMENT,
@@ -1072,33 +1117,32 @@ function makeSplatFigure(scene, buf, f) {
 	return g;
 }
 
-// Noise around the figurine (in its own frame), sorted by height to match the feet-up build
+// An isotropic Gaussian ball around the figurine (in its own frame), kept off the paper. Splats are
+// stored feet-up, so pairing them with height-sorted noise makes the ball contract coherently.
 function splatNoise(g) {
-	const pts = Array.from({ length: g.n }, () => [gauss() * 0.36, Math.max(0.05, 0.55 + gauss() * 0.32), gauss() * 0.36]);
+	const cos = Math.cos(g.mesh.rotation.y), sin = Math.sin(g.mesh.rotation.y), x0 = g.mesh.position.x;
+	const sample = () => {
+		for (;;) {
+			const p = [gauss() * 0.34, Math.max(0.03, 0.42 + gauss() * 0.34), gauss() * 0.34];
+			if (Math.abs(x0 + p[0] * cos + p[2] * sin) > PAPER.w / 2 + 0.1) return p; // world x clear of the sheet
+		}
+	};
+	const pts = Array.from({ length: g.n }, sample);
 	pts.sort((a, b) => a[1] - b[1]).forEach((p, i) => g.noise.set(p, 4 * i));
-}
-
-function scheduleSplats(g, start) {
-	for (let i = 0; i < g.n; i++) {
-		g.center[4 * i + 3] = start + (i / g.n) * FIG_SPAN;
-		g.covA[4 * i + 3] = MAX_FLOW - 0.5 * Math.random();
-	}
+	g.tex[3].needsUpdate = true;
 }
 
 const splatView = new THREE.Matrix4(), splatCounts = new Uint32Array(65536);
 
-// Depth-sort splats back to front, using the same motion as the shader
+// Depth-sort splats back to front, where the shader puts them (the shimmer is too small to matter)
 function sortSplats(g, camera) {
 	const m = splatView.multiplyMatrices(camera.matrixWorldInverse, g.mesh.matrixWorld).elements;
-	const t = g.uniforms.time.value, sc = g.uniforms.scatter.value, { center, covA, noise, ctrl, depth, keys } = g;
+	const tau = g.uniforms.tau.value, a = tau * tau * (3 - 2 * tau), { center, noise, depth, keys } = g;
 	let lo = Infinity, hi = -Infinity;
 	for (let i = 0, j = 0; i < g.n; i++, j += 4) {
-		// scattering runs the same curve backwards (a quadratic Bézier reversed is the same curve)
-		const e = sc >= 0 ? 1 - easeInOut(clamp(sc, 0, 1)) : easeInOut(clamp((t - center[j + 3]) / covA[j + 3] + 1, 0, 1));
-		const f = 1 - e, w0 = f * f, w1 = 2 * f * e, w2 = e * e;
-		const x = w0 * noise[j] + w1 * ctrl[j] + w2 * center[j];
-		const y = w0 * noise[j + 1] + w1 * ctrl[j + 1] + w2 * center[j + 1];
-		const z = w0 * noise[j + 2] + w1 * ctrl[j + 2] + w2 * center[j + 2];
+		const x = noise[j] + (center[j] - noise[j]) * a;
+		const y = noise[j + 1] + (center[j + 1] - noise[j + 1]) * a;
+		const z = noise[j + 2] + (center[j + 2] - noise[j + 2]) * a;
 		const d = m[2] * x + m[6] * y + m[10] * z + m[14];
 		depth[i] = d;
 		if (d < lo) lo = d;
@@ -1137,6 +1181,7 @@ function main() {
 	el.style.cursor = "grab";
 	hero.querySelector("canvas").replaceWith(el);
 	hint.textContent = "drag to rotate · click to resample";
+	hint.classList.add("visible"); // shown from the start
 
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 	renderer.setClearColor(0xffffff, 1);
@@ -1164,8 +1209,9 @@ function main() {
 	const desk = buildDesk(scene);
 	const robot = buildRobot(scene);
 	const dot = dotTexture();
-	const text = makeCloud(scene, MAX_N, 0.035, dot);
-	const figs = { list: null, stage: "none", t0: 0, until: 0, discs: null }; // "build" | "scatter"
+	const text = makeCloud(scene, MAX_N, 0.035, dot, false, NOISE_SHARE);
+	const trail = makeTrail(scene, MAX_N, 0.035, dot);
+	const figs = { list: null, stage: "none", t0: 0, tau: 0, from: 1, discs: null }; // stage: "build" | "forward"
 	text.ink.fill(0);
 	for (let j = 0; j < 3 * MAX_N; j += 3) text.ink.set(INK, j);
 
@@ -1183,30 +1229,53 @@ function main() {
 		list.forEach((q, i) => {
 			text.target.set(q.slice(0, 3), 3 * i);
 			text.arrive[i] = q[3];
-			text.dur[i] = MAX_FLOW - 0.5 * Math.random();
+			text.line[i] = q[5];
+			text.dur[i] = Math.min(MAX_FLOW - 0.5 * Math.random(), q[3] - q[4]); // a new line's points wait for the pen to set off
 		});
 	}
 
-	const textNoise = count => sampleNoise(text, count, text.n, 0, [0, 0.85, 0.1], [1.15, 0.3, 0.55], 0.12);
-
-	// Figurines assemble from noise into their splats, feet first; `start` is in seconds after figs.t0
-	function buildFigures(start) {
-		for (const g of figs.list) {
-			bend(g.ctrl, g.noise, g.center, 0.3, g.n, 4);
-			scheduleSplats(g, start);
-			for (const t of g.tex) t.needsUpdate = true;
+	// Each line gathers from its own cloud of noise above it, left to right: a line's noise is sorted
+	// by x and paired with its points in writing order. Spare points (count > n) float over the text.
+	function textNoise(count) {
+		const noise = (cx, sx, cz, sz) => [cx + gauss() * sx, clamp(0.85 + gauss() * 0.3, 0.12, 3), cz + gauss() * sz];
+		const lines = new Map();
+		for (let i = 0; i < text.n; i++) {
+			if (!lines.has(text.line[i])) lines.set(text.line[i], []);
+			lines.get(text.line[i]).push(i);
 		}
-		figs.stage = "build";
-		figs.until = start + FIG_SPAN;
+		for (const idx of lines.values()) {
+			let x0 = Infinity, x1 = -Infinity, cz = 0;
+			for (const i of idx) {
+				x0 = Math.min(x0, text.target[3 * i]);
+				x1 = Math.max(x1, text.target[3 * i]);
+				cz += text.target[3 * i + 2] / idx.length;
+			}
+			const pts = idx.map(() => noise((x0 + x1) / 2, Math.max(0.4, 0.4 * (x1 - x0)), cz, 0.3)).sort((a, b) => a[0] - b[0]);
+			idx.forEach((i, k) => text.noise.set(pts[k], 3 * i));
+		}
+		for (let i = text.n; i < count; i++) text.noise.set(noise(0, 1.15, PAPER.z, 0.55), 3 * i);
 	}
 
+	// Reverse diffusion: tau runs 0 -> 1 over DIFFUSE; a resample first runs it back down (forward
+	// diffusion, towards fresh noise) over SCATTER, scaled by how far the figurines had got
 	function updateFigures(now) {
 		if (figs.discs) updateCloud(figs.discs, now);
 		if (!figs.list || figs.discs) return;
+		const t = (now - figs.t0) / 1000;
+		if (figs.stage === "forward") {
+			figs.tau = Math.max(0, figs.from - t / SCATTER);
+			if (figs.tau === 0) {
+				figs.stage = "build";
+				figs.t0 = now;
+			}
+		} else {
+			figs.tau = clamp(t / DIFFUSE, 0, 1);
+		}
 		camera.updateMatrixWorld();
 		for (const g of figs.list) {
-			g.uniforms.time.value = (now - figs.t0) / 1000;
-			g.uniforms.scatter.value = figs.stage === "scatter" ? (now - figs.t0) / (SCATTER * 1000) : -1;
+			g.uniforms.time.value = now / 1000;
+			g.uniforms.tau.value = figs.tau;
+			g.uniforms.forward.value = figs.stage === "forward" ? 1 : 0;
 			g.mesh.updateMatrixWorld();
 			sortSplats(g, camera);
 		}
@@ -1249,12 +1318,7 @@ function main() {
 		} else if (text.stage === "write") {
 			if ((now - text.t0) / 1000 >= tl.total) {
 				text.stage = "done";
-				hint.classList.add("visible");
 			}
-		}
-		if (figs.stage === "scatter" && now - figs.t0 >= SCATTER * 1000) {
-			buildFigures(FIG_START);
-			figs.t0 = now + lead * 1000;
 		}
 	}
 
@@ -1303,11 +1367,12 @@ function main() {
 		last = now;
 		updateStage(now);
 		updateCloud(text, now);
+		updateTrail(trail, text, now);
 		const moving = updateRobot(now, dt);
 		const orbiting = updateCamera(now, dt);
 		updateFigures(now);
 		renderer.render(scene, camera);
-		const building = figs.list && !figs.discs && (figs.stage === "scatter" || (now - figs.t0) / 1000 < figs.until);
+		const building = figs.list && !figs.discs && (figs.stage === "forward" || figs.tau < 1);
 		if (visible && (text.stage !== "done" || moving || orbiting || building)) requestAnimationFrame(frame);
 		else running = false;
 	}
@@ -1329,16 +1394,12 @@ function main() {
 		text.drawN = Math.max(text.fresh, text.n);
 		textNoise(text.drawN);
 		text.from.set(text.noise.subarray(3 * text.fresh, 3 * text.drawN), 3 * text.fresh); // newcomers start as noise
-		bend(text.ctrl, text.from, text.noise, 0.25, text.drawN);
 		text.stage = "scatter";
 		text.t0 = now;
 		if (!strokes && figs.list && !figs.discs) {
-			for (const g of figs.list) {
-				splatNoise(g);
-				bend(g.ctrl, g.center, g.noise, 0.25, g.n, 4);
-				g.tex[3].needsUpdate = g.tex[4].needsUpdate = true;
-			}
-			figs.stage = "scatter";
+			for (const g of figs.list) splatNoise(g); // fresh noise to diffuse into, then back out of
+			figs.from = figs.tau;
+			figs.stage = "forward";
 			figs.t0 = now;
 		}
 		wake();
@@ -1386,8 +1447,8 @@ function main() {
 				figs.list = buffers.map((buf, k) => makeSplatFigure(scene, buf, FIGURES[k]));
 				for (const f of FIGURES) contactShadow(scene, f.x, f.z, 0.95, 0.75);
 				for (const g of figs.list) splatNoise(g);
-				// start building now, however far the writing has got
-				buildFigures(reduceMotion ? 0 : MAX_FLOW);
+				// denoise now, however far the writing has got
+				figs.stage = "build";
 				figs.t0 = reduceMotion ? -1e9 : performance.now();
 				setSplatViewport();
 				wake();
