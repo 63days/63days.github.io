@@ -32,6 +32,7 @@ const FIG_POINT = 0.036; // point size for the disc fallback when the splat shad
 const FOV = 35, TAN = Math.tan((FOV / 2) * Math.PI / 180);
 const EXPOSURE = 0.92; // overall brightness of the scene
 const TARGET = [0, 0.35, -0.25], PHI_MIN = 0.12, PHI_MAX = 1.35;
+const ZOOM_MIN = 0.55; // how close the camera may come, as a share of the fitted distance (never further out)
 const INK = srgb(0x1a1a1a), BLUE = srgb(0x2590d8), NOISE = BLUE; // noise and flying points share one blue
 const NOISE_SIZE = 2, NOISE_SHARE = 0.5; // noise points: drawn this much bigger; this share visible while waiting
 const SWELL = 0.5, TRAIL = [0.07, 0.14]; // emphasis while flying: size swell, and ghosts this far back along the path
@@ -1185,7 +1186,7 @@ function main() {
 	describe(DEFAULT_TEXT);
 	el.style.cursor = "grab";
 	hero.querySelector("canvas").replaceWith(el);
-	hint.textContent = "drag to rotate · click to resample";
+	hint.textContent = "drag to rotate · scroll to zoom · click to resample";
 	hint.classList.add("visible"); // shown from the start
 
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -1223,6 +1224,8 @@ function main() {
 	let tl = null;
 	let penS = REST.slice();
 	let theta = 0.2, phi = 0.75, vTheta = 0, vPhi = 0, sway = 0, interacted = false, drag = null;
+	let zoom = 1, zoomTo = 1, pinch = null; // camera distance as a share of the fitted radius
+	const touches = new Map();
 	let radius = 4, running = false, visible = true, last = 0;
 	// Particles leaving noise never have to wait before the pen starts over
 	const lead = Math.max(0, MAX_FLOW - REACH);
@@ -1357,14 +1360,15 @@ function main() {
 		}
 		const want = text.stage === "done" && !interacted && !reduceMotion ? 0.14 : 0;
 		sway += (want - sway) * (1 - Math.exp(-dt * 0.8));
-		const az = theta + sway * Math.sin((now / 12000) * TAU);
+		zoom += (zoomTo - zoom) * (1 - Math.exp(-dt * 10));
+		const az = theta + sway * Math.sin((now / 12000) * TAU), r = radius * zoom;
 		camera.position.set(
-			TARGET[0] + radius * Math.sin(az) * Math.cos(phi),
-			TARGET[1] + radius * Math.sin(phi),
-			TARGET[2] + radius * Math.cos(az) * Math.cos(phi)
+			TARGET[0] + r * Math.sin(az) * Math.cos(phi),
+			TARGET[1] + r * Math.sin(phi),
+			TARGET[2] + r * Math.cos(az) * Math.cos(phi)
 		);
 		camera.lookAt(TARGET[0], TARGET[1], TARGET[2]);
-		return Boolean(drag) || sway > 1e-3 || Math.abs(vTheta) + Math.abs(vPhi) > 1e-5;
+		return Boolean(drag) || Boolean(pinch) || sway > 1e-3 || Math.abs(vTheta) + Math.abs(vPhi) > 1e-5 || Math.abs(zoomTo - zoom) > 1e-4;
 	}
 
 	function frame(now) {
@@ -1462,13 +1466,29 @@ function main() {
 	}
 
 	// Drag orbits (full 360° around), a click without movement resamples
+	const spread = () => {
+		const [a, b] = [...touches.values()];
+		return Math.hypot(a.x - b.x, a.y - b.y) || 1;
+	};
 	el.addEventListener("pointerdown", e => {
-		drag = { x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, t0: performance.now(), tMove: 0, moved: false };
+		touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
 		el.setPointerCapture(e.pointerId);
 		vTheta = vPhi = 0;
+		if (touches.size === 2) {
+			pinch = { d: spread(), zoom: zoomTo }; // a second finger: zoom, not rotate or click
+			drag = null;
+		} else if (touches.size === 1) {
+			drag = { x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, t0: performance.now(), tMove: 0, moved: false };
+		}
 		wake();
 	});
 	el.addEventListener("pointermove", e => {
+		if (touches.has(e.pointerId)) touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+		if (pinch && touches.size === 2) {
+			zoomTo = clamp((pinch.zoom * pinch.d) / spread(), ZOOM_MIN, 1);
+			interacted = true;
+			return;
+		}
 		if (!drag) return;
 		const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
 		drag.x = e.clientX;
@@ -1483,6 +1503,8 @@ function main() {
 		phi = clamp(phi + vPhi, PHI_MIN, PHI_MAX);
 	});
 	const release = e => {
+		touches.delete(e.pointerId);
+		if (touches.size < 2) pinch = null;
 		if (!drag) return;
 		const now = performance.now();
 		if (!drag.moved && e.type === "pointerup" && now - drag.t0 < 500 && !reduceMotion && tl) rewrite();
@@ -1492,6 +1514,15 @@ function main() {
 	};
 	el.addEventListener("pointerup", release);
 	el.addEventListener("pointercancel", release);
+	// Scroll (or trackpad pinch, which arrives as ctrl + wheel) zooms in; once fully out, scrolling
+	// further out is left to the page
+	el.addEventListener("wheel", e => {
+		if (!e.ctrlKey && !e.metaKey && e.deltaY > 0 && zoomTo >= 1) return;
+		e.preventDefault();
+		zoomTo = clamp(zoomTo * Math.exp(e.deltaY * (e.ctrlKey ? 0.01 : 0.0015)), ZOOM_MIN, 1);
+		interacted = true;
+		wake();
+	}, { passive: false });
 
 	// Typed text: Enter writes it; an empty box goes back to the greeting
 	if (input) {
