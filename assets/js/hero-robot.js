@@ -1186,7 +1186,7 @@ function main() {
 	describe(DEFAULT_TEXT);
 	el.style.cursor = "grab";
 	hero.querySelector("canvas").replaceWith(el);
-	hint.textContent = "drag to rotate · scroll to zoom · click to resample";
+	hint.textContent = "drag to rotate · click to resample";
 	hint.classList.add("visible"); // shown from the start
 
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
